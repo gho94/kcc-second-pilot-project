@@ -1,0 +1,13 @@
+# 빌드 디렉토리
+build/
+bin/
+target/
+
+# 서버 관련 (개인 설정)
+Servers/
+
+# 기타 무시할 파일
+*.log
+*.tmp
+*.swp
+.DS_Store
