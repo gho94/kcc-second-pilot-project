@@ -1,29 +1,119 @@
 @charset "UTF-8";
 
-
 /* 기본 세팅 */
-.wrapper { width:1300px; margin:0 auto;  }
-.displaynone { display:none; }
-.wrapper > #content { padding:130px 0; }
+.wrapper {
+	width: 1300px;
+	margin: 0 auto;
+}
+
+.displaynone {
+	display: none;
+}
+
+.wrapper>#content {
+	padding: 130px 0;
+}
 
 /* 메인페이지 css */
 
-
 /* 메인페이지 슬라이드 */
+#mainslide {
+	margin-top: 0px;
+}
 
-#mainslide { margin-top:0px; }
-#mainslide .mySwiper {  }
-#mainslide .mySwiper .banner { height:648px; }
-#mainslide .mySwiper .banner img { width:100%; }
+#mainslide .mySwiper {
+	
+}
 
-#mainslide .mySwiper .banner .title { position:absolute; bottom:0; left:0; padding:60px 50px; width: 100%;
-background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)); color: #fff;  } 
-#mainslide .mySwiper .banner .title h1 { font-size: 40px; padding-bottom:20px; display:block; }
-#mainslide .mySwiper .banner .title span {font-size: 20px;  }
+#mainslide .mySwiper .banner {
+	height: 648px;
+}
 
+#mainslide .mySwiper .banner img {
+	width: 100%;
+}
 
-#mainslide .swiper-button-prev ,
-#mainslide .swiper-button-next { color: #fff; padding:30px; margin-top:-30px; }
-#mainslide .swiper-pagination { color:#fff; padding-bottom:30px; }
+#mainslide .mySwiper .banner .title {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	padding: 60px 50px;
+	width: 100%;
+	background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
+	color: #fff;
+}
 
-pre { font-size: inherit; font-weight: inherit; font-family: inherit; color: inherit; line-height: 1.3em;  }
+#mainslide .mySwiper .banner .title h1 {
+	font-size: 40px;
+	padding-bottom: 20px;
+	display: block;
+}
+
+#mainslide .mySwiper .banner .title span {
+	font-size: 20px;
+}
+
+#mainslide .swiper-button-prev, #mainslide .swiper-button-next {
+	color: #fff;
+	padding: 30px;
+	margin-top: -30px;
+}
+
+#mainslide .swiper-pagination {
+	color: #fff;
+	padding-bottom: 30px;
+}
+
+pre {
+	font-size: inherit;
+	font-weight: inherit;
+	font-family: inherit;
+	color: inherit;
+	line-height: 1.3em;
+}
+
+.content .container {
+	background: white;
+	border-radius: 12px;
+	padding: 24px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+	height: 100%;
+	max-height: 900px;
+	display: flex;
+	flex-direction: column;
+	margin-top: 30px;
+	flex: 1;
+	margin-bottom: 30px;
+}
+
+.content .container .menu-title-con {
+	padding: 2px 20px;
+}
+
+.content .container .menu-title-con .menu-title {
+	font-size: 30px;
+	font-weight: 600;
+	padding: 20px;
+}
+
+.content .container .table-container {
+	display: table-row;
+	vertical-align: inherit;
+	unicode-bidi: isolate;
+	border-color: inherit;
+	min-height:500px;
+}
+
+.content .container .table-container th{
+	background: #f8f9fa;
+    font-weight: bold;
+    color: #495057;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    text-align:center;
+}
+
+.content .container .table-container table{
+	border:0;
+}

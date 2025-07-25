@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>COOKCOOK</title>
 
 <!-- 구글 웹폰트 -->

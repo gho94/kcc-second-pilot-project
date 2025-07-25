@@ -270,11 +270,6 @@
 	color: #6c757d;
 }
 
-body .content.dashboard-content{
-	display: flex;
-    flex-direction: column;
-}
-
 .dashboard-content .container-con{
 	flex:1;
 	height:100%;
