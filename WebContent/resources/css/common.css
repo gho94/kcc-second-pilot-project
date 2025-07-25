@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+
+/* 기본 세팅 */
+.wrapper { width:1300px; margin:0 auto;  }
+.displaynone { display:none; }
+.wrapper > #content { padding:130px 0; }
+
+/* 메인페이지 css */
+
+
+/* 메인페이지 슬라이드 */
+
+#mainslide { margin-top:0px; }
+#mainslide .mySwiper {  }
+#mainslide .mySwiper .banner { height:648px; }
+#mainslide .mySwiper .banner img { width:100%; }
+
+#mainslide .mySwiper .banner .title { position:absolute; bottom:0; left:0; padding:60px 50px; width: 100%;
+background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)); color: #fff;  } 
+#mainslide .mySwiper .banner .title h1 { font-size: 40px; padding-bottom:20px; display:block; }
+#mainslide .mySwiper .banner .title span {font-size: 20px;  }
+
+
+#mainslide .swiper-button-prev ,
+#mainslide .swiper-button-next { color: #fff; padding:30px; margin-top:-30px; }
+#mainslide .swiper-pagination { color:#fff; padding-bottom:30px; }
+
+pre { font-size: inherit; font-weight: inherit; font-family: inherit; color: inherit; line-height: 1.3em;  }

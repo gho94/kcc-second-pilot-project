@@ -1,0 +1,95 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- 배경 -->
+  <rect width="800" height="400" fill="#FFE4E1" stroke="#FF69B4" stroke-width="8" rx="25" ry="25" transform="rotate(-2 300 200)"/>
+  
+  <!-- 배경 낙서들 -->
+  <circle cx="100" cy="80" r="15" fill="#FFD700" opacity="0.6"/>
+  <circle cx="500" cy="120" r="20" fill="#98FB98" opacity="0.5"/>
+  <circle cx="150" cy="350" r="12" fill="#87CEEB" opacity="0.7"/>
+  <circle cx="450" cy="300" r="18" fill="#DDA0DD" opacity="0.6"/>
+  
+  <!-- 크레용으로 그린 듯한 지그재그 선들 -->
+  <path d="M 50 150 Q 100 130 150 150 T 250 140 T 350 150 T 450 145 T 550 150" 
+        stroke="#FF6347" stroke-width="6" fill="none" opacity="0.8"/>
+  <path d="M 80 280 Q 130 260 180 280 T 280 270 T 380 280 T 480 275 T 520 280" 
+        stroke="#32CD32" stroke-width="5" fill="none" opacity="0.7"/>
+  
+  <!-- 별표들 (잼민이가 그린 듯한) -->
+  <g transform="translate(520,60) rotate(15)">
+    <path d="M 0,-10 L 3,-3 L 10,-3 L 5,2 L 7,9 L 0,5 L -7,9 L -5,2 L -10,-3 L -3,-3 Z" 
+          fill="#FFD700" stroke="#FF8C00" stroke-width="2"/>
+  </g>
+  <g transform="translate(80,320) rotate(-20)">
+    <path d="M 0,-8 L 2,-2 L 8,-2 L 4,1 L 5,7 L 0,4 L -5,7 L -4,1 L -8,-2 L -2,-2 Z" 
+          fill="#FF69B4" stroke="#FF1493" stroke-width="2"/>
+  </g>
+  
+  <!-- 메인 텍스트 (손글씨 느낌) -->
+  <text x="300" y="80" text-anchor="middle" font-family="Comic Sans MS, cursive" font-size="28" 
+        fill="#FF0000" font-weight="bold" transform="rotate(-1 300 80)">
+    💰 돈 벌고 싶으세요?
+  </text>
+  
+  <text x="300" y="120" text-anchor="middle" font-family="Comic Sans MS, cursive" font-size="24" 
+        fill="#FF4500" font-weight="bold" transform="rotate(1 300 120)">
+    COOKCOOK 시스템으로
+  </text>
+  
+  <!-- 강조 박스 (삐뚤빼뚤하게) -->
+  <rect x="180" y="135" width="240" height="35" fill="#FFFF00" stroke="#FF8C00" 
+        stroke-width="4" rx="8" transform="rotate(-2 300 152)" opacity="0.9"/>
+  <text x="300" y="158" text-anchor="middle" font-family="Comic Sans MS, cursive" font-size="26" 
+        fill="#8B0000" font-weight="bold" transform="rotate(-2 300 158)">
+    월 매출 1억 달성!
+  </text>
+  
+  <text x="300" y="190" text-anchor="middle" font-family="Comic Sans MS, cursive" font-size="22" 
+        fill="#4169E1" font-weight="bold" transform="rotate(1 300 190)">
+    ⚡ 단 3일만에 효과 보장
+  </text>
+  
+  <!-- 전화번호 (크게 강조) -->
+  <text x="300" y="230" text-anchor="middle" font-family="Comic Sans MS, cursive" font-size="20" 
+        fill="#DC143C" font-weight="bold" transform="rotate(-1 300 230)">
+    📞 지금 전화하세요!
+  </text>
+  
+  <rect x="150" y="240" width="300" height="30" fill="#98FB98" stroke="#228B22" 
+        stroke-width="3" rx="10" transform="rotate(1 300 255)" opacity="0.8"/>
+  <text x="300" y="262" text-anchor="middle" font-family="Comic Sans MS, cursive" font-size="24" 
+        fill="#000080" font-weight="bold" transform="rotate(1 300 262)">
+    010-0000-0000
+  </text>
+  
+  <!-- 작은 글씨 (전화 안 받음) -->
+  <text x="300" y="310" text-anchor="middle" font-family="Comic Sans MS, cursive" font-size="16" 
+        fill="#696969" font-style="italic" transform="rotate(-2 300 310)">
+    (전화 안 받음)
+  </text>
+  
+  <!-- 잼민이 낙서 (하트, 웃는 얼굴 등) -->
+  <g transform="translate(50,50)">
+    <circle cx="0" cy="0" r="20" fill="#FFB6C1" stroke="#FF69B4" stroke-width="3" opacity="0.8"/>
+    <circle cx="-7" cy="-5" r="3" fill="#000"/>
+    <circle cx="7" cy="-5" r="3" fill="#000"/>
+    <path d="M -10,5 Q 0,15 10,5" stroke="#000" stroke-width="3" fill="none"/>
+  </g>
+  
+  <g transform="translate(550,350) rotate(20)">
+    <path d="M 0,-15 C -10,-5 -10,5 0,15 C 10,5 10,-5 0,-15 Z" 
+          fill="#FF1493" stroke="#DC143C" stroke-width="2"/>
+  </g>
+  
+  <!-- 무지개색 크레용 선 -->
+  <path d="M 100 360 Q 200 340 300 360 Q 400 340 500 360" 
+        stroke="#FF0000" stroke-width="8" fill="none" opacity="0.7"/>
+  <path d="M 105 365 Q 205 345 305 365 Q 405 345 505 365" 
+        stroke="#FF8C00" stroke-width="8" fill="none" opacity="0.7"/>
+  <path d="M 110 370 Q 210 350 310 370 Q 410 350 510 370" 
+        stroke="#32CD32" stroke-width="8" fill="none" opacity="0.7"/>
+  
+  <!-- 애니메이션 효과 -->
+  <animateTransform attributeName="transform" attributeType="XML"
+                    type="rotate" values="0 300 200; 1 300 200; 0 300 200; -1 300 200; 0 300 200"
+                    dur="3s" repeatCount="indefinite"/>
+</svg>
