@@ -11,7 +11,8 @@ html::-webkit-scrollbar {
 html.addScroll { overflow:hidden; }
 body { min-height: 100vh; font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; -webkit-text-size-adjust:100%; text-size-adjust:100%; color:#333;   word-wrap:break-word; }
 body .content {   min-height: 100vh; /* 최소 한 화면 높이 */
-    padding: 69px 0 0 0;}
+    padding: 69px 0 0 0;display: flex;
+    flex-direction: column;}
 header,main,footer,section,article,nav,aside { display:block; }
 h1,h2,h3,h4,h5,h6 {  font-family:  "Noto Sans KR", sans-serif; font-size:14px; font-weight:normal; }
 i,em,address { font-style:normal; }
@@ -19,7 +20,6 @@ img { vertical-align:top; }
 a { display:inline-block; text-decoration:none; color:#555; }
 ul,li { list-style:none; /* list-style-type:none; */ }
 select,
-input[type='text'], 
 input[type='password'],
 input[type='submit'],
 input[type='button'],

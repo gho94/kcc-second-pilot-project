@@ -157,12 +157,12 @@ header {
 	background-position: center;
 }
 
-.menu-wrap {
+.header-container .menu-wrap {
 	position: relative;
 	display: inline-block;
 }
 
-.menu-title {
+.header-container .menu-title {
 	padding: 10px 20px;
 	cursor: pointer;
 	color: white;
@@ -170,7 +170,7 @@ header {
 	font-size: 17px;
 }
 
-.submenu {
+.header-container .submenu {
 	border-radius: 10px;
 	display: none;
 	position: absolute;
@@ -182,7 +182,7 @@ header {
 	min-width: 150px;
 }
 
-.submenu a {
+.header-container .submenu a {
 	border-radius: 10px;
 	display: block;
 	padding: 10px 15px;
@@ -190,19 +190,19 @@ header {
 	color: #555;
 }
 
-.submenu a:first-child {
+.header-container .submenu a:first-child {
 	padding-top: 20px;
 }
 
-.submenu a:last-child {
+.header-container .submenu a:last-child {
 	padding-bottom: 20px;
 }
 
-.submenu a:hover {
+.header-container .submenu a:hover {
 	color: #3b82f6;
 }
 
-.menu-wrap.active .submenu {
+.header-container .menu-wrap.active .submenu {
 	display: block;
 }
 
@@ -251,6 +251,7 @@ header {
 	font-size: 16px;
 	font-weight: bold;
 	margin-bottom: 10px;
+	cursor:pointer;
 }
 
 .mobile-nav .submenu a {
@@ -532,6 +533,11 @@ footer .wrapper .right .text-wrapper p {
 	}
 	.footer .company-info .logo {
 		margin: 0 auto;
+	}
+	
+	.header-container .logo>div{
+		width:192px;
+		height:35px;
 	}
 }
 
