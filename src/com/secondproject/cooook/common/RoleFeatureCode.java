@@ -12,13 +12,13 @@ public class RoleFeatureCode {
     public static final String MENU_CATEGORY_MANAGE = "MENU_CATEGORY_MANAGE";
 
     public static final Map<String, String> FEATURE_NAME_MAP = Map.of(
-        WORKER_MANAGE,          "작업자 관리",
-        ROLE_MANAGE,            "권한 관리",
-        ORDER_MANAGE,           "주문 관리",
-        MATERIAL_MANAGE,        "레시피 관리",
-        CATEGORY_MANAGE,        "카테고리 관리",
-        MENU_MANAGE,            "메뉴 관리",
-        MENU_CATEGORY_MANAGE,   "메뉴 카테고리 관리"
+        WORKER_MANAGE,          "작업자",
+        ROLE_MANAGE,            "권한",
+        ORDER_MANAGE,           "주문",
+        MATERIAL_MANAGE,        "레시피",
+        CATEGORY_MANAGE,        "카테고리",
+        MENU_MANAGE,            "메뉴",
+        MENU_CATEGORY_MANAGE,   "메뉴 카테고리"
     );
 
     public static final Map<Integer, String> menuIndexToFeature = Map.of(
