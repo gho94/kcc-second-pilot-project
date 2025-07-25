@@ -28,7 +28,6 @@ public class FileLogFilter extends HttpFilter implements Filter {
         if (!logDir.exists()) {
             logDir.mkdirs();
         }
-        System.out.println(logFilePath);
         logFile = new File(logFilePath);
 	}
 
