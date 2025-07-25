@@ -9,23 +9,12 @@
 <title>Main</title>
 </head>
 <body>
-	<h1>Cook</h1>		
-	
 	<c:if test="${empty staff.getStaffId()}">
-		<ul>
-			<li><a href="/login.do">로그인</a>
-		</ul>
+		<%@ include file="login.jsp"%>
 	</c:if>
 	
 	<c:if test="${not empty staff.getStaffId()}">
-		${staff.firstName} ${staff.lastName}님 환영합니다. <br>
-		
-		<ul>	
-			<c:forEach var="entry" items="${menuMap}">
-		        <li><a href="${entry.value}">${entry.key}</a>
-		    </c:forEach>
-			<li><a href="/logout.do">로그아웃</a>		
-		</ul>
+		<%@ include file="dashboard.jsp"%>
 	</c:if>
 </body>
 </html>
