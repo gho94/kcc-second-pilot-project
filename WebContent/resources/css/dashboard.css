@@ -6,7 +6,7 @@
 }
 
 .dashboard-title {
-	font-size: 2rem;
+	font-size: 1.6rem;
 	font-weight: 600;
 	color: #343a40;
 	margin: 0;
@@ -71,7 +71,7 @@
 }
 
 .stat-value {
-	font-size: 2rem;
+	font-size: 1.4rem;
 	font-weight: 700;
 	color: #212529;
 	margin-bottom: 0;
@@ -91,7 +91,7 @@
 	padding: 24px;
 	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 	height: 100%;
-	max-height: 750px;
+	max-height: 690px;
 	display: flex;
 	flex-direction: column;
 }
@@ -103,7 +103,7 @@
 
 .chart-card.ad-info{
 	height:42%;
-	margin-top:2%;
+	margin-top:3.2%;
 }
 
 .chart-card.ad-info .ad-img{
@@ -232,7 +232,7 @@
 
 .custom-table thead th {
 	border-top: 1px solid #ababab;
-	font-size: 18px;
+	font-size: 14px;
 	color: #43596c;
 	font-weight: 600;
 	padding: 12px 0;
@@ -241,9 +241,9 @@
 
 .custom-table tbody td {
 	border-top: 1px solid #ababab;
-	padding: 14px 0;
+	padding: 12px 0;
 	vertical-align: middle;
-	font-size: 18px;
+	font-size: 14px;
 	color: #494949;
 }
 

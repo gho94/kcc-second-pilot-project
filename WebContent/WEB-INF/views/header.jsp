@@ -13,10 +13,10 @@
           <div class="nav">
           <c:forEach var="entry" items="${menuMap}">
             <div class="menu-wrap">
-              <div class="menu-title">${entry.key}</div>
+              <div class="menu-title">${entry.key} 관리</div>
               <div class="submenu">
-                <a href="${entry.value}">작업자 목록</a>
-                <a href="#">작업자 등록</a>
+                <a href="${entry.value}">${entry.key} 목록</a>
+                <a href="${entry.value}">${entry.key} 등록</a>
               </div>
             </div>
             </c:forEach>
@@ -63,10 +63,10 @@
       </div>
       <c:forEach var="entry" items="${menuMap}">
 	      <div class="menu-section">
-	        <div class="menu-title">${entry.key}</div>
+	        <div class="menu-title">${entry.key} 관리</div>
 	        <div class="submenu">
-	          <a href="${entry.value}">작업자 목록</a>
-	          <a href="#">작업자 등록</a>
+				<a href="${entry.value}">${entry.key} 목록</a>
+				<a href="${entry.value}">${entry.key} 등록</a>
 	        </div>
 	      </div>
     </c:forEach>
