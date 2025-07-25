@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,84 @@ public class RoleDao {
 	private static final String tableName = "roles";
     private static final String subTableName = "role_feature";
 
+    // 역할 전체 조회
+    public List<Role> getAllRoles() {
+        List<Role> roleList = new ArrayList<>();
+
+        String sql = """
+        			SELECT
+        				r.role_id, r.role_name, r.description,
+        				LISTAGG(f.feature_code, ''', ''') WITHIN GROUP (ORDER BY f.feature_code) AS features
+        			FROM {0} r
+        			LEFT OUTER JOIN role_feature f ON f.role_id = r.role_id
+        			WHERE r.deleted_at IS NULL
+        			GROUP BY r.role_id, r.role_name, r.description
+        			ORDER BY r.role_id
+        		""";
+        
+        sql = MessageFormat.format(sql, tableName);
+
+        try (Connection connection = DatabaseManager.getConnection();
+        	PreparedStatement stmt = connection.prepareStatement(sql)
+        ) {
+        	ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Role role = new Role();
+                role.setRoleId(rs.getInt("role_id"));
+                role.setRoleName(rs.getString("role_name"));
+                role.setDescription(rs.getString("description"));
+                role.setFeatureCodes(rs.getString("features"));
+                roleList.add(role);
+            }
+        } catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new RuntimeException(e);
+		}
+        return roleList;
+    }
+    
+
+    // 역할 전체 조회
+    public Role getRoleByRoleId(int roleId) {
+        Role role = new Role();
+
+        String sql = """
+        			SELECT
+        				r.role_id, r.role_name, r.description,
+        				LISTAGG(f.feature_code, ''', ''') WITHIN GROUP (ORDER BY f.feature_code) AS features
+        			FROM {0} r
+        			LEFT OUTER JOIN role_feature f ON f.role_id = r.role_id
+        			WHERE r.deleted_at IS NULL
+        			AND r.role_id = ?
+        			GROUP BY r.role_id, r.role_name, r.description
+        			ORDER BY r.role_id
+        		""";
+        
+        sql = MessageFormat.format(sql, tableName);
+
+        try (Connection connection = DatabaseManager.getConnection();
+        	PreparedStatement stmt = connection.prepareStatement(sql)
+        ) {
+        	stmt.setInt(1, roleId);
+        	
+        	ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                role = new Role();
+                role.setRoleId(rs.getInt("role_id"));
+                role.setRoleName(rs.getString("role_name"));
+                role.setDescription(rs.getString("description"));
+                role.setFeatureCodes(rs.getString("features"));
+                
+                return role;
+            }
+        } catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new RuntimeException(e);
+		}
+        return role;
+    }
+    
+    
     // 역할 추가
     public void insertRole(Connection con, Role role) {
         PreparedStatement stmt = null;
@@ -31,6 +110,78 @@ public class RoleDao {
 			DatabaseManager.close(stmt);
         }
     }
+    
+    public void insertRole(Role role, String[] roleList) {
+		String sql = """
+					INSERT INTO {0} (
+						role_id, role_name, description
+					) VALUES (
+						ROLE_SEQ.NEXTVAL, ?, ?
+					)					
+				""";
+        sql = MessageFormat.format(sql, tableName);
+
+		String sql2 = """
+					INSERT INTO {0} (
+						role_id, feature_code, display_order
+					) VALUES (
+						?, ?, ?
+					)
+				""";
+
+        sql2 = MessageFormat.format(sql2, subTableName);
+        
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet generatedKeys = null;
+        
+        try {
+			connection = DatabaseManager.getConnection();
+			connection.setAutoCommit(false);
+			
+			statement = connection.prepareStatement(sql, new String[] {"role_id"});
+			statement.setString(1, role.getRoleName());
+			statement.setString(2, role.getDescription());
+			
+			statement.executeUpdate();
+			
+	        generatedKeys = statement.getGeneratedKeys();
+	        
+	        int newRoleId = 0;
+	        if (generatedKeys.next()) {
+	        	newRoleId = generatedKeys.getInt(1);
+	        }
+	        
+	        statement = connection.prepareStatement(sql2);
+	        for (int i = 0; i < roleList.length; i++) {
+	        	statement.setInt(1, newRoleId);
+	        	statement.setString(2, roleList[i]);
+	        	statement.setInt(3, i + 1);
+	        	statement.addBatch();
+			}
+	        statement.executeBatch();
+	        connection.commit();
+		} catch (Exception e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				System.out.println(e.getMessage());
+				throw new RuntimeException(e);
+			}
+			System.out.println(e.getMessage());
+			throw new RuntimeException(e);
+		} finally {
+			try {
+				connection.setAutoCommit(true);
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				throw new RuntimeException(e);
+			}
+			DatabaseManager.close(generatedKeys);
+			DatabaseManager.close(statement);
+			DatabaseManager.close(connection);			
+		}
+	}
 
     // 역할 수정
     public void updateRole(Connection con, Role role) {
@@ -73,6 +224,86 @@ public class RoleDao {
 			DatabaseManager.close(stmt);
         }
     }
+    
+    public void updateRole(Role role, String[] roleList) {
+		String sql = """
+					UPDATE {0} 
+					SET role_name = ?,
+						description = ?
+					WHERE role_id = ?
+				""";
+		sql = MessageFormat.format(sql, tableName);
+		
+		String sql2 = """
+					DELETE FROM {0}
+					WHERE role_id = ?
+				""";
+		sql2 = MessageFormat.format(sql2, subTableName);
+
+		String sql3 = """
+					INSERT INTO {0} (
+						role_id, feature_code, display_order
+					) VALUES (
+						?, ?, ?
+					)
+				""";
+
+		sql3 = MessageFormat.format(sql3, subTableName);
+        
+        
+        Connection connection = null;
+        PreparedStatement statement = null;
+        
+        try {
+			connection = DatabaseManager.getConnection();
+			connection.setAutoCommit(false);
+				
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, role.getRoleName());
+			statement.setString(2, role.getDescription());
+			statement.setInt(3, role.getRoleId());
+			
+			statement.executeUpdate();
+			
+			statement = connection.prepareStatement(sql2);
+			statement.setInt(1, role.getRoleId());
+			
+			statement.executeUpdate();
+
+	        for (int i = 0; i < roleList.length; i++) {	        	
+	        	System.out.println(roleList[i]);
+			}
+			
+	        statement = connection.prepareStatement(sql3);
+	        for (int i = 0; i < roleList.length; i++) {
+	        	statement.setInt(1, role.getRoleId());
+	        	statement.setString(2, roleList[i]);
+	        	statement.setInt(3, i + 1);
+	        	statement.addBatch();
+			}
+	        statement.executeBatch();
+	        
+	        connection.commit();			
+		} catch (Exception e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				System.out.println(e.getMessage());
+				throw new RuntimeException(e);
+			}
+			System.out.println(e.getMessage());
+			throw new RuntimeException(e);
+		} finally {
+			try {
+				connection.setAutoCommit(true);
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				throw new RuntimeException(e);
+			}
+			DatabaseManager.close(statement);
+			DatabaseManager.close(connection);			
+		}
+	}
 
     public int softDeleteRole(int roleId) {
         Connection con = null;
@@ -107,42 +338,6 @@ public class RoleDao {
     }
 
 
-    // 역할 전체 조회
-    public List<Role> getAllRoles() {
-        List<Role> roleList = new ArrayList<>();
-        Connection con = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        try {
-            con = DatabaseManager.getConnection();
-            String sql = "SELECT r.role_id, r.role_name, r.description, "
-            		+ " LISTAGG(f.feature_code, ', ') WITHIN GROUP (ORDER BY f.feature_code) AS features "
-            		+ "FROM " + tableName + " r "
-            		+ " left join role_feature f on f.role_id = r.role_id"
-            		+ " where r.deleted_at is null"
-            		+ " GROUP BY r.role_id, r.role_name, r.description"
-            		+ " order by r.role_id";
-            stmt = con.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                Role role = new Role();
-                role.setRoleId(rs.getInt("role_id"));
-                role.setRoleName(rs.getString("role_name"));
-                role.setDescription(rs.getString("description"));
-                role.setFeatureCodes(rs.getString("features"));
-                roleList.add(role);
-            }
-        } catch (Exception e) {
-			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
-		}  finally {
-            DatabaseManager.close(rs);
-            DatabaseManager.close(stmt);
-            DatabaseManager.close(con);
-        }
-        return roleList;
-    }
-    
     public Role getRoleById(int roleId) {
         Role role = null;
         Connection con = null;
