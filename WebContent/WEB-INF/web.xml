@@ -4,6 +4,32 @@
   <welcome-file-list>
     <welcome-file>/home.do</welcome-file>
   </welcome-file-list>  
+  
+  <!-- 필터 설정 -->    
+  <!-- 인코딩 필터 -->
+  <filter>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>com.secondproject.cooook.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <!-- 로그 필터 -->
+  <filter>
+  	<filter-name>FileLogFilter</filter-name>
+  	<filter-class>com.secondproject.cooook.filter.FileLogFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>FileLogFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <!-- 서블릿 설정 -->
   <servlet>
   	<servlet-name>DispatcherServlet</servlet-name>
   	<servlet-class>com.secondproject.cooook.web.DispatcherServlet</servlet-class>
@@ -17,6 +43,7 @@
   	<url-pattern>*.do</url-pattern>
   </servlet-mapping>
   
+  <!-- 에러페이지 설정 -->
   <error-page>
   	<exception-type>java.lang.RuntimeException</exception-type>
   	<location>/WEB-INF/views/error/runtime.jsp</location>
@@ -25,4 +52,5 @@
   	<error-code>404</error-code>
   	<location>/WEB-INF/views/error/error404.jsp</location>
   </error-page>
+  
 </web-app>
