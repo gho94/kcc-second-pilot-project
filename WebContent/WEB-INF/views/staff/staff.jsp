@@ -97,6 +97,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/footer.jsp"%>
 <script>
     // JSP 데이터를 JavaScript 전역 변수로 전달
+	window.menuName = 'staff';
     window.staffData = [
         <c:forEach var="staff" items="${staffs}" varStatus="status">
         {

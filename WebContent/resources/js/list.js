@@ -1,5 +1,27 @@
 let currentPage = 1;
-
+let row = "";
+if(menuName  =="staff")
+ row = '<tr>' +
+    '<td>' + employee.id + '</td>' +
+    '<td>' + employee.name + '</td>' +
+    '<td>' + employee.role + '</td>' +
+    '<td>' + employee.email + '</td>' +
+    '<td>' + employee.phone + '</td>' +
+    '<td>' + employee.createdAt + '</td>' +
+    '<td class="row">' +
+        '<form action="/staff/update.do" class="manage-btn-con col-lg-6">' +
+            '<input type="hidden" name="staffId" value="' + employee.staffId + '"/>' +
+            '<span class="manage-btn update-btn"><input type="submit" value="수정"/></span>' +
+        '</form>' +
+        '<form action="/staff/delete.do" class="manage-btn-con col-lg-6" method="post" onsubmit="return confirm(\'정말 삭제하시겠습니까?\');">' +
+            '<input type="hidden" name="staffId" value="' + employee.staffId + '"/>' +
+            '<span class="manage-btn delete-btn"><input type="submit" value="삭제"/></span>' +
+        '</form>' +
+    '</td>' +
+'</tr>';
+}else if(){
+	
+}
 // JSP에서 전달받은 데이터 사용
 const allEmployees = window.staffData || [];
 let filteredEmployees = [...allEmployees];
@@ -30,24 +52,6 @@ function updateTable() {
     tbody.innerHTML = '';
 
     pageEmployees.forEach(employee => {
-        const row = '<tr>' +
-            '<td>' + employee.id + '</td>' +
-            '<td>' + employee.name + '</td>' +
-            '<td>' + employee.role + '</td>' +
-            '<td>' + employee.email + '</td>' +
-            '<td>' + employee.phone + '</td>' +
-            '<td>' + employee.createdAt + '</td>' +
-            '<td class="row">' +
-                '<form action="/staff/update.do" class="manage-btn-con col-lg-6">' +
-                    '<input type="hidden" name="staffId" value="' + employee.staffId + '"/>' +
-                    '<span class="manage-btn update-btn"><input type="submit" value="수정"/></span>' +
-                '</form>' +
-                '<form action="/staff/delete.do" class="manage-btn-con col-lg-6" method="post" onsubmit="return confirm(\'정말 삭제하시겠습니까?\');">' +
-                    '<input type="hidden" name="staffId" value="' + employee.staffId + '"/>' +
-                    '<span class="manage-btn delete-btn"><input type="submit" value="삭제"/></span>' +
-                '</form>' +
-            '</td>' +
-        '</tr>';
         tbody.innerHTML += row;
     });
 }

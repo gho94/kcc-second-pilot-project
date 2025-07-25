@@ -24,7 +24,7 @@ public class StaffInsertHandler implements CommandHandler {
 	    	request.setAttribute("action", "insert");
 	    	request.setAttribute("staff", new Staff());
 	    	request.setAttribute("roleList", roleList);
-	        return "staff/staffeditform.jsp";
+	        return "staff/staff_merge.jsp";
 	    }
 
 		Staff staff = new Staff();
