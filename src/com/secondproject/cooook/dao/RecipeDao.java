@@ -3,6 +3,7 @@ package com.secondproject.cooook.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,49 @@ import com.secondproject.cooook.model.Recipe;
 
 public class RecipeDao {
 
+	// RecipeDao.java
+	public List<Recipe> selectAllRecipes() {
+	    List<Recipe> list = new ArrayList<>();
+
+	    String sql =
+	      "SELECT "
+	    + "  r.recipe_id        AS recipeId, "
+	    + "  r.menu_id          AS menuId, "
+	    + "  r.quantity         AS quantity, "
+	    + "  r.description      AS description, "
+	    + "  i.name             AS ingredientName, " // 재료 테이블의 이름(ingredient.name)
+	    + "  i.unit_default     AS unit, "
+	    + "  m.menu_name        AS menuName "        // 메뉴명
+	    + "FROM recipe r "
+	    + "  JOIN menu m            ON r.menu_id            = m.menu_id "
+	    + "  JOIN ingredient i      ON r.ingredient_id      = i.ingredient_id "
+	    + "ORDER BY r.recipe_id";
+
+	    try (
+	        Connection conn = DatabaseManager.getConnection();
+	        PreparedStatement ps = conn.prepareStatement(sql);
+	        ResultSet rs = ps.executeQuery()
+	    ) {
+	        while (rs.next()) {
+	            Recipe r = new Recipe();
+	            r.setRecipeId(       rs.getInt("recipeId"));
+	            r.setMenuId(         rs.getInt("menuId"));
+	            r.setQuantity(       rs.getDouble("quantity"));
+	            r.setDescription(    rs.getString("description"));
+	            r.setIngredientName( rs.getString("ingredientName"));
+	            r.setUnit(           rs.getString("unit"));
+	            r.setMenuName(       rs.getString("menuName"));
+	            list.add(r);
+	        }
+	    } catch (SQLException e) {
+	        throw new RuntimeException("전체 레시피 조회 중 오류", e);
+	    }
+
+	    return list;
+	}
+
+
+	
 	public List<Menu> selectMenusWithRecipe() {
 	    List<Menu> list = new ArrayList<>();
 
@@ -42,7 +86,6 @@ public class RecipeDao {
 	}
 	public List<Recipe> selectByMenuId(int menuId) {
 	    List<Recipe> list = new ArrayList<>();
-
 	    String sql = """
 	        SELECT r.recipe_id, r.menu_id, r.ingredient_id, r.quantity, r.unit, r.description,
 	               i.name AS ingredient_name,
@@ -60,7 +103,6 @@ public class RecipeDao {
 	    ) {
 	        pstmt.setInt(1, menuId);
 	        ResultSet rs = pstmt.executeQuery();
-
 	        while (rs.next()) {
 	            Recipe vo = new Recipe();
 	            vo.setRecipeId(rs.getInt("recipe_id"));
