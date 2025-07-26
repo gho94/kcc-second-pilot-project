@@ -121,6 +121,47 @@ public class RecipeDao {
 
 	    return list;
 	}
+	public List<Recipe> selectByMenuName(String keyword) {
+	    List<Recipe> list = new ArrayList<>();
+	    String sql = """
+	        SELECT r.recipe_id,
+	               r.menu_id,
+	               r.ingredient_id,
+	               r.quantity,
+	               r.unit,
+	               r.description,
+	               i.name         AS ingredient_name,
+	               m.menu_name    AS menu_name
+	          FROM recipe r
+	          JOIN ingredient i ON r.ingredient_id = i.ingredient_id
+	          JOIN menu       m ON r.menu_id       = m.menu_id
+	         WHERE LOWER(m.menu_name) LIKE LOWER(?)
+	         ORDER BY r.recipe_id
+	    """;
+
+	    try (
+	        Connection conn = DatabaseManager.getConnection();
+	        PreparedStatement pstmt = conn.prepareStatement(sql)
+	    ) {
+	        // 메뉴명이 '%keyword%' 인 경우
+	        pstmt.setString(1, "%" + keyword.trim() + "%");
+	        try (ResultSet rs = pstmt.executeQuery()) {
+	            while (rs.next()) {
+	                Recipe vo = new Recipe();
+	                vo.setRecipeId(rs.getInt("recipe_id"));
+	                vo.setMenuId(rs.getInt("menu_id"));
+	                vo.setCategoryId(rs.getInt("ingredient_id")); // ingredient_id 사용
+	                vo.setQuantity(rs.getDouble("quantity"));
+	                vo.setUnit(rs.getString("unit"));
+	                vo.setDescription(rs.getString("description"));
+	                vo.setIngredientName(rs.getString("ingredient_name"));
+	                vo.setMenuName(rs.getString("menu_name"));
+	                list.add(vo);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        throw new RuntimeException("메뉴명으로 레시피 검색 중 오류", e);
+	    }
 
 	public int recipeInsert(Recipe vo) {
 	    int result = 0;
