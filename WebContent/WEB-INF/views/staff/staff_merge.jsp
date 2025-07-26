@@ -46,72 +46,153 @@ pageEncoding="UTF-8"%>
         <c:if test="${action eq 'update'}">
             <c:url var="staff_do" value="/staff/update.do"/>
         </c:if>
-<div class="form-con">
-        <form action="${staff_do}" method="post">
-			
-			<div class="form-row">
-			                        <div class="form-group">
-			                            <label class="form-label">메뉴 선택 <span class="required">*</span></label>
-			                            <button type="button" class="select-input" onclick="openMenuModal()">
-			                                <span id="selectedMenuText" class="select-text">메뉴를 선택해주세요</span>
-			                                <span class="select-arrow">▼</span>
-			                            </button>
-			                        </div>
-			                    </div>
-			<!--
-            <fieldset>
-                <table>
-                    <tr>
-                        <td class="label">성 (first name)</td>
-                        <td class="field"><input type="text" name="firstName" value="${staff.firstName}"></td>
-                    </tr>
-                    <tr>
-                        <td class="label">이름 (last name)</td>
-                        <td class="field"><input type="text" name="lastName" value="${staff.lastName}"></td>
-                    </tr>
-                    <tr>
-                        <td class="label">이메일</td>
-                        <td class="field"><input type="text" name="email" value="${staff.email}"></td>
-                    </tr>
-                    <tr>
-                        <td class="label">비밀번호</td>
-                        <td class="field"><input type="text" name="password" value="${staff.password}"></td>
-                    </tr>
-                    <tr>
-                        <td class="label">전화번호</td>
-                        <td class="field"><input type="text" name="phone" value="${staff.phone}"></td>
-                    </tr>
-                    <tr>
-                        <td class="label">권한</td>
-                        <td class="field">
-                            <select name="roleId">
-                                <c:forEach var="role" items="${roleList}">
-                                    <option value="${role.roleId}"
-                                    <c:if test="${role.roleId == staff.roleId}">selected</c:if>
-                                    >${role.roleName}
-                                    </option>
-                                </c:forEach>
-                            </select>
-                        </td>
-                    </tr>
-                </table>
-                <input type="hidden" name="staffId" value="${staff.staffId}"/>
-                <input type="submit" value="  저 장  ">
-                <input type="reset" value="  취 소  ">
-            </fieldset>
-			
-			-->
-			
-			
-			<div class="page-actions">
-				<input type="hidden" name="staffId" value="${staff.staffId}"/>
-				<input type="submit" class="btn btn-primary" value="저장하기">
-				<input type="button" class="btn btn-cancel" onclick="goBack()" value="목록으로">
-			</div>
-        </form>
-		</div>
+        <div class="form-con">
+            <form action="${staff_do}" method="post">
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label class="form-label">성 (first name) <span class="required">*</span></label>
+                        <input type="text"
+                               class="form-input"
+                               name="firstName"
+                               placeholder="성(first name)을 입력해주세요"
+							   data-valid="성(first name)을 입력해주세요"
+                               value="${staff.firstName}"/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label class="form-label">이름 (last name) <span class="required">*</span></label>
+                        <input type="text"
+                               class="form-input"
+                               name="lastName"
+                               placeholder="이름(last name)을 입력해주세요"
+							   data-valid="이름(last name)을 입력해주세요"
+                               value="${staff.lastName}"/>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label class="form-label">이메일 <span class="required">*</span></label>
+                        <input type="text"
+                               class="form-input"
+                               name="email"
+                               placeholder="이메일을 입력해주세요"
+							   data-valid="이메일을 입력해주세요"
+							   data-valid-type="email"
+                               value="${staff.email}"/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full-width">
+
+
+                        <c:if test="${action eq 'insert'}">
+                            <label class="form-label">비밀번호 <span class="required">*</span></label>
+                            <input type="password"
+                                   class="form-input"
+                                   name="password"
+                                   placeholder="비밀번호를 입력해주세요"
+								   data-valid="비밀번호를 입력해주세요"
+                                   value="${staff.password}"/>
+                        </c:if>
+                        <c:if test="${action eq 'update'}">
+                            <div class="password-section form-input">
+                                <div class="checkbox-container">
+                                    <input type="checkbox" class="checkbox-input" id="changePassword"
+                                           onchange="togglePasswordField()">
+                                    <label class="checkbox-label" for="changePassword">비밀번호 변경</label>
+                                </div>
+
+                                <label class="form-label">비밀번호</label>
+                                <input type="password" class="form-input" name="password" id="passwordField"
+                                       placeholder="새 비밀번호를 입력해주세요"  data-valid="새 비밀번호를 입력해주세요" data-valid-condition="changePassword" disabled>
+
+                                <div class="help-text">
+                                    비밀번호를 변경하지 않으려면 체크박스를 해제하세요.
+                                    체크하지 않으면 기존 비밀번호가 유지됩니다.
+                                </div>
+                            </div>
+                        </c:if>
+
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label class="form-label">전화번호 <span class="required">*</span></label>
+                        <input type="text"
+                               class="form-input"
+                               name="phone"
+                               placeholder="전화번호를 입력해주세요"
+							   data-valid="전화번호를 입력해주세요"
+                               value="${staff.phone}"/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">권한 선택 <span class="required">*</span></label>
+                        <button type="button" class="select-input" onclick="ModalManager.open('roleModal', {
+						        onOpen: renderRoleList  
+						    });">
+                            <span id="selectedRoleText" class="select-text">
+								<c:if test="${action eq 'insert'}">
+								권한을 선택해주세요
+								</c:if>
+								<c:if test="${action eq 'update'}">
+								    ${staff.roleName}
+								</c:if>
+							</span>
+                            <span class="select-arrow">▼</span>
+                        </button>
+                        <input type="hidden" data-valid="권한을 선택해주세요" name="role_id" id="roleId" value="${staff.roleId}"/>
+                    </div>
+                </div>
+                <div class="page-actions">
+					<input type="hidden" name="changePasswordFlag" id="changePasswordFlag" value="false">
+                    <input type="hidden" name="staffId" value="${staff.staffId}"/>
+                    <input type="submit" class="btn btn-primary" value="저장하기">
+                    <input type="button" class="btn btn-cancel" onclick="history.back();" value="목록으로">
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 <%@ include file="/WEB-INF/views/footer.jsp"%>
+
+<!-- 메뉴 선택 모달 -->
+<div class="modal-overlay" id="roleModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">권한 선택</h3>
+            <button type="button" class="modal-close" onclick="ModalManager.close('roleModal')">×</button>
+        </div>
+
+        <div class="modal-content" id="roleList">
+            <!-- JavaScript로 동적으로 생성됨 -->
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="confirmRoleSelection()">확인</button>
+            <button type="button" class="btn btn-cancel" onclick="ModalManager.close('roleModal')">취소</button>
+        </div>
+    </div>
+</div>
+<script>
+    window.currentRoleId = ${staff.roleId};
+    window.roleData = [
+        <c:forEach var="role" items="${roleList}" varStatus="status">
+            {
+                roleId: "${role.roleId}",
+                roleName: "${role.roleName}"
+            }
+            <c:if test="${!status.last}">,</c:if>
+        </c:forEach>
+    ];
+
+</script>
+<script src="/resources/js/merge.js"></script>
+
 </body>
 </html>

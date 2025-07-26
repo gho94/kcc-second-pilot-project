@@ -98,7 +98,7 @@ pageEncoding="UTF-8"%>
 <script>
     // JSP 데이터를 JavaScript 전역 변수로 전달
 	window.menuName = 'staff';
-    window.staffData = [
+    window.saveData = [
         <c:forEach var="staff" items="${staffs}" varStatus="status">
         {
             id: ${staff.staffId},
