@@ -163,7 +163,11 @@ public class RecipeDao {
 	        throw new RuntimeException("메뉴명으로 레시피 검색 중 오류", e);
 	    }
 
-	public int recipeInsert(Recipe vo) {
+	    return list;
+	}
+	
+	
+	public int insertRecipe(Recipe vo) {
 	    int result = 0;
 
 	    String sql = """
@@ -190,38 +194,7 @@ public class RecipeDao {
 	    return result;
 	}
 
-	public List<Menu> selectMenusWithoutRecipe() {
-	    List<Menu> list = new ArrayList<>();
 
-	    String sql = """
-	        SELECT m.menu_id, m.menu_name, m.price
-	        FROM menu m
-	        WHERE NOT EXISTS (
-	            SELECT 1 FROM recipe r
-	            WHERE r.menu_id = m.menu_id
-	        )
-	        ORDER BY m.menu_id
-	    """;
-
-	    try (
-	        Connection conn = DatabaseManager.getConnection();
-	        PreparedStatement pstmt = conn.prepareStatement(sql);
-	        ResultSet rs = pstmt.executeQuery();
-	    ) {
-	        while (rs.next()) {
-	            Menu vo = new Menu();
-	            vo.setMenuId(rs.getInt("menu_id"));
-	            vo.setMenuName(rs.getString("menu_name"));
-	            vo.setPrice(rs.getInt("price"));
-	            list.add(vo);
-	        }
-	    } catch (Exception e) {
-			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
-		} 
-
-	    return list;
-	}
 
 	public int updateRecipe(Recipe vo) {
 	    int result = 0;
