@@ -1,6 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.secondproject.cooook.model.Recipe" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%
+    List<Recipe> recipeList = (List<Recipe>) request.getAttribute("recipeList");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COOKCOOK - 레시피 목록</title>
     <style>
+        /* 전체 페이지 스타일 초기화 */
         * {
             margin: 0;
             padding: 0;
@@ -21,7 +26,7 @@
             line-height: 1.6;
         }
 
-        /* 상단 헤더 */
+        /* 상단 헤더 스타일 */
         .top-header {
             background: linear-gradient(135deg, #9dc3e6, #7ba7d1);
             color: white;
@@ -98,54 +103,98 @@
 
         /* 메인 컨테이너 */
         .main-container {
-            display: flex;
             margin-top: 60px;
+            padding: 30px;
             min-height: calc(100vh - 60px);
         }
 
-        /* 사이드바 */
-        .sidebar {
-            width: 250px;
-            background-color: white;
-            border-right: 1px solid #e9ecef;
-            box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+        /* 페이지 헤더 */
+        .page-header {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e9ecef;
         }
 
-        .sidebar-content {
-            padding: 30px 20px;
-        }
-
-        .sidebar-title {
-            font-size: 20px;
+        .page-title {
+            font-size: 28px;
             font-weight: 600;
             color: #2c3e50;
             margin-bottom: 20px;
         }
 
-        /* 메인 콘텐츠 */
-        .main-content {
-            flex: 1;
-            padding: 30px;
-            background-color: #f8f9fa;
-        }
-
-        .content-header {
+        .page-controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            gap: 20px;
         }
 
-        .page-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: #2c3e50;
+        /* 검색 영역 */
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            max-width: 400px;
         }
 
+        .search-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #9dc3e6;
+            box-shadow: 0 0 0 3px rgba(157, 195, 230, 0.1);
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, #9dc3e6, #7ba7d1);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .search-btn:hover {
+            background: linear-gradient(135deg, #7ba7d1, #6b94c0);
+            transform: translateY(-1px);
+        }
+
+        .cancel-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .cancel-btn:hover {
+            background: #5a6268;
+            transform: translateY(-1px);
+        }
+
+        /* 등록 버튼 */
         .register-btn {
             background: linear-gradient(135deg, #9dc3e6, #7ba7d1);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
@@ -154,83 +203,61 @@
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
+            white-space: nowrap;
         }
 
         .register-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(157, 195, 230, 0.4);
             background: linear-gradient(135deg, #7ba7d1, #6b94c0);
-        }
-
-        /* 검색 영역 */
-        .search-container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .search-form {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .search-input {
-            flex: 1;
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: #9dc3e6;
-            box-shadow: 0 0 0 2px rgba(157, 195, 230, 0.2);
-        }
-
-        .search-btn {
-            background: linear-gradient(135deg, #9dc3e6, #7ba7d1);
+            text-decoration: none;
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .search-btn:hover {
-            background: linear-gradient(135deg, #7ba7d1, #6b94c0);
         }
 
         /* 테이블 컨테이너 */
         .table-container {
             background: white;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e9ecef;
         }
 
         .recipe-table {
             width: 100%;
             border-collapse: collapse;
+            table-layout: fixed;
         }
 
         .recipe-table th {
-            background-color: #f8f9fa;
-            padding: 15px 12px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 16px 12px;
             text-align: left;
             font-weight: 600;
             color: #495057;
-            border-bottom: 1px solid #dee2e6;
+            border-bottom: 2px solid #dee2e6;
             font-size: 14px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
+        /* 테이블 컬럼 너비 조정 */
+        .recipe-table th:nth-child(1),
+        .recipe-table td:nth-child(1) { width: 8%; }  /* 번호 */
+        .recipe-table th:nth-child(2),
+        .recipe-table td:nth-child(2) { width: 20%; } /* 메뉴명 */
+        .recipe-table th:nth-child(3),
+        .recipe-table td:nth-child(3) { width: 18%; } /* 재료명 */
+        .recipe-table th:nth-child(4),
+        .recipe-table td:nth-child(4) { width: 15%; } /* 수량 */
+        .recipe-table th:nth-child(5),
+        .recipe-table td:nth-child(5) { width: 30%; } /* 설명 */
+        .recipe-table th:nth-child(6),
+        .recipe-table td:nth-child(6) { width: 9%; }  /* 관리 */
+
         .recipe-table td {
-            padding: 15px 12px;
+            padding: 16px 12px;
             border-bottom: 1px solid #f1f3f4;
             font-size: 14px;
             vertical-align: middle;
@@ -238,107 +265,211 @@
 
         .recipe-table tbody tr {
             transition: background-color 0.2s ease;
-            cursor: pointer;
         }
 
         .recipe-table tbody tr:hover {
             background-color: #f8f9fa;
         }
 
-        .menu-row {
-            background-color: #fff;
+        .recipe-table tbody tr:nth-child(even) {
+            background-color: #fafbfc;
+        }
+
+        .recipe-table tbody tr:nth-child(even):hover {
+            background-color: #f0f2f5;
+        }
+
+        /* ID 배지 */
+        .recipe-id {
+            background: linear-gradient(135deg, #9dc3e6, #7ba7d1);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 12px;
+            font-size: 12px;
             font-weight: 600;
-        }
-
-        .menu-row td {
-            background-color: #f0f8ff;
-            border-left: 4px solid #9dc3e6;
-        }
-
-        .ingredient-row {
-            display: none;
-        }
-
-        .ingredient-row.show {
-            display: table-row;
-        }
-
-        .toggle-icon {
             display: inline-block;
-            margin-right: 8px;
-            transition: transform 0.3s ease;
-            color: #9dc3e6;
-            font-weight: bold;
+            min-width: 35px;
+            text-align: center;
         }
 
-        .menu-row.expanded .toggle-icon {
-            transform: rotate(90deg);
-        }
-
-        .menu-id {
-            background: linear-gradient(135deg, #9dc3e6, #7ba7d1);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
+        /* 메뉴명 스타일 */
+        .menu-name {
             font-weight: 600;
-            margin-right: 8px;
+            color: #2c3e50;
         }
 
-        .quantity-badge {
-            background: linear-gradient(135deg, #9dc3e6, #7ba7d1);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
+        /* 재료명 스타일 */
+        .ingredient-name {
+            color: #495057;
             font-weight: 500;
         }
 
-        .description-text {
-            color: #6c757d;
-            font-style: italic;
-            max-width: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        /* 수량+단위 배지 */
+        .quantity-unit {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: -0.3px;
+            display: inline-block;
             white-space: nowrap;
         }
 
+        /* 설명 텍스트 */
+        .description-text {
+            color: #6c757d;
+            font-style: italic;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            line-height: 1.4;
+        }
+
+        .description-text:empty::before {
+            content: "-";
+            color: #adb5bd;
+        }
+
+        /* 관리 버튼들 */
+        .action-buttons {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+        }
+
+        .btn-action {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-edit:hover {
+            background: linear-gradient(135deg, #218838, #1ea085);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #dc3545, #e74c3c);
+            color: white;
+            box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+        }
+
+        .btn-delete:hover {
+            background: linear-gradient(135deg, #c82333, #dc2626);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4);
+            text-decoration: none;
+            color: white;
+        }
+
+        /* 빈 상태 */
         .empty-state {
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px;
             color: #6c757d;
         }
 
         .empty-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
+            font-size: 64px;
+            margin-bottom: 20px;
             opacity: 0.5;
         }
 
+        .empty-message {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .empty-submessage {
+            font-size: 14px;
+            color: #adb5bd;
+        }
+
+        /* 페이지네이션 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .page-btn {
+            background: white;
+            color: #9dc3e6;
+            border: 2px solid #9dc3e6;
+            padding: 8px 12px;
+            margin: 0 2px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            background: linear-gradient(135deg, #9dc3e6, #7ba7d1);
+            color: white;
+            transform: translateY(-1px);
+        }
+
         /* 반응형 */
+        @media (max-width: 1024px) {
+            .main-nav {
+                gap: 20px;
+            }
+
+            .nav-item {
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+        }
+
         @media (max-width: 768px) {
+            .header-content {
+                padding: 0 15px;
+            }
+
+            .main-nav {
+                display: none;
+            }
+
             .main-container {
-                flex-direction: column;
+                padding: 20px 15px;
             }
 
-            .sidebar {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid #e9ecef;
-            }
-
-            .main-content {
+            .page-header {
                 padding: 20px;
             }
 
-            .content-header {
+            .page-controls {
                 flex-direction: column;
                 gap: 15px;
                 align-items: stretch;
             }
 
-            .search-form {
-                flex-direction: column;
+            .search-container {
+                max-width: none;
             }
 
             .recipe-table {
@@ -347,7 +478,39 @@
 
             .recipe-table th,
             .recipe-table td {
-                padding: 10px 8px;
+                padding: 12px 8px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .btn-action {
+                font-size: 11px;
+                padding: 4px 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 24px;
+            }
+
+            .recipe-table th,
+            .recipe-table td {
+                padding: 10px 6px;
+            }
+
+            .quantity-unit {
+                font-size: 11px;
+                padding: 4px 8px;
+            }
+
+            .recipe-id {
+                font-size: 11px;
+                padding: 4px 8px;
+                min-width: 30px;
             }
         }
     </style>
@@ -376,117 +539,89 @@
 
     <!-- 메인 컨테이너 -->
     <div class="main-container">
-        <!-- 사이드바 -->
-        <aside class="sidebar">
-            <div class="sidebar-content">
-                <h2 class="sidebar-title">레시피 목록</h2>
-            </div>
-        </aside>
-
-        <!-- 메인 콘텐츠 -->
-        <main class="main-content">
-            <div class="content-header">
-                <h1 class="page-title">레시피 목록</h1>
+        <!-- 페이지 헤더 -->
+        <div class="page-header">
+            <h1 class="page-title">레시피 목록</h1>
+            <div class="page-controls">
+                <!-- 검색 영역 -->
+                <div class="search-container">
+                    <form method="get" style="display: flex; gap: 10px; width: 100%;">
+                        <input type="text" 
+                               name="menuName" 
+                               class="search-input" 
+                               placeholder="메뉴명으로 검색..."
+                               value="<%= request.getParameter("menuName") != null ? request.getParameter("menuName") : "" %>">
+                        <button type="submit" class="search-btn">🔍</button>
+                        <% if (request.getParameter("menuName") != null && !request.getParameter("menuName").isEmpty()) { %>
+                        <button type="button" class="cancel-btn" onclick="cancelSearch()">취소</button>
+                        <% } %>
+                    </form>
+                </div>
+                
+                <!-- 등록 버튼 -->
                 <a href="insert.do" class="register-btn">등록</a>
             </div>
+        </div>
 
-            <!-- 검색 영역 -->
-            <div class="search-container">
-                <form class="search-form" method="get">
-                    <input type="text" 
-                           name="menuName" 
-                           class="search-input" 
-                           placeholder="메뉴명으로 검색..."
-                           value="<%= request.getParameter("menuName") != null ? request.getParameter("menuName") : "" %>">
-                    <button type="submit" class="search-btn">🔍</button>
-                </form>
+        <!-- 테이블 -->
+        <div class="table-container">
+            <%
+                if (recipeList != null && !recipeList.isEmpty()) {
+            %>
+            <table class="recipe-table">
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>메뉴명</th>
+                        <th>재료명</th>
+                        <th>수량</th>
+                        <th>설명</th>
+                        <th>관리</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="r" items="${recipeList}" varStatus="st">
+                    <tr>
+                        <td><span class="recipe-id">${r.recipeId}</span></td>
+                        <td><span class="menu-name">${r.menuName}</span></td>
+                        <td><span class="ingredient-name">${r.ingredientName}</span></td>
+                        <td><span class="quantity-unit">${r.quantity}${r.unit}</span></td>
+                        <td><span class="description-text"><c:out value="${r.description}" default=""/></span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="update.do?recipeId=${r.recipeId}" class="btn-action btn-edit">수정</a>
+                                <a href="delete.do?recipeId=${r.recipeId}" 
+                                   class="btn-action btn-delete"
+                                   onclick="return confirm('이 레시피를 삭제하시겠습니까?');">삭제</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+            <%
+                } else {
+            %>
+            <div class="empty-state">
+                <div class="empty-icon">📝</div>
+                <div class="empty-message">등록된 레시피가 없습니다</div>
+                <div class="empty-submessage">새로운 레시피를 등록해보세요</div>
             </div>
+            <%
+                }
+            %>
+        </div>
 
-            <!-- 테이블 -->
-            <div class="table-container">
-                <%
-                    List<Recipe> recipeList = (List<Recipe>) request.getAttribute("recipeList");
-                    if (recipeList != null && !recipeList.isEmpty()) {
-                %>
-                <table class="recipe-table">
-                    <thead>
-                        <tr>
-                            <th>메뉴</th>
-                            <th>재료명</th>
-                            <th>수량</th>
-                            <th>설명</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <%
-                            int prevMenuId = -1;
-                            for (Recipe r : recipeList) {
-                                int menuId = r.getMenuId();
-                                if (menuId != prevMenuId) {
-                        %>
-                        <tr class="menu-row" data-menuid="<%=menuId%>" onclick="toggleMenu(this)">
-                            <td colspan="4">
-                                <span class="toggle-icon">▶</span>
-                                <span class="menu-id"><%=menuId%></span>
-                                <%=r.getMenuName()%>
-                            </td>
-                        </tr>
-                        <%
-                                    prevMenuId = menuId;
-                                }
-                        %>
-                        <tr class="ingredient-row menu-<%=menuId%>">
-                            <td></td>
-                            <td><%=r.getIngredientName()%></td>
-                            <td><span class="quantity-badge"><%=r.getQuantity()%><%=r.getUnit()%></span></td>
-                            <td><span class="description-text"><%=r.getDescription()%></span></td>
-                        </tr>
-                        <%
-                            }
-                        %>
-                    </tbody>
-                </table>
-                <%
-                    } else {
-                %>
-                <div class="empty-state">
-                    <div class="empty-icon">📝</div>
-                    <div>등록된 레시피가 없습니다.</div>
-                </div>
-                <%
-                    }
-                %>
-            </div>
-        </main>
+        <!-- 페이지네이션 -->
+        <div class="pagination">
+            <a href="#" class="page-btn">1</a>
+        </div>
     </div>
 
     <script>
-        function toggleMenu(row) {
-            const menuId = row.getAttribute('data-menuid');
-            const ingredientRows = document.querySelectorAll('.ingredient-row.menu-' + menuId);
-            const toggleIcon = row.querySelector('.toggle-icon');
-            const isExpanded = row.classList.contains('expanded');
-            
-            if (isExpanded) {
-                // 접기
-                ingredientRows.forEach(r => r.classList.remove('show'));
-                row.classList.remove('expanded');
-                toggleIcon.textContent = '▶';
-            } else {
-                // 펼치기
-                ingredientRows.forEach(r => r.classList.add('show'));
-                row.classList.add('expanded');
-                toggleIcon.textContent = '▼';
-            }
+        function cancelSearch() {
+            window.location.href = window.location.pathname;
         }
-
-        // 페이지 로드 시 첫 번째 메뉴 자동 열기
-        document.addEventListener('DOMContentLoaded', function() {
-            const firstMenuRow = document.querySelector('.menu-row');
-            if (firstMenuRow) {
-                toggleMenu(firstMenuRow);
-            }
-        });
     </script>
 </body>
 </html>

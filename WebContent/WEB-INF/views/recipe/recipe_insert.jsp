@@ -29,45 +29,27 @@
 
         /* 메인 컨테이너 */
         .main-container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* 사이드바 */
-        .sidebar {
-            width: 250px;
-            background-color: white;
-            border-right: 1px solid #e9ecef;
-            box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .sidebar-content {
-            padding: 30px 20px;
-        }
-
-        .sidebar-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 20px;
-        }
-
-        /* 메인 콘텐츠 */
-        .main-content {
-            flex: 1;
             padding: 30px;
-            background-color: #f8f9fa;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .content-header {
+        /* 페이지 헤더 */
+        .page-header {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e9ecef;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
         }
 
         .page-title {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 600;
             color: #2c3e50;
             display: flex;
@@ -78,7 +60,7 @@
         .back-btn {
             background: #6c757d;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
@@ -93,37 +75,34 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(108, 117, 125, 0.4);
             background: #5a6268;
+            text-decoration: none;
+            color: white;
         }
 
         /* 폼 컨테이너 */
         .form-container {
             background: white;
             border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            margin-bottom: 20px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e9ecef;
         }
 
         .form-section {
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         .section-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
             color: #2c3e50;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
             border-bottom: 2px solid #9dc3e6;
         }
 
-        /* 메뉴 선택 영역 */
-        .menu-select-container {
-            margin-bottom: 30px;
-        }
-
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .form-label {
@@ -131,12 +110,12 @@
             font-weight: 600;
             color: #495057;
             margin-bottom: 8px;
-            font-size: 14px;
+            font-size: 15px;
         }
 
         .form-select {
             width: 100%;
-            padding: 12px 15px;
+            padding: 14px 16px;
             border: 2px solid #e9ecef;
             border-radius: 8px;
             font-size: 14px;
@@ -150,23 +129,29 @@
             box-shadow: 0 0 0 3px rgba(157, 195, 230, 0.1);
         }
 
+        .form-select:disabled {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            cursor: not-allowed;
+        }
+
         /* 재료 입력 영역 */
         .ingredients-section {
             background: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 25px;
             margin-bottom: 20px;
         }
 
         .ingredient-row {
             display: grid;
             grid-template-columns: 2.5fr 0.8fr 0.8fr 2.5fr auto;
-            gap: 12px;
+            gap: 15px;
             align-items: end;
-            margin-bottom: 15px;
-            padding: 20px;
+            margin-bottom: 20px;
+            padding: 25px;
             background: white;
-            border-radius: 8px;
+            border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
         }
@@ -176,7 +161,7 @@
         }
 
         .form-input {
-            padding: 12px 15px;
+            padding: 14px 16px;
             border: 2px solid #e9ecef;
             border-radius: 8px;
             font-size: 14px;
@@ -191,6 +176,13 @@
 
         .form-input::placeholder {
             color: #6c757d;
+        }
+
+        .input-group-label {
+            font-size: 13px;
+            color: #6c757d;
+            margin-bottom: 6px;
+            font-weight: 500;
         }
 
         /* 버튼 스타일 */
@@ -209,7 +201,7 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #9dc3e6, #7ba7d1);
+            background: #9dc3e6;
             color: white;
             box-shadow: 0 2px 4px rgba(157, 195, 230, 0.3);
         }
@@ -217,7 +209,7 @@
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(157, 195, 230, 0.4);
-            background: linear-gradient(135deg, #7ba7d1, #6b94c0);
+            background: #7ba7d1;
         }
 
         .btn-secondary {
@@ -260,29 +252,35 @@
             background: #6c757d;
             cursor: not-allowed;
             opacity: 0.5;
+            transform: none;
+        }
+
+        .btn-success:disabled:hover {
+            transform: none;
         }
 
         /* 액션 버튼 영역 */
         .action-buttons {
             display: flex;
-            gap: 15px;
+            gap: 20px;
             justify-content: center;
-            margin-top: 30px;
-            padding-top: 20px;
+            margin-top: 40px;
+            padding-top: 30px;
             border-top: 1px solid #e9ecef;
         }
 
         .add-ingredient-container {
             text-align: center;
-            margin: 20px 0;
+            margin: 25px 0;
         }
 
         /* 알림 메시지 */
         .alert {
-            padding: 12px 16px;
+            padding: 15px 20px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             font-weight: 500;
+            font-size: 14px;
         }
 
         .alert-info {
@@ -294,36 +292,47 @@
         /* 반응형 */
         @media (max-width: 768px) {
             .main-container {
-                flex-direction: column;
+                padding: 20px 15px;
+                max-width: 100%;
             }
 
-            .sidebar {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid #e9ecef;
-            }
-
-            .main-content {
-                padding: 20px;
-            }
-
-            .content-header {
+            .page-header {
                 flex-direction: column;
                 gap: 15px;
                 align-items: stretch;
+                text-align: center;
+            }
+
+            .form-container {
+                padding: 25px 20px;
             }
 
             .ingredient-row {
                 grid-template-columns: 1fr;
-                gap: 10px;
+                gap: 15px;
             }
 
             .action-buttons {
                 flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 15px 10px;
+            }
+
+            .page-title {
+                font-size: 24px;
             }
 
             .form-container {
-                padding: 20px;
+                padding: 20px 15px;
+            }
+
+            .section-title {
+                font-size: 18px;
             }
         }
 
@@ -332,121 +341,104 @@
             opacity: 0.6;
             pointer-events: none;
         }
-
-        /* 입력 필드 그룹 라벨 */
-        .input-group-label {
-            font-size: 12px;
-            color: #6c757d;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
     </style>
 </head>
 <body>
     <!-- 메인 컨테이너 -->
     <div class="main-container">
-        <!-- 사이드바 -->
-        <aside class="sidebar">
-            <div class="sidebar-content">
-                <h2 class="sidebar-title">레시피 등록</h2>
-            </div>
-        </aside>
+        <!-- 페이지 헤더 -->
+        <div class="page-header">
+            <h1 class="page-title">
+                ➕ 새 레시피 등록
+            </h1>
+            <a href="list.do" class="back-btn">목록으로</a>
+        </div>
 
-        <!-- 메인 콘텐츠 -->
-        <main class="main-content">
-            <div class="content-header">
-                <h1 class="page-title">
-                    ➕ 새 레시피 등록
-                </h1>
-                <a href="list.do" class="back-btn">목록으로</a>
-            </div>
-
-            <div class="form-container">
-                <form action="insert.do" method="post" id="recipeForm">
-                    <!-- 메뉴 선택 섹션 -->
-                    <div class="form-section">
-                        <h3 class="section-title">메뉴 선택</h3>
-                        <div class="form-group">
-                            <label for="menuId" class="form-label">메뉴를 선택해주세요</label>
-                            <select name="menuId" id="menuId" class="form-select" required>
-                                <option value="">-- 레시피 미등록 메뉴 선택 --</option>
-                                <c:forEach var="m" items="${menuList}">
-                                    <option value="${m.menuId}">${m.menuName}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
+        <div class="form-container">
+            <form action="insert.do" method="post" id="recipeForm">
+                <!-- 메뉴 선택 섹션 -->
+                <div class="form-section">
+                    <h3 class="section-title">메뉴 선택</h3>
+                    <div class="form-group">
+                        <label for="menuId" class="form-label">메뉴를 선택해주세요</label>
+                        <select name="menuId" id="menuId" class="form-select" required>
+                            <option value="">-- 레시피 미등록 메뉴 선택 --</option>
+                            <c:forEach var="m" items="${menuList}">
+                                <option value="${m.menuId}">${m.menuName}</option>
+                            </c:forEach>
+                        </select>
                     </div>
+                </div>
 
-                    <!-- 재료 입력 섹션 -->
-                    <div class="form-section">
-                        <h3 class="section-title">재료 정보</h3>
-                        <div class="alert alert-info">
-                            💡 먼저 메뉴를 선택한 후, 재료를 선택하고 수량과 설명을 입력해주세요.
-                        </div>
-                        
-                        <div class="ingredients-section">
-                            <div id="ingredientsContainer">
-                                <div class="ingredient-row">
-                                    <div>
-                                        <div class="input-group-label">재료 선택</div>
-                                        <select name="ingredientId" class="form-select" required disabled>
-                                            <option value="">-- 먼저 메뉴를 선택해주세요 --</option>
-                                            <c:forEach var="i" items="${ingList}">
-                                                <option value="${i.ingredientId}">${i.ingredientName}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <div class="input-group-label">수량</div>
-                                        <input type="text" 
-                                               name="quantity" 
-                                               class="form-input" 
-                                               inputmode="decimal" 
-                                               placeholder="예: 50" 
-                                               required 
-                                               oninput="this.value=this.value.replace(/[^0-9.]/g,'');">
-                                    </div>
-                                    <div>
-                                        <div class="input-group-label">단위</div>
-                                        <input type="text" 
-                                               name="unit" 
-                                               class="form-input" 
-                                               placeholder="예: g, 개" 
-                                               required>
-                                    </div>
-                                    <div>
-                                        <div class="input-group-label">설명 (선택사항)</div>
-                                        <input type="text" 
-                                               name="description" 
-                                               class="form-input" 
-                                               placeholder="예: 잘게 다져서">
-                                    </div>
-                                    <div>
-                                        <button type="button" class="btn btn-danger removeRow">삭제</button>
-                                    </div>
+                <!-- 재료 입력 섹션 -->
+                <div class="form-section">
+                    <h3 class="section-title">재료 정보</h3>
+                    <div class="alert alert-info">
+                        💡 먼저 메뉴를 선택한 후, 재료를 선택하고 수량과 설명을 입력해주세요.
+                    </div>
+                    
+                    <div class="ingredients-section">
+                        <div id="ingredientsContainer">
+                            <div class="ingredient-row">
+                                <div>
+                                    <div class="input-group-label">재료 선택</div>
+                                    <select name="ingredientId" class="form-select" required disabled>
+                                        <option value="">-- 먼저 메뉴를 선택해주세요 --</option>
+                                        <c:forEach var="i" items="${ingList}">
+                                            <option value="${i.ingredientId}">${i.ingredientName}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div>
+                                    <div class="input-group-label">수량</div>
+                                    <input type="text" 
+                                           name="quantity" 
+                                           class="form-input" 
+                                           inputmode="decimal" 
+                                           placeholder="예: 50" 
+                                           required 
+                                           oninput="this.value=this.value.replace(/[^0-9.]/g,'');">
+                                </div>
+                                <div>
+                                    <div class="input-group-label">단위</div>
+                                    <input type="text" 
+                                           name="unit" 
+                                           class="form-input" 
+                                           placeholder="예: g, 개" 
+                                           required>
+                                </div>
+                                <div>
+                                    <div class="input-group-label">설명 (선택사항)</div>
+                                    <input type="text" 
+                                           name="description" 
+                                           class="form-input" 
+                                           placeholder="예: 잘게 다져서">
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-danger removeRow">삭제</button>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="add-ingredient-container">
-                                <button type="button" id="addIngredient" class="btn btn-success" disabled style="opacity: 0.5;">
-                                    ➕ 재료 추가
-                                </button>
-                            </div>
+                        <div class="add-ingredient-container">
+                            <button type="button" id="addIngredient" class="btn btn-success" disabled style="opacity: 0.5;">
+                                ➕ 재료 추가
+                            </button>
                         </div>
                     </div>
+                </div>
 
-                    <!-- 액션 버튼 -->
-                    <div class="action-buttons">
-                        <button type="submit" class="btn btn-primary">
-                            ✅ 레시피 등록
-                        </button>
-                        <button type="button" class="btn btn-secondary" onclick="location.href='list.do'">
-                            ❌ 취소
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </main>
+                <!-- 액션 버튼 -->
+                <div class="action-buttons">
+                    <button type="submit" class="btn btn-primary">
+                        ✅ 레시피 등록
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="location.href='list.do'">
+                        ❌ 취소
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>
