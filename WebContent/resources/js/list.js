@@ -1,8 +1,8 @@
 let currentPage = 1;
 let row = "";
-if(menuName  =="staff"){
-	function generateRows(employees) {
-	  return employees.map(employee => `
+if (menuName == "staff") {
+    function generateRows(employees) {
+        return employees.map(employee => `
 	    <tr>
 	      <td>${employee.id}</td>
 	      <td>${employee.name}</td>
@@ -26,10 +26,47 @@ if(menuName  =="staff"){
 	      </td>
 	    </tr>
 	  `).join('');
+    }
+	
+	function filterData(allData, searchTerm){
+	    return allData.filter(employee =>
+	        employee.name.toLowerCase().includes(searchTerm) ||
+	        employee.email.toLowerCase().includes(searchTerm) ||
+	        employee.phone.includes(searchTerm)
+	    );
 	}
-}else{
+} else if (menuName == "role") {
+    function generateRows(roles) {
+        return roles.map(role => `
+		<tr>
+					<td>${role.id}</td>
+					<td>${role.name}</td>
+					<td>${role.description}</td>
+					<td>${role.featureNames}</td>
+					<td class="row">
+						<form action="/role/update.do" class="manage-btn-con col-lg-6">
+							<input type="hidden" name="roleId" value="${role.id}" />
+							<span class="manage-btn update-btn"><input type="submit" value="수정"/></span>
+						</form>
+						<form action="/role/delete.do" method="post" class="manage-btn-con col-lg-6" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+							<input type="hidden" name="roleId" value="${role.id}" />
+							<span class="manage-btn delete-btn"><input type="submit" value="삭제"/></span>
+						</form>
+					</td>					     
+				<tr>
+	  `).join('');
+    }
+	
+	function filterData(allData, searchTerm){
+	    return allData.filter(role =>
+	        role.name.toLowerCase().includes(searchTerm) ||
+	        role.description.toLowerCase().includes(searchTerm) ||
+	        role.featureNames.toLowerCase().includes(searchTerm)
+	    );
+	}
+} else {
 
-	//음
+    //음
 }
 // JSP에서 전달받은 데이터 사용
 const allData = window.saveData || [];
@@ -41,11 +78,7 @@ function searchData() {
     if (searchTerm === '') {
         filteredData = [...allData];
     } else {
-        filteredData = allData.filter(employee =>
-            employee.name.toLowerCase().includes(searchTerm) ||
-            employee.email.toLowerCase().includes(searchTerm) ||
-            employee.phone.includes(searchTerm)
-        );
+        filteredData = filterData(allData, searchTerm);
     }
 
     updateTable();
@@ -59,7 +92,7 @@ function updateTable() {
     const pageData = filteredData.slice(startIndex, endIndex);
 
     tbody.innerHTML = '';
-	tbody.innerHTML = generateRows(pageData);
+    tbody.innerHTML = generateRows(pageData);
 }
 
 function updatePagination() {
@@ -116,7 +149,7 @@ document.getElementById('searchInput').addEventListener('input', function () {
 });
 
 // DOM이 로드된 후 초기화
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     updateTable();
     updatePagination();
 });

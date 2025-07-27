@@ -23,7 +23,7 @@ public class RoleUpdateHandler implements CommandHandler {
 	    	request.setAttribute("action", "update");
 	    	request.setAttribute("role", role);
 	    	request.setAttribute("roleList", RoleFeatureCode.FEATURE_NAME_MAP);
-	        return "role/role_form.jsp";
+	        return "role/role_merge.jsp";
 	    }	    
 
 	    Role role = new Role();
