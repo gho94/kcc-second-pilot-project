@@ -161,7 +161,7 @@ pageEncoding="UTF-8"%>
 </div>
 <%@ include file="/WEB-INF/views/footer.jsp"%>
 
-<!-- 메뉴 선택 모달 -->
+<!-- 권한 선택 모달 -->
 <div class="modal-overlay" id="roleModal">
     <div class="modal">
         <div class="modal-header">
@@ -180,12 +180,12 @@ pageEncoding="UTF-8"%>
     </div>
 </div>
 <script>
-    window.currentRoleId = ${staff.roleId};
+    window.currentValueId = [${staff.roleId}];
     window.roleData = [
         <c:forEach var="role" items="${roleList}" varStatus="status">
             {
-                roleId: "${role.roleId}",
-                roleName: "${role.roleName}"
+                id: "${role.roleId}",
+                name: "${role.roleName}"
             }
             <c:if test="${!status.last}">,</c:if>
         </c:forEach>

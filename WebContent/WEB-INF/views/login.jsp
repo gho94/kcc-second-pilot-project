@@ -17,12 +17,12 @@
         <form action="/login.do" method="post" id="loginForm">
             <div class="form-floating">
                 <input type="text" name="email" class="form-control" id="userId" placeholder=" " required>
-                <label for="userId">아이디를 입력하세요.</label>
+                <label for="userId">아이디</label>
             </div>
             
             <div class="form-floating">
                 <input type="password" name="password" class="form-control" id="userPassword" placeholder=" " required>
-                <label for="userPassword">비밀번호를 입력하세요.</label>
+                <label for="userPassword">비밀번호</label>
             </div>
             
             <button type="submit" class="login-btn">

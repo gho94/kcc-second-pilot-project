@@ -59,7 +59,7 @@
 }
 
 .list-content .search-btn:hover {
-	transform: translateY(-50%) scale(1.1);
+	transform: translateY(-5%) scale(1.1);
 	box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
 }
 

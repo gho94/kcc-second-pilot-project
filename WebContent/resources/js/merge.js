@@ -123,14 +123,15 @@ const SampleData = {
 }
 */
 let isValidating = false;
+let selectedData = null;
 function renderRoleList() {
 	ListRenderer.createList('roleList', roleData, {
 		itemClass: 'modal-item',
 		template: (role) => {
-			const isSelected = role.roleId === currentRoleId;
+			const isSelected = currentValueId.map(Number).includes(Number(role.id));
 			return `
-                <span>${role.roleName}</span>
-                <span class="checkmark" style="display: ${isSelected ? 'inline' : 'none'};">✓</span>
+                <span>${role.name}</span>
+                <span class="checkmark" data-selected="${isSelected}" data-value="${role.id}" style="display: ${isSelected ? 'flex' : 'none'};">✓</span>
             `;
 		},
 		onClick: (role, element) => {
@@ -145,20 +146,67 @@ function renderRoleList() {
 			element.classList.add('selected');
 			const checkmark = element.querySelector('.checkmark');
 			if (checkmark) checkmark.style.display = 'flex';
-			selectedRole = role;
+		}
+	});
+}
+
+function renderRoleFeatureList() {
+	ListRenderer.createList('roleFeatureList', roleNameMap, {
+		itemClass: 'modal-item',
+		template: (role) => {
+			const isSelected = currentValueId.includes(role.id);
+			return `
+                <span>${role.name}</span>
+                <span class="checkmark" data-selected="${isSelected}" data-value="${role.id}" style="display: ${isSelected ? 'flex' : 'none'};">✓</span>
+            `;
+		},
+		onClick: (role, element) => {
+			const checkmark = element.querySelector('.checkmark');
+			const isSelected = element.classList.contains('selected');
+
+			if (isSelected) {
+				// 선택 해제
+				element.classList.remove('selected');
+				if (checkmark) checkmark.style.display = 'none';
+			} else {
+				// 선택
+				element.classList.add('selected');
+				if (checkmark) checkmark.style.display = 'flex';
+			}
 		}
 	});
 }
 
 function confirmRoleSelection() {
-	ModalManager.handleConfirm('roleModal', selectedRole, {
+	getModalSelectedItems(roleData);
+	ModalManager.handleConfirm('roleModal', {
 		displayElementId: 'selectedRoleText',
 		valueElementId: 'roleId',
-		getDisplayText: (role) => role.roleName,
-		getValue: (role) => role.roleId,
-		successMessage: `권한 "${selectedRole?.roleName}"이(가) 선택되었습니다.`,
 		errorMessage: '권한을 선택해주세요.'
 	});
+}
+
+function confirmRoleFeatureModalSelection() {
+	getModalSelectedItems(roleNameMap);
+	ModalManager.handleConfirm('roleFeatureModal', {
+		displayElementId: 'selectedRoleFeatureText',
+		valueElementId: 'featureCodes',
+		errorMessage: '권한을 선택해주세요.'
+	});
+}
+
+function getModalSelectedItems(allList){
+	const selectedIds = Array.from(document.querySelectorAll('.checkmark'))
+	  .filter(el => el.style.display === 'flex').map(el => el.getAttribute('data-value'));
+
+	selectedData = allList.filter(data => selectedIds.includes(data.id));
+}
+
+
+function getPostposition(word) {
+	const lastChar = word[word.length - 1];
+	const hasFinalConsonant = (lastChar.charCodeAt(0) - 44032) % 28 !== 0;
+	return hasFinalConsonant ? '이' : '가';
 }
 
 function togglePasswordField() {
@@ -330,9 +378,9 @@ const ModalManager = {
 		}
 	},
 
-	handleConfirm(modalId, selectedItem, options = {}) {
+	handleConfirm(modalId, options = {}) {
 		// 필수 체크
-		if (!selectedItem) {
+		if (selectedData.length===0 || !selectedData) {
 			const errorMessage = options.errorMessage || '항목을 선택해주세요.';
 			if (typeof MessageManager !== 'undefined') {
 				MessageManager.showError(errorMessage);
@@ -343,30 +391,29 @@ const ModalManager = {
 		}
 
 		// 1. 텍스트 업데이트 (displayElement가 있으면)
+		const displayTexts = selectedData?.map(item => item.name).join(', ');
 		if (options.displayElementId) {
 			const displayElement = document.getElementById(options.displayElementId);
 			if (displayElement) {
-				const displayText = options.getDisplayText
-					? options.getDisplayText(selectedItem)
-					: (selectedItem.name || selectedItem.roleName || selectedItem.toString());
-				displayElement.textContent = displayText;
+				displayElement.textContent = displayTexts;
 			}
 		}
 
 		// 2. 숨겨진 input 값 업데이트 (valueElementId가 있으면)
 		if (options.valueElementId) {
+
 			const valueElement = document.getElementById(options.valueElementId);
+			const selectedIds = selectedData?.map(item => item.id);
+			const value = selectedIds.join(', ');
+			window.currentValueId = selectedIds;
 			if (valueElement) {
-				const value = options.getValue
-					? options.getValue(selectedItem)
-					: (selectedItem.id || selectedItem.roleId || selectedItem.value);
 				valueElement.value = value;
 			}
 		}
 
 		// 3. 커스텀 콜백 실행 (추가 처리가 필요한 경우)
 		if (options.onConfirm) {
-			options.onConfirm(selectedItem);
+			options.onConfirm(selectedData);
 		}
 
 		// 4. 모달 닫기
@@ -375,7 +422,7 @@ const ModalManager = {
 		// 5. 성공 메시지
 		if (options.showSuccessMessage !== false) { // 기본값 true
 			const successMessage = options.successMessage ||
-				`"${selectedItem.name || selectedItem.roleName || '항목'}"이(가) 선택되었습니다.`;
+				`"${displayTexts || '항목'}"이(가) 선택되었습니다.`;
 
 			if (typeof MessageManager !== 'undefined') {
 				MessageManager.showSuccess(successMessage);
@@ -405,6 +452,7 @@ const ListRenderer = {
 
 			if (options.template) {
 				element.innerHTML = options.template(item)
+				if(element.querySelector('[data-selected="true"]')) element.classList.add('selected');
 			} else {
 				element.textContent = item.name || item.toString()
 			}
@@ -422,7 +470,7 @@ const ListRenderer = {
 				}
 			}
 
-			container.appendChild(element)
+			container.appendChild(element);
 		})
 	},
 
@@ -448,7 +496,7 @@ const ListRenderer = {
 // ========================================
 // 폼 검증 함수들
 // ========================================
-
+/*
 const FormValidator = {
 	// 필수 필드 검증
 	validateRequired(fieldId, message) {
@@ -506,7 +554,7 @@ const FormValidator = {
 // ========================================
 // 메시지 관리 함수들
 // ========================================
-
+*/
 const MessageManager = {
 	// 성공 메시지
 	showSuccess(message, duration = 3000) {
@@ -542,21 +590,21 @@ const MessageManager = {
 		const color = colors[type] || colors.success
 
 		messageDiv.style.cssText = `
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            background: linear-gradient(135deg, ${color.bg}, ${color.bg}dd);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(${color.shadow}, 0.3);
-            z-index: 2001;
-            font-weight: 500;
-            font-size: 14px;
-            animation: slideInRight 0.3s ease;
-            max-width: 300px;
-            word-wrap: break-word;
-        `
+			position: fixed;
+			top: 80px;
+			right: 20px;
+			background: linear-gradient(135deg, ${color.bg}, ${color.bg}dd);
+			color: white;
+			padding: 12px 20px;
+			border-radius: 8px;
+			box-shadow: 0 4px 12px rgba(${color.shadow}, 0.3);
+			z-index: 2001;
+			font-weight: 500;
+			font-size: 14px;
+			animation: slideInRight 0.3s ease;
+			max-width: 300px;
+			word-wrap: break-word;
+		`
 		messageDiv.textContent = message
 
 		// 애니메이션 스타일 추가
@@ -564,11 +612,11 @@ const MessageManager = {
 			const style = document.createElement("style")
 			style.id = "toastAnimationStyle"
 			style.textContent = `
-                @keyframes slideInRight {
-                    from { opacity: 0; transform: translateX(100%); }
-                    to { opacity: 1; transform: translateX(0); }
-                }
-            `
+				@keyframes slideInRight {
+					from { opacity: 0; transform: translateX(100%); }
+					to { opacity: 1; transform: translateX(0); }
+				}
+			`
 			document.head.appendChild(style)
 		}
 
@@ -586,6 +634,7 @@ const MessageManager = {
 	},
 }
 
+/*
 // ========================================
 // 유틸리티 함수들
 // ========================================
@@ -746,14 +795,16 @@ const EventManager = {
 document.addEventListener("DOMContentLoaded", () => {
 	EventManager.setupGlobalListeners()
 })
-
+*/
 // 전역 객체로 내보내기
 window.AppUtils = {
 	AppState,
 	ModalManager,
 	ListRenderer,
+	MessageManager
+	/*
 	FormValidator,
-	MessageManager,
 	Utils,
 	EventManager,
+	*/
 }
