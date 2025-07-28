@@ -93,7 +93,8 @@ public class DashboardDao {
                     TO_CHAR(created_at, 'YYYY-MM-DD') AS day,
                     SUM(total_price) AS total_earnings
                 FROM orders
-                WHERE created_at BETWEEN SYSDATE - 7 AND SYSDATE
+                WHERE deleted_at IS NULL 
+                AND created_at BETWEEN SYSDATE - 7 AND SYSDATE
                 GROUP BY TO_CHAR(created_at, 'YYYY-MM-DD')
                 ORDER BY TO_CHAR(created_at, 'YYYY-MM-DD')		
         		""";
