@@ -21,9 +21,7 @@
 	margin-top: 0px;
 }
 
-#mainslide .mySwiper {
-	
-}
+#mainslide .mySwiper {}
 
 #mainslide .mySwiper .banner {
 	height: 648px;
@@ -53,7 +51,8 @@
 	font-size: 20px;
 }
 
-#mainslide .swiper-button-prev, #mainslide .swiper-button-next {
+#mainslide .swiper-button-prev,
+#mainslide .swiper-button-next {
 	color: #fff;
 	padding: 30px;
 	margin-top: -30px;
@@ -101,25 +100,160 @@ pre {
 	vertical-align: inherit;
 	unicode-bidi: isolate;
 	border-color: inherit;
-	min-height:500px;
+	min-height: 500px;
 }
 
-.content .container .table-container th{
+.content .container .table-container th {
 	background: #f8f9fa;
-    font-weight: bold;
-    color: #495057;
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    text-align:center;
+	font-weight: bold;
+	color: #495057;
+	padding: 12px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+	text-align: center;
 }
 
-.content .container .table-container table{
-	border:0;
+.content .container .table-container table {
+	border: 0;
+}
+
+
+.help-text {
+	font-size: 13px;
+	color: #6c757d;
+	margin-top: 8px;
+	line-height: 1.5;
+	padding: 12px 16px;
+	background: rgba(102, 126, 234, 0.05);
+	border-radius: 8px;
+	border-left: 3px solid #667eea;
+}
+
+#categoryTree {
+	padding: 50px !important;
+	overflow-y : auto;
+}
+
+#categoryTree .jstree-wholerow-ul {
+	font-size: 15px !important;
+	font-weight: 500 !important;
+	color: #21213b !important;
+}
+
+/* JSTree 기본 아이콘 완전 제거 */
+.jstree-default .jstree-icon {
+	display: none !important;
+}
+
+/* 텍스트 앞에 직접 아이콘 추가 */
+.jstree-default .jstree-anchor::before {
+	content: '' !important;
+	display: inline-block !important;
+	width: 32px !important;
+	height: 32px !important;
+	margin-right: 6px !important;
+	background-size: contain !important;
+	background-repeat: no-repeat;
+	vertical-align: middle;
+}
+
+/* 닫힌 폴더 */
+.jstree-default .jstree-closed>.jstree-anchor::before {
+	background-image: url(/resources/img/folder_icon.svg) !important;
+	margin-left: 20px !important;
+}
+
+/* 열린 폴더 */
+.jstree-default .jstree-open>.jstree-anchor::before {
+	background-image: url(/resources/img/folder_open_icon.svg) !important;
+	margin-left: 20px !important;
+}
+
+/* 파일 (잎 노드) */
+.jstree-default .jstree-leaf>.jstree-anchor::before {
+	background-image: url(/resources/img/file_icon.svg) !important;
+}
+
+.jstree-default .jstree-node {
+	min-height: 48px !important;
+}
+
+.jstree-default .jstree-anchor {
+	line-height: 48px !important;
+	height: 48px !important;
+}
+
+.jstree-default .jstree-wholerow {
+	height: 48px !important;
+}
+
+.jstree-default .jstree-wholerow-clicked {
+	background: #1a1696 !important;
+
+}
+
+.jstree-default .jstree-wholerow {
+	border-radius: 20px !important;
+}
+
+.jstree-default>.jstree-wholerow-ul .jstree-hovered,
+.jstree-default>.jstree-wholerow-ul .jstree-clicked {
+	color: #f9f9ff !important;
+}
+
+.jstree-default .jstree-wholerow-hovered {
+	background: #9DC3E6 !important;
+}
+
+.vakata-context,
+.vakata-context ul {
+	opacity: 1 !important;
+	position: absolute !important;
+	background: white !important;
+	border: 2px solid #e9ecef !important;
+	border-top: none !important;
+	border-radius: 0 0 8px 8px !important;
+	max-height: 200px !important;
+	overflow-y: auto !important;
+	z-index: 1000 !important;
+	visibility: visible !important;
+	transform: translateY(-10px) !important;
+	transition: opacity 0.01s ease, visibility 0.01s ease, transform 0.01s ease !important;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+	font-size:13px;
+}
+
+.vakata-context li>a:hover {
+	position: relative !important;
+	background-color: #eaf4ff !important;
+	box-shadow: 0 0 2px #e5f5ff !important;
+}
+
+.vakata-context .vakata-context-hover>a {
+	position: relative !important;
+	background-color: #eaf4ff !important;
+	box-shadow: 0 0 2px #e5f5ff !important;
+}
+
+/* 검색 결과 하이라이트 스타일 */
+.jstree-search {
+    background-color: #ffeb3b !important;
+    color: #000 !important;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 3px;
+    
+}
+
+/* 검색된 노드의 부모들도 보이도록 */
+.jstree-default .jstree-search {
+    padding-right:20px;
+    border-radius:3px !important;
+    background-color: rgb(255 249 38 / 15%) !important;
 }
 
 @media (max-width: 768px) {
 	.content .container .menu-title-con {
-	padding: 2px 0px;
-}
+		padding: 2px 0px;
+	}
 }

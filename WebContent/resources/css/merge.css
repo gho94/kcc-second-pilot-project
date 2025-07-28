@@ -386,17 +386,6 @@
 	user-select: none;
 }
 
-.help-text {
-	font-size: 13px;
-	color: #6c757d;
-	margin-top: 8px;
-	line-height: 1.5;
-	padding: 12px 16px;
-	background: rgba(102, 126, 234, 0.05);
-	border-radius: 8px;
-	border-left: 3px solid #667eea;
-}
-
 .custom-dropdown {
 	position: relative;
 	width: 100%;
