@@ -11,6 +11,7 @@
 <!DOCTYPE html>
 <html>
 <%@ page import="java.util.List"%>
+
 <%
 request.setAttribute("pageStyles", List.of("/resources/css/list.css"));
 %>
