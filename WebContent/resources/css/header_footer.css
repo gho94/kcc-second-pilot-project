@@ -31,6 +31,7 @@ header {
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
+	cursor:pointer;
 }
 
 .header-container .nav {
@@ -170,6 +171,10 @@ header {
 	font-size: 17px;
 }
 
+.header-container .menu-wrap.active-menu .menu-title {
+    border-bottom: 2px solid white;
+}
+
 .header-container .submenu {
 	border-radius: 10px;
 	display: none;
@@ -190,6 +195,11 @@ header {
 	color: #555;
 }
 
+.header-container .submenu a.active {
+	color: #3b3b9a;
+	font-weight: 600;
+}
+
 .header-container .submenu a:first-child {
 	padding-top: 20px;
 }
@@ -200,6 +210,7 @@ header {
 
 .header-container .submenu a:hover {
 	color: #3b82f6;
+	font-weight: 600;
 }
 
 .header-container .menu-wrap.active .submenu {
@@ -260,6 +271,11 @@ header {
 	color: #555;
 	text-decoration: none;
 	font-size: 14px;
+}
+
+.mobile-nav .submenu a.active {
+	color: #3b3b9a;
+	font-weight: 600;
 }
 
 .mobile-nav .submenu a:hover {
@@ -538,6 +554,7 @@ footer .wrapper .right .text-wrapper p {
 	.header-container .logo>div{
 		width:192px;
 		height:35px;
+		cursor:pointer;
 	}
 }
 
