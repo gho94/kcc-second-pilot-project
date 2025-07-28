@@ -112,9 +112,7 @@ List<Recipe> recipeList = (List<Recipe>) request.getAttribute("recipeList");
 			} else {
 			%>
 			<div class="empty-state">
-				<div class="empty-icon">📝</div>
 				<div class="empty-message">등록된 레시피가 없습니다</div>
-				<div class="empty-submessage">새로운 레시피를 등록해보세요</div>
 			</div>
 			<%
 			}

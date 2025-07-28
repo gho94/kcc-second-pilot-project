@@ -104,7 +104,6 @@
         </c:forEach>
     ];
     
-    console.log("재료 데이터 로드됨:", window.allIngredients);
 </script>
 
     <script src="/resources/js/recipe_insert.js"></script>

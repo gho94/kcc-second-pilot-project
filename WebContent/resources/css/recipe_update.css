@@ -70,7 +70,7 @@ body {
 
 /* 메뉴 정보 */
 .menu-info {
-  background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+  background: #f0f8ff;
   border-radius: 8px;
   padding: 16px 20px;
   border-left: 4px solid #9dc3e6;
@@ -104,7 +104,7 @@ body {
 }
 
 .recipe-table th {
-  background: linear-gradient(135deg, #9dc3e6 0%, #7bb3d9 100%);
+  background: #9dc3e6;
   color: white;
   padding: 16px 12px;
   text-align: center;
@@ -174,7 +174,7 @@ body {
 
 /* 버튼 스타일 */
 .add-ingredient-btn {
-  background: linear-gradient(135deg, #9dc3e6 0%, #7bb3d9 100%);
+  background: #9dc3e6;
   color: white;
   border: none;
   padding: 12px 20px;
@@ -190,6 +190,7 @@ body {
 }
 
 .add-ingredient-btn:hover {
+  background: #7bb3d9;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(157, 195, 230, 0.3);
 }
@@ -210,7 +211,7 @@ body {
 }
 
 .submit-btn {
-  background: linear-gradient(135deg, #9dc3e6 0%, #7bb3d9 100%);
+  background: #9dc3e6;
   color: white;
   border: none;
   padding: 14px 32px;
@@ -225,6 +226,7 @@ body {
 }
 
 .submit-btn:hover {
+  background: #7bb3d9;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(157, 195, 230, 0.3);
 }
@@ -254,7 +256,7 @@ body {
 
 /* 새 재료 행 스타일 */
 .new-ingredient-row {
-  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+  background: #f0fdf4;
   border-left: 3px solid #10b981;
 }
 
@@ -284,7 +286,7 @@ body {
   position: fixed;
   top: 20px;
   right: 20px;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: #10b981;
   color: white;
   padding: 12px 20px;
   border-radius: 6px;
@@ -300,7 +302,7 @@ body {
 }
 
 .toast.error {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  background: #ef4444;
   box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
 }
 

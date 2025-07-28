@@ -17,10 +17,7 @@
                 <span class="header-icon">✏️</span>
                 <h1 class="page-title">레시피 수정</h1>
             </div>
-            <a href="/recipe/list.do" class="back-btn">
-                <span class="btn-icon">←</span>
-                목록으로
-            </a>
+
         </div>
 
         <!-- 폼 컨테이너 -->
@@ -58,7 +55,7 @@
                                 </td>
                                 <td>
                                     <input type="text" name="unit" value="${item.unit}" 
-                                           class="field-input unit-display" />
+                                           class="field-input " />
                                 </td>
                                 <td>
                                     <input type="text" name="description" value="${item.description}" 
