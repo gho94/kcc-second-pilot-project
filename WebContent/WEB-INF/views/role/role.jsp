@@ -58,13 +58,13 @@ request.setAttribute("pageStyles", List.of("/resources/css/list.css"));
 								<td class="row">
 									<form action="/role/update.do" class="manage-btn-con col-lg-6">
 										<input type="hidden" name="roleId" value="${role.roleId}" />
-										<input type="submit" value="${editText}" />
+										<input type="submit" class="manage-btn update-btn" value="${editText}" />
 									</form>
 									<form action="/role/delete.do" method="post"
 										class="manage-btn-con col-lg-6"
 										onsubmit="return confirm('${confirmMsg}');">
 										<input type="hidden" name="roleId" value="${role.roleId}" />
-										<input type="submit" value="${deleteText}" />
+										<input type="submit" class="manage-btn delete-btn"value="${deleteText}" />
 									</form>
 								</td>
 							<tr>
