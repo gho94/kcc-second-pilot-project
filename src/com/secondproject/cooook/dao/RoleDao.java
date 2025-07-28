@@ -15,23 +15,48 @@ public class RoleDao {
 
 	private static final String tableName = "roles";
     private static final String subTableName = "role_feature";
+	private String locale = "_k";
+
+	public RoleDao() {	}
+
+	public RoleDao(String locale) {
+		this.locale = locale;
+	}
 
     // 역할 전체 조회
     public List<Role> getAllRoles() {
         List<Role> roleList = new ArrayList<>();
 
-        String sql = """
-        			SELECT
-        				r.role_id, r.role_name, r.description,
-        				LISTAGG(f.feature_code, ''', ''') WITHIN GROUP (ORDER BY f.feature_code) AS features
-        			FROM {0} r
-        			LEFT OUTER JOIN role_feature f ON f.role_id = r.role_id
-        			WHERE r.deleted_at IS NULL
-        			GROUP BY r.role_id, r.role_name, r.description
-        			ORDER BY r.role_id
-        		""";
+        // String sql = """
+        // 			SELECT
+        // 				r.role_id, r.role_name, r.description,
+        // 				LISTAGG(f.feature_code, ''', ''') WITHIN GROUP (ORDER BY f.feature_code) AS features
+        // 			FROM {0} r
+        // 			LEFT OUTER JOIN role_feature f ON f.role_id = r.role_id
+        // 			WHERE r.deleted_at IS NULL
+        // 			GROUP BY r.role_id, r.role_name, r.description
+        // 			ORDER BY r.role_id
+        // 		""";
+		String sql = """
+					SELECT
+                        r.role_id,
+                        COALESCE(r.role_name{1}, r.role_name) AS role_name,
+                        r.description,
+                        f.features
+                    FROM {0} r
+                    LEFT JOIN (
+                        SELECT 
+                            f.role_id,
+                            LISTAGG(f.feature_code, ''', ''') WITHIN GROUP (ORDER BY f.feature_code) AS features
+                        FROM role_feature f
+                        GROUP BY f.role_id
+                    ) f ON f.role_id = r.role_id
+                    WHERE r.deleted_at IS NULL
+                    ORDER BY r.role_id
+				""";
         
-        sql = MessageFormat.format(sql, tableName);
+        sql = MessageFormat.format(sql, tableName, locale);
+        System.out.println(sql);
 
         try (Connection connection = DatabaseManager.getConnection();
         	PreparedStatement stmt = connection.prepareStatement(sql)
@@ -57,19 +82,37 @@ public class RoleDao {
     public Role getRoleByRoleId(int roleId) {
         Role role = new Role();
 
-        String sql = """
-        			SELECT
-        				r.role_id, r.role_name, r.description,
-        				LISTAGG(f.feature_code, ''', ''') WITHIN GROUP (ORDER BY f.feature_code) AS features
-        			FROM {0} r
-        			LEFT OUTER JOIN role_feature f ON f.role_id = r.role_id
-        			WHERE r.deleted_at IS NULL
-        			AND r.role_id = ?
-        			GROUP BY r.role_id, r.role_name, r.description
-        			ORDER BY r.role_id
-        		""";
+        // String sql = """
+        // 			SELECT
+        // 				r.role_id, r.role_name, r.description,
+        // 				LISTAGG(f.feature_code, ''', ''') WITHIN GROUP (ORDER BY f.feature_code) AS features
+        // 			FROM {0} r
+        // 			LEFT OUTER JOIN role_feature f ON f.role_id = r.role_id
+        // 			WHERE r.deleted_at IS NULL
+        // 			AND r.role_id = ?
+        // 			GROUP BY r.role_id, r.role_name, r.description
+        // 			ORDER BY r.role_id
+        // 		""";
+		String sql = """
+					SELECT
+                        r.role_id,
+                        COALESCE(r.role_name{1}, r.role_name) AS role_name,
+                        r.description,
+                        f.features
+                    FROM {0} r
+                    LEFT JOIN (
+                        SELECT 
+                            f.role_id,
+                            LISTAGG(f.feature_code, ''', ''') WITHIN GROUP (ORDER BY f.feature_code) AS features
+                        FROM role_feature f
+                        GROUP BY f.role_id
+                    ) f ON f.role_id = r.role_id
+                    WHERE r.deleted_at IS NULL
+                    AND r.role_id = ?
+                    ORDER BY r.role_id
+				""";
         
-        sql = MessageFormat.format(sql, tableName);
+        sql = MessageFormat.format(sql, tableName, locale);
 
         try (Connection connection = DatabaseManager.getConnection();
         	PreparedStatement stmt = connection.prepareStatement(sql)
@@ -114,12 +157,12 @@ public class RoleDao {
     public void insertRole(Role role, List<String> featureCodes) {
 		String sql = """
 					INSERT INTO {0} (
-						role_id, role_name, description
+						role_id, role_name, role_name{1}, description
 					) VALUES (
-						ROLE_SEQ.NEXTVAL, ?, ?
+						ROLE_SEQ.NEXTVAL, ?, ?, ?
 					)					
 				""";
-        sql = MessageFormat.format(sql, tableName);
+        sql = MessageFormat.format(sql, tableName, locale);
 
 		String sql2 = """
 					INSERT INTO {0} (
@@ -141,7 +184,8 @@ public class RoleDao {
 			
 			statement = connection.prepareStatement(sql, new String[] {"role_id"});
 			statement.setString(1, role.getRoleName());
-			statement.setString(2, role.getDescription());
+			statement.setString(2, role.getRoleName());
+			statement.setString(3, role.getDescription());
 			
 			statement.executeUpdate();
 			
@@ -231,10 +275,11 @@ public class RoleDao {
 		String sql = """
 					UPDATE {0} 
 					SET role_name = ?,
+						role_name{1} = ?,
 						description = ?
 					WHERE role_id = ?
 				""";
-		sql = MessageFormat.format(sql, tableName);
+		sql = MessageFormat.format(sql, tableName, locale);
 		
 		String sql2 = """
 					DELETE FROM {0}
@@ -261,9 +306,10 @@ public class RoleDao {
 			connection.setAutoCommit(false);
 				
 			statement = connection.prepareStatement(sql);
-			statement.setString(1, role.getRoleName());
-			statement.setString(2, role.getDescription());
-			statement.setInt(3, role.getRoleId());
+			statement.setString(1, role.getRoleName());	
+			statement.setString(2, role.getRoleName());
+			statement.setString(3, role.getDescription());
+			statement.setInt(4, role.getRoleId());
 			
 			statement.executeUpdate();
 			

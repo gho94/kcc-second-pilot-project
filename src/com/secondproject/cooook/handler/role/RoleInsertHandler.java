@@ -2,11 +2,13 @@ package com.secondproject.cooook.handler.role;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.secondproject.cooook.common.LocaleUtil;
 import com.secondproject.cooook.common.RoleFeatureCode;
 import com.secondproject.cooook.dao.RoleDao;
 import com.secondproject.cooook.handler.CommandHandler;
@@ -38,8 +40,11 @@ public class RoleInsertHandler implements CommandHandler {
 	    List<String> featureCodes = Arrays.stream(featureCodesStr.split(","))
                 .map(string -> string.trim())
                 .collect(Collectors.toList());
+
+		Locale locale = (Locale) request.getSession().getAttribute("locale");
+		String localeStr = LocaleUtil.getLocale(locale);
 	    
-        RoleDao dao = new RoleDao();
+        RoleDao dao = new RoleDao(localeStr);
         
         dao.insertRole(role, featureCodes);
 
