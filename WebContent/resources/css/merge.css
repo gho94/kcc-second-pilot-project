@@ -664,6 +664,38 @@
 }
 
 
+#categoryTree {
+    padding: 10px !important;
+    max-height: 510px;
+    overflow-y: auto;
+        outline: none;
+    box-shadow: 0 0 0 3px rgba(157, 195, 230, 0.1);
+    border: 2px solid #9dc3e6;
+    border-radius: 8px;
+}
+
+#categoryTree .jstree-wholerow-ul {
+	font-size: 14px !important;
+}
+
+.jstree-default .jstree-anchor::before {
+	width: 23px !important;
+	height: 23px !important;
+}
+
+.jstree-default .jstree-node {
+	min-height: 30px !important;
+}
+
+.jstree-default .jstree-anchor {
+	line-height: 30px !important;
+	height: 30px !important;
+}
+
+.jstree-default .jstree-wholerow {
+	height: 30px !important;
+}
+
 /* 성공 메시지 스타일 */
 .success-message {
 	position: fixed;
