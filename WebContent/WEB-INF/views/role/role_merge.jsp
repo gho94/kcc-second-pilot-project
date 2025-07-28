@@ -67,8 +67,7 @@ pageEncoding="UTF-8"%>
                         <input type="text"
                                class="form-input"
                                name="description"
-                               placeholder="이름을 입력해주세요"
-                               data-valid="이름을 입력해주세요"
+                               placeholder="설명을 입력해주세요"
                                value="${role.description}"/>
                     </div>
                 </div>

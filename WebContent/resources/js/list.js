@@ -27,46 +27,77 @@ if (menuName == "staff") {
 	    </tr>
 	  `).join('');
     }
-	
-	function filterData(allData, searchTerm){
-	    return allData.filter(employee =>
-	        employee.name.toLowerCase().includes(searchTerm) ||
-	        employee.email.toLowerCase().includes(searchTerm) ||
-	        employee.phone.includes(searchTerm)
-	    );
-	}
+
+    function filterData(allData, searchTerm) {
+        return allData.filter(employee =>
+            employee.name.toLowerCase().includes(searchTerm) ||
+            employee.email.toLowerCase().includes(searchTerm) ||
+            employee.phone.includes(searchTerm)
+        );
+    }
 } else if (menuName == "role") {
     function generateRows(roles) {
         return roles.map(role => `
 		<tr>
-					<td>${role.id}</td>
-					<td>${role.name}</td>
-					<td>${role.description}</td>
-					<td>${role.featureNames}</td>
-					<td class="row">
-						<form action="/role/update.do" class="manage-btn-con col-lg-6">
-							<input type="hidden" name="roleId" value="${role.id}" />
-							<span class="manage-btn update-btn"><input type="submit" value="수정"/></span>
-						</form>
-						<form action="/role/delete.do" method="post" class="manage-btn-con col-lg-6" onsubmit="return confirm('정말 삭제하시겠습니까?');">
-							<input type="hidden" name="roleId" value="${role.id}" />
-							<span class="manage-btn delete-btn"><input type="submit" value="삭제"/></span>
-						</form>
-					</td>					     
+			<td>${role.id}</td>
+			<td>${role.name}</td>
+			<td>${role.description}</td>
+			<td>${role.featureNames}</td>
+			<td class="row">
+				<form action="/role/update.do" class="manage-btn-con col-lg-6">
+					<input type="hidden" name="roleId" value="${role.id}" />
+					<span class="manage-btn update-btn"><input type="submit" value="수정"/></span>
+				</form>
+				<form action="/role/delete.do" method="post" class="manage-btn-con col-lg-6" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+					<input type="hidden" name="roleId" value="${role.id}" />
+					<span class="manage-btn delete-btn"><input type="submit" value="삭제"/></span>
+				</form>
+			</td>					     
 				<tr>
 	  `).join('');
     }
-	
-	function filterData(allData, searchTerm){
-	    return allData.filter(role =>
-	        role.name.toLowerCase().includes(searchTerm) ||
-	        role.description.toLowerCase().includes(searchTerm) ||
-	        role.featureNames.toLowerCase().includes(searchTerm)
-	    );
-	}
+
+    function filterData(allData, searchTerm) {
+        return allData.filter(role =>
+            role.name.toLowerCase().includes(searchTerm) ||
+            role.description.toLowerCase().includes(searchTerm) ||
+            role.featureNames.toLowerCase().includes(searchTerm)
+        );
+    }
+} else if (menuName == "order") {
+    function generateRows(orders) {
+        return orders.map(order => `
+			<tr>
+			    <td>${order.id}</td>
+			    <td>${order.name}</td>
+			    <td>${(+order.quantity).toLocaleString()}</td>
+			    <td>₩${(+order.totalPrice).toLocaleString()}</td>
+				<td>${order.staffName}</td>
+			    <td>${order.createdAt}</td>
+			    <td class="row">
+			        <form action="/order/update.do" class="manage-btn-con col-lg-6">
+			            <input type="hidden" name="orderId" value="${order.id}"/>
+			            <span class="manage-btn update-btn"><input type="submit" value="수정"/></span>
+			        </form>
+			        <form action="/order/delete.do" method="post" class="manage-btn-con col-lg-6"
+			              onsubmit="return confirm('정말 삭제하시겠습니까?');">
+			            <input type="hidden" name="orderId" value="${order.id}"/>
+			            <span class="manage-btn delete-btn"><input type="submit" value="삭제"/></span>
+			        </form>
+			    </td>
+			</tr>
+	  `).join('');
+    }
+
+    function filterData(allData, searchTerm) {
+        return allData.filter(order =>
+            order.name.toLowerCase().includes(searchTerm) ||
+            order.staffName.toLowerCase().includes(searchTerm) ||
+            order.totalPrice.toLowerCase().includes(searchTerm)
+        );
+    }
 } else {
 
-    //음
 }
 // JSP에서 전달받은 데이터 사용
 const allData = window.saveData || [];
