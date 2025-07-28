@@ -51,11 +51,11 @@ public class LoginHandler implements CommandHandler {
 	private String getMenuUrl(String code) {
 	    switch (code) {
 	        case "WORKER_MANAGE": 			return "/staff.do";
-	        case "ROLE_MANAGE": 			return "/order/list.do";
-	        case "ORDER_MANAGE": 			return "/menu/list.do";
+	        case "ROLE_MANAGE": 			return "/role.do";
+	        case "ORDER_MANAGE": 			return "/order.do";
 	        case "MATERIAL_MANAGE": 		return "/menu/list.do";
-	        case "CATEGORY_MANAGE": 		return "/menu/list.do";
-	        case "MENU_MANAGE": 			return "/menu/list.do";
+	        case "CATEGORY_MANAGE": 		return "/category.do";
+	        case "MENU_MANAGE": 			return "/menu.do";
 	        case "MENU_CATEGORY_MANAGE": 	return "/menu/list.do";
 	        default: 						return "#";
 	    }

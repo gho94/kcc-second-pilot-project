@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.secondproject.cooook.dao.RoleDao;
-import com.secondproject.cooook.dao.StaffDao;
 import com.secondproject.cooook.handler.CommandHandler;
 
 public class RoleDeleteHandler implements CommandHandler {
