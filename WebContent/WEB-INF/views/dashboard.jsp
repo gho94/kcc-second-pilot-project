@@ -20,7 +20,7 @@ request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
 					</div>
 					<div class="col-6 text-end">
 						<div class="btn generate-btn">
-							<i class="fas fa-chart-line me-2"></i>2025년 7월 24일
+							<i class="fas fa-chart-line me-2"></i><fmt:formatDate value="${dashboard.today}" pattern="YYYY년  MM월 dd일"/>							
 						</div>
 					</div>
 				</div>
@@ -34,28 +34,28 @@ request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
 					<div class="col-xl-3 col-md-6 mb-4">
 						<div class="stat-card earnings-monthly">
 							<div class="stat-label">주문 수</div>
-							<div class="stat-value">100건</div>
+							<div class="stat-value">${dashboard.orderCount}</div>
 							<i class="fas fa-calendar-alt stat-icon"></i>
 						</div>
 					</div>
 					<div class="col-xl-3 col-md-6 mb-4">
 						<div class="stat-card earnings-annual">
 							<div class="stat-label">레시피 수</div>
-							<div class="stat-value">200건</div>
+							<div class="stat-value">${dashboard.recipeCount}</div>
 							<i class="fas fa-dollar-sign stat-icon"></i>
 						</div>
 					</div>
 					<div class="col-xl-3 col-md-6 mb-4">
 						<div class="stat-card tasks">
 							<div class="stat-label">메뉴 수</div>
-							<div class="stat-value">190건</div>
+							<div class="stat-value">${dashboard.menuCount}</div>
 							<i class="fas fa-tasks stat-icon"></i>
 						</div>
 					</div>
 					<div class="col-xl-3 col-md-6 mb-4">
 						<div class="stat-card pending">
 							<div class="stat-label">카테고리 수</div>
-							<div class="stat-value">179건</div>
+							<div class="stat-value">${dashboard.categoryCount}</div>
 							<i class="fas fa-clock stat-icon"></i>
 						</div>
 					</div>
@@ -89,31 +89,13 @@ request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td class="menu-name">김밥 세트</td>
-												<td class="menu-price">₩8,500</td>
-												<td class="menu-date">2025.01.23</td>
-											</tr>
-											<tr>
-												<td class="menu-name">비빔밥</td>
-												<td class="menu-price">₩9,000</td>
-												<td class="menu-date">2025.01.22</td>
-											</tr>
-											<tr>
-												<td class="menu-name">된장찌개</td>
-												<td class="menu-price">₩7,000</td>
-												<td class="menu-date">2025.01.21</td>
-											</tr>
-											<tr>
-												<td class="menu-name">불고기 덮밥</td>
-												<td class="menu-price">₩10,500</td>
-												<td class="menu-date">2025.01.20</td>
-											</tr>
-											<tr>
-												<td class="menu-name">치킨 마요 김밥</td>
-												<td class="menu-price">₩6,500</td>
-												<td class="menu-date">2025.01.19</td>
-											</tr>
+											<c:forEach var="menu" items="${dashboard.menus}">
+												<tr>
+													<td class="menu-name">${menu.menuName}</td>
+													<td class="menu-price"><fmt:formatNumber value="${menu.price}" type="number" pattern="#,###" /></td>
+													<td class="menu-date"><fmt:formatDate value="${menu.createdAt}" pattern="YYYY.MM.dd"/></td>
+												</tr>
+											</c:forEach>
 										</tbody>
 									</table>
 								</div>
@@ -123,7 +105,7 @@ request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
 						<div class="chart-card ad-info">
 							<div class="chart-title">
 								광고 <i class="fas fa-ellipsis-v chart-menu"></i>
-							</div>
+							</div> 
 							<div class="ad-img-con">
 								<div class="ad-img"></div>
 							</div>
@@ -147,14 +129,25 @@ request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
 		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 	<script>
         // Earnings Overview 차트
+        const totalEarnings = ${dashboard.totalEarnings};
+
+        const labels = [];
+        const earningsData = [];
+
+        totalEarnings.forEach(item => {
+            labels.push(item.day);
+            earningsData.push(item.earnings);
+        });
+        
+        console.log(totalEarnings);
         const earningsCtx = document.getElementById('earningsChart').getContext('2d');
         const earningsChart = new Chart(earningsCtx, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                labels: labels,
                 datasets: [{
                     label: 'Earnings',
-                    data: [0, 10000, 5000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 40000],
+                    data: earningsData,
                     borderColor: '#74b9ff',
                     backgroundColor: 'rgba(116, 185, 255, 0.1)',
                     borderWidth: 3,
@@ -191,7 +184,7 @@ request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
                         ticks: {
                             color: '#6c757d',
                             callback: function(value) {
-                                return '$' + value.toLocaleString();
+                                return value.toLocaleString();
                             }
                         }
                     }

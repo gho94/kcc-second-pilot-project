@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.secondproject.cooook.common.RoleFeatureCode;
+import com.secondproject.cooook.dao.DashboardDao;
 import com.secondproject.cooook.dao.RoleDao;
 import com.secondproject.cooook.dao.StaffDao;
 import com.secondproject.cooook.handler.CommandHandler;
+import com.secondproject.cooook.model.Dashboard;
 import com.secondproject.cooook.model.Staff;
 
 public class LoginHandler implements CommandHandler {
@@ -44,6 +46,11 @@ public class LoginHandler implements CommandHandler {
 		Map<String, String> menuMap = roleDao.getFeaturesByRoleId(staff.getRoleId()).stream().collect(Collectors
 				.toMap(code -> RoleFeatureCode.FEATURE_NAME_MAP.getOrDefault(code, code), code -> getMenuUrl(code)));
 		newSession.setAttribute("menuMap", menuMap);
+		
+		DashboardDao dashboardDao = new DashboardDao();
+		Dashboard dashboard = dashboardDao.selectDashboard();
+		
+		newSession.setAttribute("dashboard", dashboard);
 
 		return "redirect:/";
 	}
