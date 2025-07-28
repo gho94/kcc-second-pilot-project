@@ -10,5 +10,6 @@ public class Menu {
     private String menuName;
     private int price;
     private int categoryId;
+    private String categoryName;
     private Date createdAt;
 }

@@ -9,10 +9,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.secondproject.cooook.dao.CategoryDao;
+import com.secondproject.cooook.dao.MenuCategoryDao;
 import com.secondproject.cooook.dao.MenuDao;
 import com.secondproject.cooook.handler.CommandHandler;
 import com.secondproject.cooook.model.Category;
 import com.secondproject.cooook.model.Menu;
+import com.secondproject.cooook.model.MenuCategory;
 
 public class MenuInsertHandler implements CommandHandler {
 
@@ -42,16 +44,22 @@ public class MenuInsertHandler implements CommandHandler {
 		}
 		
 		Menu menu  = new Menu();
+		MenuCategory menuCategory  = new MenuCategory();
 		
 		String menuName = request.getParameter("menuName");
 		int price = Integer.parseInt(request.getParameter("price"));
-		int categoryId = Integer.parseInt(request.getParameter("categoryId"));
 		
 		menu.setMenuName(menuName);
 		menu.setPrice(price);
 		
 		MenuDao dao = new MenuDao();
-		dao.insertMenu(menu);
+		int menuId = dao.insertMenu(menu);
+		int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+		
+		MenuCategoryDao cdao = new MenuCategoryDao();
+		menuCategory.setMenuId(menuId);
+		menuCategory.setCategoryId(categoryId);
+		cdao.insertMenuCategory(menuCategory);
 		
 		return "redirect:/menu.do";
 	}

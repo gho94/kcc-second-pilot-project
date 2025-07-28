@@ -16,37 +16,12 @@ public class CategoryUpdateHandler2 implements CommandHandler {
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) {
-		String method = request.getMethod();
-		
-		if ("GET".equalsIgnoreCase(method)) {
-	        CategoryDao dao = new CategoryDao();
-	        List<Category> categories = dao.selectCategory();
-	        
-	        JSONArray jsonArray = new JSONArray();
-	        for (Category category : categories) {
-	            JSONObject node = new JSONObject();
-	            
-	            node.put("id", category.getCategoryId());
-	            node.put("text", category.getCategoryName());
-	            node.put("parent", category.getParentId() == null ? "#" : String.valueOf(category.getParentId()));
-	            jsonArray.put(node);
-	        }
-
-	        request.setAttribute("categoryTree", jsonArray.toString());
-			request.setAttribute("action", "update");
-			request.setAttribute("category", new Category());
-
-	        return "category/category_merge.jsp";
-		}
-
 		String action = request.getParameter("action");
-		if ("merge".equalsIgnoreCase(action)) {
-			String moveNodeId = request.getParameter("moveNodeId");
-			String newParentIdStr = request.getParameter("newParentId");
-
-			int parentId = "#".equalsIgnoreCase(newParentIdStr) ? 0 : Integer.parseInt(newParentIdStr);
-			int categoryId = Integer.parseInt(moveNodeId);
-
+		if ("move".equalsIgnoreCase(action)) {
+			int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+			String parentIdStr = request.getParameter("parentId");
+			int parentId = "#".equalsIgnoreCase(parentIdStr) ? 0 : Integer.parseInt(parentIdStr);
+			
 			Category category = new Category();
 			category.setCategoryId(categoryId);
 			category.setParentId(parentId);
@@ -60,8 +35,7 @@ public class CategoryUpdateHandler2 implements CommandHandler {
 		Category category  = new Category();
 		
 		String categoryName = request.getParameter("categoryName");
-		String parentIdStr = request.getParameter("parentId");
-		int categoryId = parentIdStr.isBlank() ? 0 : Integer.parseInt(parentIdStr);
+		int categoryId = Integer.parseInt(request.getParameter("categoryId"));
 
 		category.setCategoryName(categoryName);
 		category.setCategoryId(categoryId);
