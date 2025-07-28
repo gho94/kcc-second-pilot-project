@@ -127,7 +127,7 @@ request.setAttribute("pageStyles", List.of("/resources/css/merge.css"));
 					<input type="hidden" name="changePasswordFlag" id="changePasswordFlag" value="false">
                     <input type="hidden" name="staffId" value="${staff.staffId}"/>
                     <input type="submit" class="btn btn-primary" value="저장하기">
-                    <input type="button" class="btn btn-cancel" onclick="history.back();" value="목록으로">
+                    <input type="button" class="btn btn-cancel" onclick="window.location.href = window.location.href.replace(/\/(insert|update)\.do/, '.do')" value="목록으로">
                 </div>
             </form>
         </div>

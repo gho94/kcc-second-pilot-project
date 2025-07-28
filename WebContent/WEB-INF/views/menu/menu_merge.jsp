@@ -4,7 +4,10 @@ pageEncoding="UTF-8"%>
 <html>
 <%@ page import="java.util.List" %>
 <%
-request.setAttribute("pageStyles", List.of("/resources/css/merge.css"));
+request.setAttribute("pageStyles", List.of( "https://cdn.jsdelivr.net/npm/jstree@3.3.12/dist/themes/default/style.min.css","/resources/css/merge.css"));
+request.setAttribute("pageScripts", List.of(
+       "https://cdn.jsdelivr.net/npm/jstree@3.3.12/dist/jstree.min.js"
+   ));
 %>
 <%@ include file="/WEB-INF/views/head.jsp"%>
 <body>
@@ -23,6 +26,15 @@ request.setAttribute("pageStyles", List.of("/resources/css/merge.css"));
         </c:if>
         <div class="form-con">
             <form action="${menu_do}" method="post">
+				<div class="form-row">
+				                   <div class="form-group full-width">
+				                       <label class="form-label">카테고리 <span class="required">*</span></label>
+									   <div id="categoryTree"></div>
+									   <input type="hidden" name="categoryId" value="${menu.categoryId == 0 ? '' : menu.categoryId}" data-valid="카테고리를 선택해주세요"/>
+				                   </div>
+				               </div>
+				
+				
                 <div class="form-row">
                     <div class="form-group full-width">
                         <label class="form-label">메뉴명 <span class="required">*</span></label>
@@ -49,7 +61,7 @@ request.setAttribute("pageStyles", List.of("/resources/css/merge.css"));
                 <div class="page-actions">
                     <input type="hidden" name="menuId" value="${menu.menuId}"/>
                     <input type="submit" class="btn btn-primary" value="저장하기">
-                    <input type="button" class="btn btn-cancel" onclick="history.back();" value="목록으로">
+                    <input type="button" class="btn btn-cancel" onclick="window.location.href = window.location.href.replace(/\/(insert|update)\.do/, '.do')" value="목록으로">
                 </div>
             </form>
         </div>
@@ -57,5 +69,11 @@ request.setAttribute("pageStyles", List.of("/resources/css/merge.css"));
 </div>
 <%@ include file="/WEB-INF/views/footer.jsp"%>
 <script src="/resources/js/merge.js"></script>
+<script src="/resources/js/category.js"></script>
+<script>
+	window.treeData = <%= request.getAttribute("categoryTree") %>;
+	window.isContextMenuEnabled = false;
+	window.selectedCategoryId = ${menu.categoryId};
+</script>
 </body>
 </html>

@@ -202,12 +202,11 @@ public class MenuCategoryDao {
     }
 
     public int updateMenuCategory(MenuCategory menuCategory, int newCategoryId) {
-        String sql = "UPDATE MENU_CATEGORY SET CATEGORY_ID = ? WHERE MENU_ID = ? AND CATEGORY_ID = ?";
+        String sql = "UPDATE MENU_CATEGORY SET CATEGORY_ID = ? WHERE MENU_ID = ?";
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, newCategoryId);
             pstmt.setInt(2, menuCategory.getMenuId());
-            pstmt.setInt(3, menuCategory.getCategoryId());
             return pstmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("❌ 메뉴-카테고리 연결 수정 중 오류: " + e.getMessage());

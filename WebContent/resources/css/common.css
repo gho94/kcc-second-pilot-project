@@ -171,7 +171,7 @@ pre {
 
 /* 파일 (잎 노드) */
 .jstree-default .jstree-leaf>.jstree-anchor::before {
-	background-image: url(/resources/img/file_icon.svg) !important;
+	background-image: url(/resources/img/folder_icon.svg) !important;
 }
 
 .jstree-default .jstree-node {
