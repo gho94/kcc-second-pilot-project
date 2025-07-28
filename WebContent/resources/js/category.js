@@ -20,23 +20,23 @@ $(function() {
 			'items': function(node) {
 				return window.isContextMenuEnabled ? {
 					'expand': {
-						'label': '펼치기',
+						'label': 'expand',
 						'action': () => expandChildren(node)
 					},
 					'collapse': {
-						'label': '접기',
+						'label': 'collapse',
 						'action': () => collapseChildren(node)
 					},
 					'add': {
-						'label': '추가',
+						'label': 'add',
 						'action': () => addCategory(node)
 					},
 					'edit': {
-						'label': '수정',
+						'label': 'edit',
 						'action': () => editCategory(node)
 					},
 					'delete': {
-						'label': '삭제',
+						'label': 'delete',
 						'action': () => deleteNode(node)
 					}
 				} : null;;
