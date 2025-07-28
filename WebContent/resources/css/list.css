@@ -224,6 +224,7 @@
 	box-shadow: none;
 }
 
+
 @media ( max-width : 768px) {
 	.list-content .controls {
 		flex-direction: column;
@@ -255,3 +256,4 @@
         display: none;
     }
 }
+
