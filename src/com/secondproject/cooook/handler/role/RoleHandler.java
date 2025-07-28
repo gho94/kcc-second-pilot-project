@@ -1,11 +1,13 @@
 package com.secondproject.cooook.handler.role;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.secondproject.cooook.common.LocaleUtil;
 import com.secondproject.cooook.common.RoleFeatureCode;
 import com.secondproject.cooook.dao.RoleDao;
 import com.secondproject.cooook.handler.CommandHandler;
@@ -15,8 +17,11 @@ public class RoleHandler implements CommandHandler {
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) {
-		RoleDao dao = new RoleDao();
-		
+		Locale locale = (Locale) request.getSession().getAttribute("locale");
+		String localeStr = LocaleUtil.getLocale(locale);
+	    
+        RoleDao dao = new RoleDao(localeStr);
+        
 		List<Role> roles = dao.getAllRoles().stream()
 				.map(role -> {
 					String featureNames = RoleFeatureCode.convertFeatureCodesToNames(role.getFeatureCodes());
