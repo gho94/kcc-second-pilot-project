@@ -146,7 +146,7 @@ pageEncoding="UTF-8"%>
 							</span>
                             <span class="select-arrow">▼</span>
                         </button>
-                        <input type="hidden" data-valid="권한을 선택해주세요" name="role_id" id="roleId" value="${staff.roleId}"/>
+                        <input type="hidden" data-valid="권한을 선택해주세요" name="roleId" id="roleId" value="${staff.roleId}"/>
                     </div>
                 </div>
                 <div class="page-actions">

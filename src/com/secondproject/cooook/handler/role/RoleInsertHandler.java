@@ -1,5 +1,9 @@
 package com.secondproject.cooook.handler.role;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,13 +31,17 @@ public class RoleInsertHandler implements CommandHandler {
 	    
 	    String roleName = request.getParameter("roleName");
 	    String description = request.getParameter("description");
+	    String featureCodesStr = request.getParameter("featureCodes");
 	    
 	    role.setRoleName(roleName);
-	    role.setDescription(description);
-	    	    
-        String[] selectedValues = request.getParameterValues("roleList");
+	    role.setDescription(description);	    
+	    List<String> featureCodes = Arrays.stream(featureCodesStr.split(","))
+                .map(string -> string.trim())
+                .collect(Collectors.toList());
+	    
         RoleDao dao = new RoleDao();
-        dao.insertRole(role, selectedValues);
+        
+        dao.insertRole(role, featureCodes);
 
 		return "redirect:/role.do";
 	}
