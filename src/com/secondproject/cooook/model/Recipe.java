@@ -13,5 +13,6 @@ public class Recipe {
 	private String unit;         // "g"
 	private String description;  // "국산 돼지고기"
 	private String ingredientName; // JOIN된 CATEGORY_NAME (출력용)
+	private int ingredientId; // JOIN된 CATEGORY_NAME (출력용)
 
 }

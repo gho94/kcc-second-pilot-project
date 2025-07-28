@@ -7,14 +7,21 @@ import com.secondproject.cooook.handler.CommandHandler;
 import com.secondproject.cooook.dao.RecipeDao;
 
 public class RecipeDeleteHandler implements CommandHandler {
+    private RecipeDao recipeDao = new RecipeDao();
+
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) {
-        String idParam = request.getParameter("recipeId");
-        if (idParam != null && !idParam.isBlank()) {
-            int recipeId = Integer.parseInt(idParam);
-            new RecipeDao().deleteRecipe(recipeId);
+        // 1) menuId 파라미터 획득
+        String menuIdParam = request.getParameter("menuId");
+        if (menuIdParam != null && !menuIdParam.isBlank()) {
+            int menuId = Integer.parseInt(menuIdParam);
+
+            // 2) 해당 메뉴에 속한 모든 레시피 일괄 삭제
+            int deletedCount = recipeDao.deleteRecipesByMenuId(menuId);
+            System.out.println("메뉴 ID " + menuId + "의 레시피 " + deletedCount + "건 삭제 완료");
         }
-        // 삭제 후 목록으로 리다이렉트
+
+        // 3) 삭제 후 레시피 목록으로 리다이렉트
         return "redirect:/recipe/list.do";
     }
 }

@@ -16,7 +16,6 @@ public class RecipeListHandler implements CommandHandler {
         // 검색어 파라미터
         String menuNameParam = request.getParameter("menuName");
         List<Recipe> recipeList;
-
         if (menuNameParam != null && !menuNameParam.isBlank()) {
             // 메뉴명 포함 검색
             recipeList = dao.selectByMenuName(menuNameParam);
@@ -24,6 +23,7 @@ public class RecipeListHandler implements CommandHandler {
         } else {
             // 전체 조회
             recipeList = dao.selectAllRecipes();
+
         }
 
         // 뷰로 전달
