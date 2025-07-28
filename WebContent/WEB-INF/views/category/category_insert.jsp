@@ -1,3 +1,6 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : pageContext.request.locale}" />
+<fmt:setBundle basename="Menu" />
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.*" %>
 <%@ page import="com.secondproject.cooook.model.Category" %>
@@ -10,7 +13,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>카테고리 등록</title>
+    <title>카테고리 <fmt:message key="등록" /></title>
     <link rel="stylesheet" href="/resources/css/category_insert.css" />
 
     <script>
@@ -40,7 +43,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>카테고리 등록</h2>
+        <h2>카테고리 <fmt:message key="등록" /></h2>
 
         <div class="tree-section">
             <h3>📂 카테고리 트리 (상위 카테고리 선택)</h3>
@@ -78,8 +81,8 @@
                         } else {
                     %>
                         <li class="empty-tree">
-                            등록된 카테고리가 없습니다.<br>
-                            첫 번째 카테고리를 등록해보세요!
+                            <fmt:message key="등록" />된 카테고리가 없습니다.<br>
+                            첫 번째 카테고리를 <fmt:message key="등록" />해보세요!
                         </li>
                     <%
                         }
@@ -98,7 +101,7 @@
                 <div class="input-box">
                     <label class="input-label">선택된 상위 카테고리</label>
                     <div class="selected-path empty" id="selectedCategoryPath">
-                        최상위 카테고리로 등록됩니다
+                        최상위 카테고리로 <fmt:message key="등록" />됩니다
                     </div>
                     <div style="margin-top: 10px; text-align: center;">
                         <button type="button" onclick="clearSelection()" 
@@ -115,7 +118,7 @@
                            id="categoryName"
                            name="categoryName" 
                            class="form-input"
-                           placeholder="등록할 카테고리명을 입력하세요" 
+                           placeholder="<fmt:message key="등록" />할 카테고리명을 입력하세요" 
                            maxlength="50" 
                            required>
                     <div style="margin-top: 8px; font-size: 12px; color: #6c757d;">
@@ -129,8 +132,8 @@
                 <input type="hidden" name="categoryName" id="hiddenCategoryName" value="">
                 
                 <div class="button-group">
-                    <button type="submit" class="btn btn-primary" onclick="syncFormData()">등록</button>
-                    <button type="button" class="btn btn-secondary" onclick="location.href='category.do'">취소</button>
+                    <button type="submit" class="btn btn-primary" onclick="syncFormData()"><fmt:message key="등록" /></button>
+                    <button type="button" class="btn btn-secondary" onclick="location.href='category.do'"><fmt:message key="취소" /></button>
                 </div>
             </form>
         </div>

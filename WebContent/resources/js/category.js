@@ -14,32 +14,33 @@ $(function () {
             'search_leaves_only': false,   // 잎 노드뿐만 아니라 모든 노드 검색
             'fuzzy': false                 // 정확한 매칭
         },
-        'contextmenu': {
-            'items': function (node) {
-                return {
-					'expand': {
-					    'label': '펼치기',
-					    'action': () => expandChildren(node)
-					},
-					'collapse': {
-					    'label': '접기',
-					    'action': () => collapseChildren(node)
-					},
-					'add': {
-					    'label': '추가',
-					    'action': () => addCategory(node)
-					},
-					'edit': {
-					    'label': '수정',
-					    'action': () => editCategory(node)
-					},
-					'delete': {
-					    'label': '삭제',
-					    'action': () => deleteNode(node)
-					}
-                };
-            }
-        },
+		'contextmenu': {
+		    'items': function (node) {
+		        return {
+		            'expand': {
+		                'label': i18n.expand,
+		                'action': () => expandChildren(node)
+		            },
+		            'collapse': {
+		                'label': i18n.collapse,
+		                'action': () => collapseChildren(node)
+		            },
+		            'add': {
+		                'label': i18n.add,
+		                'action': () => addCategory(node)
+		            },
+		            'edit': {
+		                'label': i18n.edit,
+		                'action': () => editCategory(node)
+		            },
+		            'delete': {
+		                'label': i18n.delete,
+		                'action': () => deleteNode(node)
+		            }
+		        };
+		    }
+		}
+,
         'dnd': {
             'is_draggable': (node) => true,
             'is_droppable': (node) => true                    
@@ -133,7 +134,7 @@ function collapseChildren(node) {
 }
 
 function addCategory(parentNode) {
-    var newCategoryName = prompt("새 카테고리 이름을 입력하세요:");
+	var newCategoryName = prompt(i18n.promptAdd); // 🔁 다국어로
     if (newCategoryName) {
         var newNode = {
             "text": newCategoryName,
@@ -169,7 +170,7 @@ function submitCategoryForm(node) {
 }
 
 function editCategory(node) {
-    var newCategoryName = prompt("새 카테고리 이름을 입력하세요:", node.text);
+	var newCategoryName = prompt(i18n.promptEdit, node.text); // 🔁 다국어로
     if (newCategoryName && newCategoryName !== node.text) {
         node.text = newCategoryName;
         $('#categoryTree').jstree('rename_node', node, newCategoryName);
@@ -229,7 +230,7 @@ function submitCategoryMoveForm(nodeId, parentId) {
 }
 
 function deleteNode(node) {
-    if (confirm('정말로 이 카테고리를 삭제하시겠습니까?')) {
+	if (confirm(i18n.confirmDelete)) { // 🔁 다국어로
         var form = document.createElement('form');
         form.method = 'POST';
         form.action = '/category/delete.do';

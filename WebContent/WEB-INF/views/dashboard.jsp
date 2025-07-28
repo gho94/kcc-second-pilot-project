@@ -16,7 +16,7 @@ request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
 			<div class="container-fluid">
 				<div class="row align-items-center">
 					<div class="col-6">
-						<h1 class="dashboard-title">대시보드</h1>
+						<h1 class="dashboard-title"><fmt:message key="대시보드" /></h1>
 					</div>
 					<div class="col-6 text-end">
 						<div class="btn generate-btn">
@@ -33,28 +33,28 @@ request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
 				<div class="row mb-4">
 					<div class="col-xl-3 col-md-6 mb-4">
 						<div class="stat-card earnings-monthly">
-							<div class="stat-label">주문 수</div>
+							<div class="stat-label"><fmt:message key="주문 수" /></div>
 							<div class="stat-value">${dashboard.orderCount}</div>
 							<i class="fas fa-calendar-alt stat-icon"></i>
 						</div>
 					</div>
 					<div class="col-xl-3 col-md-6 mb-4">
 						<div class="stat-card earnings-annual">
-							<div class="stat-label">레시피 수</div>
+							<div class="stat-label"><fmt:message key="레시피 수" /></div>
 							<div class="stat-value">${dashboard.recipeCount}</div>
 							<i class="fas fa-dollar-sign stat-icon"></i>
 						</div>
 					</div>
 					<div class="col-xl-3 col-md-6 mb-4">
 						<div class="stat-card tasks">
-							<div class="stat-label">메뉴 수</div>
+							<div class="stat-label"><fmt:message key="메뉴 수" /></div>
 							<div class="stat-value">${dashboard.menuCount}</div>
 							<i class="fas fa-tasks stat-icon"></i>
 						</div>
 					</div>
 					<div class="col-xl-3 col-md-6 mb-4">
 						<div class="stat-card pending">
-							<div class="stat-label">카테고리 수</div>
+							<div class="stat-label"><fmt:message key="카테고리 수" /></div>
 							<div class="stat-value">${dashboard.categoryCount}</div>
 							<i class="fas fa-clock stat-icon"></i>
 						</div>
@@ -66,7 +66,7 @@ request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
 					<div class="col-lg-8 mb-4">
 						<div class="chart-card">
 							<div class="chart-title">
-								일주일 주문 총액 <i class="fas fa-ellipsis-v chart-menu"></i>
+								<fmt:message key="일주일 주문 총액" /> <i class="fas fa-ellipsis-v chart-menu"></i>
 							</div>
 							<canvas id="earningsChart"></canvas>
 						</div>
@@ -76,16 +76,16 @@ request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
 					<div class="col-lg-4 mb-4">
 						<div class="chart-card menu-table">
 							<div class="chart-title">
-								최근 등록 메뉴 <i class="fas fa-ellipsis-v chart-menu"></i>
+								<fmt:message key="최근 등록 메뉴" /> <i class="fas fa-ellipsis-v chart-menu"></i>
 							</div>
 							<div class="row">
 								<div class="table-responsive">
 									<table class="table custom-table">
 										<thead>
 											<tr>
-												<th>메뉴명</th>
-												<th>가격</th>
-												<th>등록일</th>
+												<th><fmt:message key="메뉴명" /></th>
+												<th><fmt:message key="가격" /></th>
+												<th><fmt:message key="등록일" /></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -104,7 +104,7 @@ request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
 
 						<div class="chart-card ad-info">
 							<div class="chart-title">
-								광고 <i class="fas fa-ellipsis-v chart-menu"></i>
+								<fmt:message key="광고" /> <i class="fas fa-ellipsis-v chart-menu"></i>
 							</div> 
 							<div class="ad-img-con">
 								<div class="ad-img"></div>
