@@ -111,7 +111,7 @@ public class RoleDao {
         }
     }
     
-    public void insertRole(Role role, String[] roleList) {
+    public void insertRole(Role role, List<String> featureCodes) {
 		String sql = """
 					INSERT INTO {0} (
 						role_id, role_name, description
@@ -153,12 +153,14 @@ public class RoleDao {
 	        }
 	        
 	        statement = connection.prepareStatement(sql2);
-	        for (int i = 0; i < roleList.length; i++) {
+	        int index = 1;
+	        for (String featureCode : featureCodes) {
 	        	statement.setInt(1, newRoleId);
-	        	statement.setString(2, roleList[i]);
-	        	statement.setInt(3, i + 1);
+	        	statement.setString(2, featureCode);
+	        	statement.setInt(3, index++);
 	        	statement.addBatch();
 			}
+	        
 	        statement.executeBatch();
 	        connection.commit();
 		} catch (Exception e) {
@@ -225,7 +227,7 @@ public class RoleDao {
         }
     }
     
-    public void updateRole(Role role, String[] roleList) {
+    public void updateRole(Role role, List<String> featureCodes) {
 		String sql = """
 					UPDATE {0} 
 					SET role_name = ?,
@@ -270,15 +272,13 @@ public class RoleDao {
 			
 			statement.executeUpdate();
 
-	        for (int i = 0; i < roleList.length; i++) {	        	
-	        	System.out.println(roleList[i]);
-			}
-			
 	        statement = connection.prepareStatement(sql3);
-	        for (int i = 0; i < roleList.length; i++) {
+	        
+	        int index = 1;
+	        for (String featureCode : featureCodes) {
 	        	statement.setInt(1, role.getRoleId());
-	        	statement.setString(2, roleList[i]);
-	        	statement.setInt(3, i + 1);
+	        	statement.setString(2, featureCode);
+	        	statement.setInt(3, index);
 	        	statement.addBatch();
 			}
 	        statement.executeBatch();
