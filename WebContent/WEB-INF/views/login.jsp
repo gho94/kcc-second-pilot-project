@@ -3,13 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>COOKCOOK</title>
- <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/resources/css/login.css" />
-</head>
+<%@ page import="java.util.List" %>
+<%
+request.setAttribute("pageStyles", List.of("/resources/css/login.css"));
+%>
+<%@ include file="/WEB-INF/views/head.jsp"%>
 <body>
  <div class="login-container">
         <div class="logo"></div>
