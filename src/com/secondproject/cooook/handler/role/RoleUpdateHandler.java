@@ -1,5 +1,9 @@
 package com.secondproject.cooook.handler.role;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,10 +23,12 @@ public class RoleUpdateHandler implements CommandHandler {
 
 	    	RoleDao dao = new RoleDao();
 	    	Role role = dao.getRoleByRoleId(roleId);
+	    	role.setFeatureNames(RoleFeatureCode.convertFeatureCodesToNames(role.getFeatureCodes()));
 
 	    	request.setAttribute("action", "update");
 	    	request.setAttribute("role", role);
-	    	request.setAttribute("roleList", RoleFeatureCode.FEATURE_NAME_MAP);
+	    	request.setAttribute("roleList", RoleFeatureCode.FEATURE_NAME_MAP);    	
+	    	
 	        return "role/role_merge.jsp";
 	    }	    
 
@@ -31,15 +37,18 @@ public class RoleUpdateHandler implements CommandHandler {
 		int roleId = Integer.parseInt(request.getParameter("roleId"));
 	    String roleName = request.getParameter("roleName");
 	    String description = request.getParameter("description");
+	    String featureCodesStr = request.getParameter("featureCodes");
 	    
 	    role.setRoleId(roleId);
 	    role.setRoleName(roleName);
 	    role.setDescription(description);
-	    	    
-        String[] selectedValues = request.getParameterValues("roleList");
-        RoleDao dao = new RoleDao();
-        dao.updateRole(role, selectedValues);
+	    List<String> featureCodes = Arrays.stream(featureCodesStr.split(","))
+                .map(string -> string.trim())
+                .collect(Collectors.toList());
 
+        RoleDao dao = new RoleDao();
+        dao.updateRole(role, featureCodes);
+        
 		return "redirect:/role.do";
 	}
 

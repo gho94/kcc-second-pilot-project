@@ -29,5 +29,22 @@ public class RoleFeatureCode {
     	    5, CATEGORY_MANAGE,
             6, MENU_MANAGE,
             7, MENU_CATEGORY_MANAGE
-    );
+    );    
+
+    public static String convertFeatureCodesToNames(String featureCodesStr) {
+        if (featureCodesStr == null || featureCodesStr.isEmpty()) return "";
+
+        String[] codes = featureCodesStr.split(",");  // DB에서는 쉼표로 연결되어 있다고 가정
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < codes.length; i++) {
+            String code = codes[i].trim();
+            String name = RoleFeatureCode.FEATURE_NAME_MAP.getOrDefault(code, code);
+            sb.append(name);
+            if (i < codes.length - 1) {
+                sb.append(", ");
+            }
+        }
+        return sb.toString();
+    }
 }

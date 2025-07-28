@@ -56,6 +56,9 @@ request.setAttribute("pageStyles", List.of("/resources/css/merge.css"));
 										<c:if test="${action eq 'insert'}">
 										권한을 선택해주세요
 										</c:if>
+										<c:if test="${action eq 'update' }">
+										${role.featureNames}
+										</c:if>
 									</span>
                             <span class="select-arrow">▼</span>
                         </button>
