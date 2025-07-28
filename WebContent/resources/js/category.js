@@ -3,7 +3,8 @@ var searchTimeout = null;
 $(function () {
     $('#categoryTree').jstree({
         'core': {
-            'data': treeData
+			'data': treeData,
+			'check_callback': true
         },
         'plugins': ['wholerow', 'contextmenu', 'search'],
         'search': {
@@ -16,26 +17,32 @@ $(function () {
         'contextmenu': {
             'items': function (node) {
                 return {
-                    'expand': {
-                        'label': '펼치기',
-                        'action': function () {
-                            expandChildren(node);
-                        }
-                    },
-                    'collapse': {
-                        'label': '접기',
-                        'action': function () {
-                            collapseChildren(node);
-                        }
-                    },
-                    'delete': {
-                        'label': '삭제',
-                        'action': function () {
-                            deleteNode(node);
-                        }
-                    }
+					'expand': {
+					    'label': '펼치기',
+					    'action': () => expandChildren(node)
+					},
+					'collapse': {
+					    'label': '접기',
+					    'action': () => collapseChildren(node)
+					},
+					'add': {
+					    'label': '추가',
+					    'action': () => addCategory(node)
+					},
+					'edit': {
+					    'label': '수정',
+					    'action': () => editCategory(node)
+					},
+					'delete': {
+					    'label': '삭제',
+					    'action': () => deleteNode(node)
+					}
                 };
             }
+        },
+        'dnd': {
+            'is_draggable': (node) => true,
+            'is_droppable': (node) => true                    
         }
     });
     
@@ -72,6 +79,11 @@ $(function () {
             console.log('검색 결과:', res.length + '개 항목 발견');
         }
     });
+
+	$('#categoryTree').on('move_node.jstree', function (e, data) {
+	    var newParent = $('#categoryTree').jstree('get_node', data.parent);
+	    submitCategoryMoveForm(data.node.id, newParent.id);
+	});
 });
 
 // 검색 함수
@@ -118,6 +130,102 @@ function collapseChildren(node) {
 
         $('#categoryTree').jstree('close_node', node);
     }
+}
+
+function addCategory(parentNode) {
+    var newCategoryName = prompt("새 카테고리 이름을 입력하세요:");
+    if (newCategoryName) {
+        var newNode = {
+            "text": newCategoryName,
+            "parent": parentNode.id === '#' ? '#' : parentNode.id
+        };
+
+        $('#categoryTree').jstree('create_node', parentNode, newNode, 'last', function (newNode) {
+            submitCategoryForm(newNode);
+        });
+    }
+}
+
+function submitCategoryForm(node) {
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/category/insert.do';            
+
+    var parentIdInput = document.createElement('input');
+    parentIdInput.type = 'hidden';
+    parentIdInput.name = 'parentId';
+    parentIdInput.value = node.parent;
+
+    var categoryNameInput = document.createElement('input');
+    categoryNameInput.type = 'hidden';
+    categoryNameInput.name = 'categoryName';
+    categoryNameInput.value = node.text;
+
+    form.appendChild(parentIdInput);
+    form.appendChild(categoryNameInput);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function editCategory(node) {
+    var newCategoryName = prompt("새 카테고리 이름을 입력하세요:", node.text);
+    if (newCategoryName && newCategoryName !== node.text) {
+        node.text = newCategoryName;
+        $('#categoryTree').jstree('rename_node', node, newCategoryName);
+
+        submitCategoryUpdateForm(node);
+    }
+}
+
+function submitCategoryUpdateForm(node) {
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/category/update.do';            
+
+    var categoryIdInput = document.createElement('input');
+    categoryIdInput.type = 'hidden';
+    categoryIdInput.name = 'categoryId';
+    categoryIdInput.value = node.id;
+
+    var categoryNameInput = document.createElement('input');
+    categoryNameInput.type = 'hidden';
+    categoryNameInput.name = 'categoryName';
+    categoryNameInput.value = node.text;
+
+    form.appendChild(categoryIdInput);
+    form.appendChild(categoryNameInput);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function submitCategoryMoveForm(nodeId, parentId) {
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/category/update.do';
+    
+    var actionInput = document.createElement('input');
+    actionInput.type = 'hidden';
+    actionInput.name = 'action';
+    actionInput.value = 'move';
+
+    var categoryIdInput = document.createElement('input');
+    categoryIdInput.type = 'hidden';
+    categoryIdInput.name = 'categoryId';
+    categoryIdInput.value = nodeId;
+
+    var parentIdInput = document.createElement('input');
+    parentIdInput.type = 'hidden';
+    parentIdInput.name = 'parentId';
+    parentIdInput.value = parentId;
+
+    form.appendChild(actionInput);
+    form.appendChild(categoryIdInput);
+    form.appendChild(parentIdInput);
+
+    document.body.appendChild(form);
+    form.submit();
 }
 
 function deleteNode(node) {
