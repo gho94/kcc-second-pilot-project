@@ -195,9 +195,9 @@ function confirmRoleFeatureModalSelection() {
 	});
 }
 
-function getModalSelectedItems(allList){
+function getModalSelectedItems(allList) {
 	const selectedIds = Array.from(document.querySelectorAll('.checkmark'))
-	  .filter(el => el.style.display === 'flex').map(el => el.getAttribute('data-value'));
+		.filter(el => el.style.display === 'flex').map(el => el.getAttribute('data-value'));
 
 	selectedData = allList.filter(data => selectedIds.includes(data.id));
 }
@@ -232,7 +232,7 @@ function validateForm() {
 		const message = element.getAttribute('data-valid');
 		const validType = element.getAttribute('data-valid-type');
 		const validCondition = element.getAttribute('data-valid-condition');
-
+		const valueTrim = element.value.trim();
 		// 조건부 검증 (비밀번호 변경 체크박스 등)
 		if (validCondition) {
 			if (validCondition === 'changePassword') {
@@ -249,7 +249,7 @@ function validateForm() {
 		}
 
 		// 빈 값 검증
-		if (!element.value.trim()) {
+		if (!valueTrim || (element.type == 'number' && valueTrim === '0')) {
 			showValidationError(element, message);
 			return false;
 		}
@@ -257,7 +257,7 @@ function validateForm() {
 		// 이메일 형식 검증
 		if (validType === 'email') {
 			const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-			if (!emailRegex.test(element.value.trim())) {
+			if (!emailRegex.test(valueTrim)) {
 				showValidationError(element, '올바른 이메일 형식을 입력해주세요');
 				return false;
 			}
@@ -309,6 +309,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		element.addEventListener('focus', function() {
 			clearValidationError(this);
+		});
+	});
+
+	document.querySelectorAll('input[type="number"]').forEach(input => {
+		input.addEventListener('input', () => {
+			if (input.value.startsWith('0') && input.value.length > 1) {
+				input.value = input.value.replace(/^0+/, '');
+			}
+		});
+	});
+
+	document.querySelectorAll('input[type="number"]').forEach(input => {
+		input.addEventListener('input', () => {
+			if (input.value.startsWith('0') && input.value.length > 1) {
+				input.value = input.value.replace(/^0+/, '');
+			}
 		});
 	});
 });
@@ -380,7 +396,7 @@ const ModalManager = {
 
 	handleConfirm(modalId, options = {}) {
 		// 필수 체크
-		if (selectedData.length===0 || !selectedData) {
+		if (selectedData.length === 0 || !selectedData) {
 			const errorMessage = options.errorMessage || '항목을 선택해주세요.';
 			if (typeof MessageManager !== 'undefined') {
 				MessageManager.showError(errorMessage);
@@ -452,7 +468,7 @@ const ListRenderer = {
 
 			if (options.template) {
 				element.innerHTML = options.template(item)
-				if(element.querySelector('[data-selected="true"]')) element.classList.add('selected');
+				if (element.querySelector('[data-selected="true"]')) element.classList.add('selected');
 			} else {
 				element.textContent = item.name || item.toString()
 			}

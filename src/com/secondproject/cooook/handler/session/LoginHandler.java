@@ -21,43 +21,51 @@ public class LoginHandler implements CommandHandler {
 	public String process(HttpServletRequest request, HttpServletResponse response) {
 		String method = request.getMethod();
 
-	    if ("GET".equalsIgnoreCase(method)) {
-	    	return "login.jsp";
-	    }
-	    
+		if ("GET".equalsIgnoreCase(method)) {
+			return "login.jsp";
+		}
+
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		HttpSession session = request.getSession();
-		
+		HttpSession oldSession = request.getSession(false);
+		if (oldSession != null) {
+			oldSession.invalidate(); // 기존 세션 무효화 (있을 경우)
+		}
+
 		Staff staff = dao.login(email, password);
-		
+
 		if (staff == null) {
-			session.invalidate();
 			throw new RuntimeException("로그인 실패: 이메일 또는 비밀번호가 잘못되었습니다.");
-		}		
-		session.setAttribute("staff", staff);
-        
-        Map<String, String> menuMap = roleDao.getFeaturesByRoleId(staff.getRoleId())
-        	    .stream()
-        	    .collect(Collectors.toMap(
-        	        code -> RoleFeatureCode.FEATURE_NAME_MAP.getOrDefault(code, code),
-        	        code -> getMenuUrl(code)
-        	    ));
-    	session.setAttribute("menuMap", menuMap);
-        	
+		}
+
+		HttpSession newSession = request.getSession(true); // 새로운 세션 생성
+		newSession.setAttribute("staff", staff);
+
+		Map<String, String> menuMap = roleDao.getFeaturesByRoleId(staff.getRoleId()).stream().collect(Collectors
+				.toMap(code -> RoleFeatureCode.FEATURE_NAME_MAP.getOrDefault(code, code), code -> getMenuUrl(code)));
+		newSession.setAttribute("menuMap", menuMap);
+
 		return "redirect:/";
 	}
-	
+
 	private String getMenuUrl(String code) {
-	    switch (code) {
-	        case "WORKER_MANAGE": 			return "/staff.do";
-	        case "ROLE_MANAGE": 			return "/role.do";
-	        case "ORDER_MANAGE": 			return "/order.do";
-	        case "MATERIAL_MANAGE": 		return "/menu/list.do";
-	        case "CATEGORY_MANAGE": 		return "/menu/list.do";
-	        case "MENU_MANAGE": 			return "/menu.do";
-	        case "MENU_CATEGORY_MANAGE": 	return "/menu/list.do";
-	        default: 						return "#";
-	    }
+		switch (code) {
+		case "WORKER_MANAGE":
+			return "/staff.do";
+		case "ROLE_MANAGE":
+			return "/role.do";
+		case "ORDER_MANAGE":
+			return "/order.do";
+		case "MATERIAL_MANAGE":
+			return "/menu/list.do";
+		case "CATEGORY_MANAGE":
+			return "/menu/list.do";
+		case "MENU_MANAGE":
+			return "/menu.do";
+		case "MENU_CATEGORY_MANAGE":
+			return "/menu/list.do";
+		default:
+			return "#";
+		}
 	}
 }

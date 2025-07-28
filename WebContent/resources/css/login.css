@@ -27,8 +27,8 @@ body {
 	background-position: center;
 }
 
-.login-container .kimbap-icon{
-		width: 18px;
+.login-container .kimbap-icon {
+	width: 18px;
 	height: 14px;
 	background-image: url(../img/kimbap_icon.svg);
 	background-size: contain;
@@ -98,31 +98,23 @@ body {
 	animation: rotate 3s linear infinite;
 }
 
-@
-keyframes rotate { 0% {
-	transform: rotate(0deg);
+@ keyframes rotate {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform:
+
+
+
+			rotate (360 deg);
+
+
+
+	}
 }
 
-100%
-{
-transform
-
-
-:
-
- 
-
-rotate
-
-
-(360
-deg
-);
-
- 
-
-}
-}
 .login-btn:hover .kimbap-icon {
 	animation-duration: 0.5s;
 }
@@ -150,8 +142,8 @@ deg
 	padding: 0;
 }
 
-.form-floating input:focus+label, .form-floating input:not (:placeholder-shown
-	 ) +label {
+.form-floating input:focus+label,
+.form-floating input:not (:placeholder-shown)+label {
 	top: 8px;
 	font-size: 12px;
 	color: #4a90e2;
@@ -159,19 +151,24 @@ deg
 }
 
 /* 반응형 처리 */
-@media ( max-width : 480px) {
+@media (max-width : 480px) {
 	.login-container {
 		padding: 15px;
 		max-width: 350px;
 	}
+
 	.logo {
 		font-size: 3rem;
 		margin-bottom: 40px;
+		width: 320px !important;
+        height: 46px !important;
 	}
+
 	.form-control {
 		padding: 16px 18px;
 		font-size: 15px;
 	}
+
 	.login-btn {
 		padding: 16px;
 		font-size: 16px;
@@ -186,10 +183,9 @@ body::before {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1)
-		0%, transparent 50%),
+	background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
 		radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%,
-		transparent 50%);
+			transparent 50%);
 	pointer-events: none;
 	z-index: -1;
 }
