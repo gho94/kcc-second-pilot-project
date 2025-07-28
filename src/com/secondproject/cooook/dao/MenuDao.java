@@ -145,4 +145,34 @@ public class MenuDao {
 		}
         return menus;
     }
+    
+    public List<Menu> selectMenusWithoutRecipe() {
+        List<Menu> list = new ArrayList<>();
+        String sql = """
+            SELECT m.menu_id, m.menu_name, m.price
+              FROM menu m
+             WHERE NOT EXISTS (
+                   SELECT 1 FROM recipe r WHERE r.menu_id = m.menu_id
+                   )
+             ORDER BY m.menu_id
+        """;
+
+        try (
+            Connection conn = DatabaseManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()
+        ) {
+            while (rs.next()) {
+                Menu vo = new Menu();
+                vo.setMenuId(rs.getInt("menu_id"));
+                vo.setMenuName(rs.getString("menu_name"));
+                vo.setPrice(rs.getInt("price"));
+                list.add(vo);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("레시피 미등록 메뉴 조회 중 오류", e);
+        }
+        return list;
+    }
+    
 }
