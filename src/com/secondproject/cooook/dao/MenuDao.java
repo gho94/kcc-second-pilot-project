@@ -13,8 +13,14 @@ import com.secondproject.cooook.model.Menu;
 public class MenuDao {  
     public List<Menu> getAllMenus() {
         List<Menu> menus = new ArrayList<>();
-        
-        String sql = "SELECT menu_id AS menuId, menu_name AS menuName, price AS price FROM menu";
+        String sql = """
+        		SELECT 
+        			menu_id AS menuId, 
+        			menu_name AS menuName, 
+        			price AS price,
+        			created_at AS createdAt
+        		FROM menu        		
+        		""";
         
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -25,6 +31,7 @@ public class MenuDao {
                 menu.setMenuId(rs.getInt("menuId"));
                 menu.setMenuName(rs.getString("menuName"));
                 menu.setPrice(rs.getInt("price"));
+                menu.setCreatedAt(rs.getDate("createdAt"));
                 menus.add(menu);
             }
         } catch (Exception e) {
@@ -35,7 +42,14 @@ public class MenuDao {
     }
     
     public Menu getMenuById(int id) {
-        String sql = "SELECT menu_id AS menuId, menu_name AS menuName, price AS price FROM menu WHERE menu_id = ?";
+    	String sql = """
+    			SELECT 
+    				menu_id AS menuId, 
+    				menu_name AS menuName, 
+    				price AS price,
+    				created_at AS createdAt
+    			FROM menu WHERE menu_id = ?    			
+    			""";
         
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -48,6 +62,7 @@ public class MenuDao {
                 menu.setMenuId(rs.getInt("menuId"));
                 menu.setMenuName(rs.getString("menuName"));
                 menu.setPrice(rs.getInt("price"));
+                menu.setCreatedAt(rs.getDate("createdAt"));
                 return menu;
             }
         } catch (Exception e) {
@@ -58,7 +73,13 @@ public class MenuDao {
     }
     
     public int insertMenu(Menu menu) {
-        String sql = "INSERT INTO menu VALUES (MENU_SEQ.NEXTVAL, ?, ?)";
+    	String sql = """
+    			INSERT INTO menu (
+    				menu_id, menu_name, price, created_at
+    			) VALUES (
+    				MENU_SEQ.NEXTVAL, ?, ?, SYSDATE
+    			)
+    			""";
         
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
