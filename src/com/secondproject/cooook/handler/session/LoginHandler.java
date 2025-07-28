@@ -54,7 +54,7 @@ public class LoginHandler implements CommandHandler {
 	        case "ROLE_MANAGE": 			return "/role.do";
 	        case "ORDER_MANAGE": 			return "/order.do";
 	        case "MATERIAL_MANAGE": 		return "/menu/list.do";
-	        case "CATEGORY_MANAGE": 		return "/menu/list.do";
+	        case "CATEGORY_MANAGE": 		return "/category.do";
 	        case "MENU_MANAGE": 			return "/menu.do";
 	        case "MENU_CATEGORY_MANAGE": 	return "/menu/list.do";
 	        default: 						return "#";
