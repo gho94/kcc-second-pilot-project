@@ -15,11 +15,14 @@ public class MenuDao {
         List<Menu> menus = new ArrayList<>();
         String sql = """
         		SELECT 
-        			menu_id AS menuId, 
-        			menu_name AS menuName, 
-        			price AS price,
-        			created_at AS createdAt
-        		FROM menu        		
+        			m.menu_id AS menuId, 
+        			m.menu_name AS menuName, 
+        			m.price AS price,
+        			m.created_at AS createdAt,
+        			mc.category_id AS categoryId,
+        			c.category_name AS categoryName
+        		FROM menu m inner join menu_category mc on m.menu_id = mc.menu_id
+        				inner join category c on c.category_id = mc.category_id
         		""";
         
         try (Connection conn = DatabaseManager.getConnection();
@@ -29,6 +32,8 @@ public class MenuDao {
             while (rs.next()) {
                 Menu menu = new Menu();
                 menu.setMenuId(rs.getInt("menuId"));
+                menu.setCategoryId(rs.getInt("categoryId"));
+                menu.setCategoryName(rs.getString("categoryName"));
                 menu.setMenuName(rs.getString("menuName"));
                 menu.setPrice(rs.getInt("price"));
                 menu.setCreatedAt(rs.getDate("createdAt"));
@@ -44,11 +49,14 @@ public class MenuDao {
     public Menu getMenuById(int id) {
     	String sql = """
     			SELECT 
-    				menu_id AS menuId, 
-    				menu_name AS menuName, 
-    				price AS price,
-    				created_at AS createdAt
-    			FROM menu WHERE menu_id = ?    			
+    				m.menu_id AS menuId, 
+    				m.menu_name AS menuName, 
+    				m.price AS price,
+    				m.created_at AS createdAt,
+    				mc.category_id AS categoryId,
+        			c.category_name AS categoryName
+    			FROM menu m inner join menu_category mc on m.menu_id = mc.menu_id
+        				inner join category c on c.category_id = mc.category_id WHERE m.menu_id = ?    			
     			""";
         
         try (Connection conn = DatabaseManager.getConnection();
@@ -60,6 +68,8 @@ public class MenuDao {
             if (rs.next()) {
                 Menu menu = new Menu();
                 menu.setMenuId(rs.getInt("menuId"));
+                menu.setCategoryId(rs.getInt("categoryId"));
+                menu.setCategoryName(rs.getString("categoryName"));
                 menu.setMenuName(rs.getString("menuName"));
                 menu.setPrice(rs.getInt("price"));
                 menu.setCreatedAt(rs.getDate("createdAt"));
@@ -82,11 +92,24 @@ public class MenuDao {
     			""";
         
         try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql, new String[] {"menu_id"})) {
             
+        	ResultSet generatedKeys = null;
+        	
             pstmt.setString(1, menu.getMenuName());
             pstmt.setInt(2, menu.getPrice());
-            return pstmt.executeUpdate();
+            
+            pstmt.executeUpdate();
+            
+            generatedKeys = pstmt.getGeneratedKeys();
+            
+            int menuId = 0;
+            if (generatedKeys.next()) {
+                menuId = generatedKeys.getInt(1);
+            }
+            
+            return menuId;
+            
         } catch (Exception e) {
 			System.out.println(e.getMessage());
 			throw new RuntimeException(e);

@@ -64,7 +64,7 @@ request.setAttribute("pageStyles", List.of("/resources/css/merge.css"));
                 <div class="page-actions">
                     <input type="hidden" name="orderId" value="${order.orderId}"/>
                     <input type="submit" class="btn btn-primary" value="저장하기">
-                    <input type="button" class="btn btn-cancel" onclick="history.back();" value="목록으로">
+                    <input type="button" class="btn btn-cancel" onclick="window.location.href = window.location.href.replace(/\/(insert|update)\.do/, '.do')" value="목록으로">
                 </div>
             </form>
 		</div>
