@@ -31,9 +31,10 @@
                             <a href="${menuPath}" class="${isListActive ? 'active' : ''}">
                                 <fmt:message key="${entry.key}" /> <fmt:message key="목록" />
                             </a>
-                            <a href="${insertPath}" class="${isInsertActive ? 'active' : ''}">
-                                <fmt:message key="${entry.key}" /> <fmt:message key="등록" />
-                            </a>
+							<a href="${insertPath}" 
+							   class="<c:if test='${isInsertActive}'>active </c:if>" style="<c:if test='${entry.value eq \"/category.do\"}'>display:none;</c:if>">
+							    <fmt:message key="${entry.key}" /> <fmt:message key="등록" />
+							</a>
                         </div>
                     </div>
                 </c:forEach>
@@ -82,7 +83,7 @@
                 <a href="${menuPath}" class="${isListActive ? 'active' : ''}">
                     <fmt:message key="${entry.key}" /> <fmt:message key="목록" />
                 </a>
-                <a href="${insertPath}" class="${isInsertActive ? 'active' : ''}">
+                <a href="${insertPath}" class="${isInsertActive ? 'active' : ''}" style="<c:if test='${entry.value eq \"/category.do\"}'>display:none;</c:if>">
                     <fmt:message key="${entry.key}" /> <fmt:message key="등록" />
                 </a>
             </div>
