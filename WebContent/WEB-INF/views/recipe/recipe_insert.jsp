@@ -3,6 +3,22 @@
 <%@ page import="com.secondproject.cooook.model.Menu" %>
 <%@ page import="com.secondproject.cooook.model.Ingredient" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<fmt:setLocale
+	value="${sessionScope.locale != null ? sessionScope.locale : pageContext.request.locale}" />
+<fmt:setBundle basename="Recipe" />
+<fmt:message var="addRecipe" key="레시피추가" />
+<fmt:message var="selectMenu" key="메뉴를선택해주세요" />
+<fmt:message var="ingredientList" key="재료목록" />
+<fmt:message var="addIngredient" key="재료추가" />
+<fmt:message var="ingredientName" key="재료명" />
+<fmt:message var="quantity" key="수량" />
+<fmt:message var="unit" key="단위" />
+<fmt:message var="description" key="설명" />
+<fmt:message var="delete" key="삭제" />
+<fmt:message var="save" key="저장" />
+<fmt:message var="backList" key="목록으로" />
+
 <%
 List<Menu> menuList = (List<Menu>) request.getAttribute("menuList");
     List<Ingredient> ingList = (List<Ingredient>) request.getAttribute("ingList");
@@ -15,18 +31,18 @@ List<Menu> menuList = (List<Menu>) request.getAttribute("menuList");
     <div class="container">
 
         <div class="menu-title-con">
-            <span class="menu-title">레시피 추가</span>
+            <span class="menu-title">${addRecipe}</span>
         </div>
         <!-- 폼 컨테이너 -->
         <div class="form-con">
             <form action="/recipe/insert.do" method="post" class="recipe-form">
                 <div class="form-row">
                     <div class="form-group full-width">
-                        <label class="form-label">메뉴 <span class="required">*</span></label>
+                        <label class="form-label"><fmt:message key="메뉴" /> <span class="required">*</span></label>
                         <div class="custom-dropdown" data-name="menuId">
-                            <input type="hidden" id="menuId" name="menuId" data-valid="메뉴를 선택해주세요" value="">
+                            <input type="hidden" id="menuId" name="menuId" data-valid="${selectMenu}" value="">
                             <div class="dropdown-trigger" tabindex="0">
-                                <span class="dropdown-text">메뉴를 선택해주세요</span>
+                                <span class="dropdown-text">${selectMenu}</span>
                                 <span class="dropdown-arrow">▼</span>
                             </div>
 
@@ -46,18 +62,18 @@ List<Menu> menuList = (List<Menu>) request.getAttribute("menuList");
                 <div class="form-row">
 					<div class="form-group full-width">
                     <div class="section-header">
-                        <label class="form-label">재료 목록 <span class="required">*</span></label>
+                        <label class="form-label">${ingredientList} <span class="required">*</span></label>
                         <button type="button" class="add-ingredient-btn" id="addIngredientBtn">
-                            + 재료 추가
+                            + ${addIngredient}
                         </button>
                     </div>
                     <div class="ingredients-table">
                         <div class="table-header">
-                            <div class="header-cell ingredient-col">재료명</div>
-                            <div class="header-cell quantity-col">수량</div>
-                            <div class="header-cell unit-col">단위</div>
-                            <div class="header-cell description-col">설명 (선택사항)</div>
-                            <div class="header-cell action-col">삭제</div>
+                            <div class="header-cell ingredient-col">${ingredientName}</div>
+                            <div class="header-cell quantity-col">${quantity}</div>
+                            <div class="header-cell unit-col">${unit}</div>
+                            <div class="header-cell description-col">${description}</div>
+                            <div class="header-cell action-col">${delete}</div>
                         </div>
 
                         <div class="table-body" id="ingredientsTable">
@@ -70,8 +86,8 @@ List<Menu> menuList = (List<Menu>) request.getAttribute("menuList");
 
                 <div class="page-actions">
                     <input type="hidden" name="roleId" value="${role.roleId}"/>
-                    <input type="submit" class="btn btn-primary" value="저장하기">
-                    <input type="button" class="btn btn-cancel" onclick="window.location.href = window.location.href.replace(/\/(insert|update)\.do/, '.do')" value="목록으로">
+                    <input type="submit" class="btn btn-primary" value="${save}">
+                    <input type="button" class="btn btn-cancel" onclick="window.location.href = window.location.href.replace(/\/(insert|update)\.do/, '.do')" value="${backList}">
                 </div>
             </form>
         </div>

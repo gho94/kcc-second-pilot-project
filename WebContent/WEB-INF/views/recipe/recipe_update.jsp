@@ -1,6 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
-<%@ page import="java.util.List" %>
+<%@ page import="java.util.List" %><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<fmt:setLocale
+	value="${sessionScope.locale != null ? sessionScope.locale : pageContext.request.locale}" />
+<fmt:setBundle basename="Recipe" />
+<fmt:message var="editRecipe" key="레시피수정" />
+<fmt:message var="menu" key="메뉴" />
+<fmt:message var="ingredientList" key="재료목록" />
+<fmt:message var="addIngredient" key="재료추가" />
+<fmt:message var="ingredientName" key="재료명" />
+<fmt:message var="quantity" key="수량" />
+<fmt:message var="unit" key="단위" />
+<fmt:message var="description" key="설명" />
+<fmt:message var="delete" key="삭제" />
+<fmt:message var="save" key="저장" />
+<fmt:message var="backList" key="목록으로" />\
+<c:set var="placeholder">
+	<fmt:message key="검색홀더" />
+</c:set>
 <%
 request.setAttribute("pageStyles", List.of("/resources/css/merge.css","/resources/css/recipe_merge.css"));
 %>
@@ -10,7 +28,7 @@ request.setAttribute("pageStyles", List.of("/resources/css/merge.css","/resource
 	<div class="content list-content">	
     <div class="container">
 		<div class="menu-title-con">
-		    <span class="menu-title">레시피 추가</span>
+		    <span class="menu-title">${editRecipe}</span>
 		</div>
         <!-- 폼 컨테이너 -->
         <div class="form-con">
@@ -18,7 +36,7 @@ request.setAttribute("pageStyles", List.of("/resources/css/merge.css","/resource
 
 			<div class="form-row">
 			    <div class="form-group full-width">
-			        <label class="form-label">메뉴 <span class="required">*</span></label>
+			        <label class="form-label">${menu} <span class="required">*</span></label>
 			        
 					<div class="form-input readonly">${menuName}</div>
 			    </div>
@@ -31,19 +49,19 @@ request.setAttribute("pageStyles", List.of("/resources/css/merge.css","/resource
 					<div class="form-group full-width">
 						
 						<div class="section-header">
-						                        <label class="form-label">재료 목록 <span class="required">*</span></label>
+						                        <label class="form-label">${ingredientList} <span class="required">*</span></label>
 						                        <button type="button" class="add-ingredient-btn" onclick="addIngredientRow()">
-						                            + 재료 추가
+						                            + ${addIngredient}
 						                        </button>
 						                    </div>
 											<div class="ingredients-table">
 						
 												<div class="table-header">
-												                     <div class="header-cell ingredient-col">재료명</div>
-												                     <div class="header-cell quantity-col">수량</div>
-												                     <div class="header-cell unit-col">단위</div>
-												                     <div class="header-cell description-col">설명 (선택사항)</div>
-												                     <div class="header-cell action-col">삭제</div>
+												                     <div class="header-cell ingredient-col">${ingredientName}</div>
+												                     <div class="header-cell quantity-col">${quantity}</div>
+												                     <div class="header-cell unit-col">${unit}</div>
+												                     <div class="header-cell description-col">${description}</div>
+												                     <div class="header-cell action-col">${delete}</div>
 												                 </div>
                     <div class="table-body" id="ingredientTableBody">
                         <!-- 기존 재료 출력 -->
@@ -63,7 +81,7 @@ request.setAttribute("pageStyles", List.of("/resources/css/merge.css","/resource
                                 </div>
                                 <div class="table-cell description-col">
                                     <input type="text" name="description" value="${item.description}" 
-                                           class="field-input" placeholder="예: 잘게 다져서" />
+                                           class="field-input" placeholder="${placeholder}" />
                                 </div>
                                 <div class="table-cell action-col">
                                     <input type="checkbox" name="delete" value="${item.ingredientId}" 
@@ -82,8 +100,8 @@ request.setAttribute("pageStyles", List.of("/resources/css/merge.css","/resource
 
 				<div class="page-actions">
 				    <input type="hidden" name="roleId" value="${role.roleId}"/>
-				    <input type="submit" class="btn btn-primary" value="저장하기">
-				    <input type="button" class="btn btn-cancel" onclick="window.location.href = window.location.href.replace(/\/(insert|update)\.do/, '.do')" value="목록으로">
+				    <input type="submit" class="btn btn-primary" value="${save}">
+				    <input type="button" class="btn btn-cancel" onclick="window.location.href = window.location.href.replace(/\/(insert|update)\.do/, '.do')" value="${backList}">
 				</div>
             </form>
         </div>

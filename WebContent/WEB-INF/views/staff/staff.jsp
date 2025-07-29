@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
 	<fmt:message key="검색플레이스홀더" />
 </c:set>
 <fmt:message var="colNo" key="번호" />
-<fmt:message var="colName" key="이름" />
+<fmt:message var="colName" key="본명" />
 <fmt:message var="colRole" key="권한" />
 <fmt:message var="colEmail" key="이메일" />
 <fmt:message var="colPhone" key="전화번호" />
