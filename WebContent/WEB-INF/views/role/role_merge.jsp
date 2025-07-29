@@ -5,10 +5,10 @@
 <fmt:setLocale
 	value="${sessionScope.locale != null ? sessionScope.locale : pageContext.request.locale}" />
 <fmt:setBundle basename="Role" />
-<fmt:message key="이름을 입력해주세요" var="namePlaceholder" />
-<fmt:message key='설명을 입력해주세요' var="descriptionPlaceholder" />
-<fmt:message key="권한을 선택해주세요" var="selectRoleFeatureMsg" />
-<fmt:message key="권한 선택" var="roleFeatureLabel" />
+<fmt:message key="이름을입력해주세요" var="namePlaceholder" />
+<fmt:message key='설명을입력해주세요' var="descriptionPlaceholder" />
+<fmt:message key="권한을선택해주세요" var="selectRoleFeatureMsg" />
+<fmt:message key="권한선택" var="roleFeatureLabel" />
 <fmt:message key="확인" var="confirmText" />
 <fmt:message key="취소" var="cancelText" />
 <fmt:message key="저장하기" var="saveText" />
@@ -49,7 +49,7 @@ request.setAttribute("pageStyles", List.of("/resources/css/merge.css"));
 								class="required">*</span>
 							</label> <input type="text" class="form-input" name="roleName"
 								placeholder="${namePlaceholder}"
-								data-valid="<fmt:message key='이름을 입력해주세요' />"
+								data-valid="${namePlaceholder}"
 								value="${role.roleName}" />
 						</div>
 					</div>

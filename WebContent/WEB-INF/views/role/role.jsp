@@ -7,7 +7,7 @@
 	value="${sessionScope.locale != null ? sessionScope.locale : pageContext.request.locale}" />
 <fmt:message key="수정" var="editText" />
 <fmt:message key="삭제" var="deleteText" />
-<fmt:message key="정말로 삭제하시겠습니까" var="confirmMsg" />
+<fmt:message key="정말로삭제하시겠습니까" var="confirmMsg" />
 <!DOCTYPE html>
 <html>
 <%@ page import="java.util.List"%>

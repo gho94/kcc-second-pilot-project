@@ -1,6 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<fmt:setBundle basename="Menu"/>
+<fmt:setBundle basename="Main"/>
 <footer class="footer">
     <div class="container">
         <!-- 저작권 섹션 -->

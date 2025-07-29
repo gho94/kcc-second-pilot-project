@@ -2,9 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<fmt:setBundle basename="Main" />
+
 <!DOCTYPE html>
 <html>
-<%@ page import="java.util.List" %>
+<%@ page import="java.util.List"%>
 <%
 request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
 %>
@@ -16,11 +18,20 @@ request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
 			<div class="container-fluid">
 				<div class="row align-items-center">
 					<div class="col-6">
-						<h1 class="dashboard-title"><fmt:message key="대시보드" /></h1>
+						<h1 class="dashboard-title">
+							<fmt:message key="대시보드" />
+						</h1>
 					</div>
 					<div class="col-6 text-end">
 						<div class="btn generate-btn">
-							<i class="fas fa-chart-line me-2"></i><fmt:formatDate value="${dashboard.today}" pattern="YYYY년  MM월 dd일"/>							
+							<fmt:setLocale
+								value="${sessionScope.locale != null ? sessionScope.locale : pageContext.request.locale}" />
+							<fmt:setBundle basename="Main" />
+
+							<!-- “long”/“medium”/“short” 중 택1 -->
+							<i class="fas fa-chart-line me-2"></i>
+							<fmt:formatDate value="${dashboard.today}" type="date"
+								dateStyle="long" timeStyle="none" />
 						</div>
 					</div>
 				</div>
@@ -33,28 +44,36 @@ request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
 				<div class="row mb-4">
 					<div class="col-xl-3 col-md-6 mb-4">
 						<div class="stat-card earnings-monthly">
-							<div class="stat-label"><fmt:message key="주문 수" /></div>
+							<div class="stat-label">
+								<fmt:message key="주문수" />
+							</div>
 							<div class="stat-value">${dashboard.orderCount}</div>
 							<i class="fas fa-calendar-alt stat-icon"></i>
 						</div>
 					</div>
 					<div class="col-xl-3 col-md-6 mb-4">
 						<div class="stat-card earnings-annual">
-							<div class="stat-label"><fmt:message key="레시피 수" /></div>
+							<div class="stat-label">
+								<fmt:message key="레시피수" />
+							</div>
 							<div class="stat-value">${dashboard.recipeCount}</div>
 							<i class="fas fa-dollar-sign stat-icon"></i>
 						</div>
 					</div>
 					<div class="col-xl-3 col-md-6 mb-4">
 						<div class="stat-card tasks">
-							<div class="stat-label"><fmt:message key="메뉴 수" /></div>
+							<div class="stat-label">
+								<fmt:message key="메뉴수" />
+							</div>
 							<div class="stat-value">${dashboard.menuCount}</div>
 							<i class="fas fa-tasks stat-icon"></i>
 						</div>
 					</div>
 					<div class="col-xl-3 col-md-6 mb-4">
 						<div class="stat-card pending">
-							<div class="stat-label"><fmt:message key="카테고리 수" /></div>
+							<div class="stat-label">
+								<fmt:message key="카테고리수" />
+							</div>
 							<div class="stat-value">${dashboard.categoryCount}</div>
 							<i class="fas fa-clock stat-icon"></i>
 						</div>
@@ -66,7 +85,8 @@ request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
 					<div class="col-lg-8 mb-4">
 						<div class="chart-card">
 							<div class="chart-title">
-								<fmt:message key="일주일 주문 총액" /> <i class="fas fa-ellipsis-v chart-menu"></i>
+								<fmt:message key="일주일주문총액" />
+								<i class="fas fa-ellipsis-v chart-menu"></i>
 							</div>
 							<canvas id="earningsChart"></canvas>
 						</div>
@@ -76,7 +96,8 @@ request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
 					<div class="col-lg-4 mb-4">
 						<div class="chart-card menu-table">
 							<div class="chart-title">
-								<fmt:message key="최근 등록 메뉴" /> <i class="fas fa-ellipsis-v chart-menu"></i>
+								<fmt:message key="최근등록메뉴" />
+								<i class="fas fa-ellipsis-v chart-menu"></i>
 							</div>
 							<div class="row">
 								<div class="table-responsive">
@@ -92,8 +113,10 @@ request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
 											<c:forEach var="menu" items="${dashboard.menus}">
 												<tr>
 													<td class="menu-name">${menu.menuName}</td>
-													<td class="menu-price"><fmt:formatNumber value="${menu.price}" type="number" pattern="#,###" /></td>
-													<td class="menu-date"><fmt:formatDate value="${menu.createdAt}" pattern="YYYY.MM.dd"/></td>
+													<td class="menu-price"><fmt:formatNumber
+															value="${menu.price}" type="number" pattern="#,###" /></td>
+													<td class="menu-date"><fmt:formatDate
+															value="${menu.createdAt}" pattern="YYYY.MM.dd" /></td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -104,8 +127,9 @@ request.setAttribute("pageStyles", List.of("/resources/css/dashboard.css"));
 
 						<div class="chart-card ad-info">
 							<div class="chart-title">
-								<fmt:message key="광고" /> <i class="fas fa-ellipsis-v chart-menu"></i>
-							</div> 
+								<fmt:message key="광고" />
+								<i class="fas fa-ellipsis-v chart-menu"></i>
+							</div>
 							<div class="ad-img-con">
 								<div class="ad-img"></div>
 							</div>
