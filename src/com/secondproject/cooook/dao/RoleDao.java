@@ -56,7 +56,6 @@ public class RoleDao {
 				""";
         
         sql = MessageFormat.format(sql, tableName, locale);
-        System.out.println(sql);
 
         try (Connection connection = DatabaseManager.getConnection();
         	PreparedStatement stmt = connection.prepareStatement(sql)
