@@ -2,11 +2,13 @@ package com.secondproject.cooook.handler.role;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.secondproject.cooook.common.LocaleUtil;
 import com.secondproject.cooook.common.RoleFeatureCode;
 import com.secondproject.cooook.dao.RoleDao;
 import com.secondproject.cooook.handler.CommandHandler;
@@ -21,7 +23,7 @@ public class RoleUpdateHandler implements CommandHandler {
 	    if ("GET".equalsIgnoreCase(method)) { 	    	
 			int roleId = Integer.parseInt(request.getParameter("roleId"));			
 
-	    	RoleDao dao = new RoleDao();
+        	RoleDao dao = new RoleDao();
 	    	Role role = dao.getRoleByRoleId(roleId);
 	    	role.setFeatureNames(RoleFeatureCode.convertFeatureCodesToNames(role.getFeatureCodes()));
 
@@ -46,7 +48,10 @@ public class RoleUpdateHandler implements CommandHandler {
                 .map(string -> string.trim())
                 .collect(Collectors.toList());
 
-        RoleDao dao = new RoleDao();
+		Locale locale = (Locale) request.getSession().getAttribute("locale");
+		String localeStr = LocaleUtil.getLocale(locale);
+
+        RoleDao dao = new RoleDao(localeStr);
         dao.updateRole(role, featureCodes);
         
 		return "redirect:/role.do";
