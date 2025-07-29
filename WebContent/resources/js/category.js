@@ -6,6 +6,7 @@ $(function() {
 		'core': {
 			'data': treeData,
 			'check_callback': true
+
 		},
 		'plugins': ['wholerow', 'contextmenu', 'search', 'dnd'],
 		'search': {
@@ -19,23 +20,23 @@ $(function() {
 			'items': function(node) {
 				return window.isContextMenuEnabled ? {
 					'expand': {
-						'label': '펼치기',
+						'label': 'expand',
 						'action': () => expandChildren(node)
 					},
 					'collapse': {
-						'label': '접기',
+						'label': 'collapse',
 						'action': () => collapseChildren(node)
 					},
 					'add': {
-						'label': '추가',
+						'label': 'add',
 						'action': () => addCategory(node)
 					},
 					'edit': {
-						'label': '수정',
+						'label': 'edit',
 						'action': () => editCategory(node)
 					},
 					'delete': {
-						'label': '삭제',
+						'label': 'delete',
 						'action': () => deleteNode(node)
 					}
 				} : null;;
@@ -48,6 +49,7 @@ $(function() {
 	})
 		.on('ready.jstree', function(e, data) {
 			const categoryIdElements = document.getElementsByName('categoryId');
+
 
 			// 이벤트 등록
 			if (categoryIdElements.length > 0) {
@@ -174,12 +176,13 @@ function collapseChildren(node) {
 }
 
 function addCategory(parentNode) {
-	var newCategoryName = prompt("새 카테고리 이름을 입력하세요:");
-	if (newCategoryName) {
-		var newNode = {
-			"text": newCategoryName,
-			"parent": parentNode.id === '#' ? '#' : parentNode.id
-		};
+	var newCategoryName = prompt(i18n.promptAdd); // 🔁 다국어로
+    if (newCategoryName) {
+        var newNode = {
+            "text": newCategoryName,
+            "parent": parentNode.id === '#' ? '#' : parentNode.id
+        };
+
 
 		$('#categoryTree').jstree('create_node', parentNode, newNode, 'last', function(newNode) {
 			submitCategoryForm(newNode);
@@ -210,10 +213,11 @@ function submitCategoryForm(node) {
 }
 
 function editCategory(node) {
-	var newCategoryName = prompt("새 카테고리 이름을 입력하세요:", node.text);
-	if (newCategoryName && newCategoryName !== node.text) {
-		node.text = newCategoryName;
-		$('#categoryTree').jstree('rename_node', node, newCategoryName);
+	var newCategoryName = prompt(i18n.promptEdit, node.text); // 🔁 다국어로
+    if (newCategoryName && newCategoryName !== node.text) {
+        node.text = newCategoryName;
+        $('#categoryTree').jstree('rename_node', node, newCategoryName);
+
 
 		submitCategoryUpdateForm(node);
 	}
@@ -270,10 +274,11 @@ function submitCategoryMoveForm(nodeId, parentId) {
 }
 
 function deleteNode(node) {
-	if (confirm('정말로 이 카테고리를 삭제하시겠습니까?')) {
-		var form = document.createElement('form');
-		form.method = 'POST';
-		form.action = '/category/delete.do';
+	if (confirm(i18n.confirmDelete)) { // 🔁 다국어로
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/category/delete.do';
+
 
 		var input = document.createElement('input');
 		input.type = 'hidden';
