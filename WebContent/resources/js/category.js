@@ -19,25 +19,25 @@ $(function() {
 		'contextmenu': {
 			'items': function(node) {
 				return window.isContextMenuEnabled ? {
-					'expand': {
-						'label': 'expand',
-						'action': () => expandChildren(node)
+					expand: {
+					  label:  i18n.expand,          // ◀ 여기
+					  action: () => expandChildren(node)
 					},
-					'collapse': {
-						'label': 'collapse',
-						'action': () => collapseChildren(node)
+					collapse: {
+					  label:  i18n.collapse,
+					  action: () => collapseChildren(node)
 					},
-					'add': {
-						'label': 'add',
-						'action': () => addCategory(node)
+					add: {
+					  label:  i18n.add,
+					  action: () => addCategory(node)
 					},
-					'edit': {
-						'label': 'edit',
-						'action': () => editCategory(node)
+					edit: {
+					  label:  i18n.edit,
+					  action: () => editCategory(node)
 					},
-					'delete': {
-						'label': 'delete',
-						'action': () => deleteNode(node)
+					delete: {
+					  label:  i18n.delete,
+					  action: () => deleteNode(node)
 					}
 				} : null;;
 			}

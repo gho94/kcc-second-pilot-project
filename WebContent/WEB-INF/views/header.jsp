@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : pageContext.request.locale}" />
-<fmt:setBundle basename="Menu" />
+<fmt:setBundle basename="Main"/>
 
 <c:set var="originalURI" value="${requestScope['javax.servlet.forward.request_uri']}"/>
 <header>

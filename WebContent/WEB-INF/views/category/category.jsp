@@ -5,7 +5,7 @@
 
 <fmt:setLocale
 	value="${sessionScope.locale != null ? sessionScope.locale : pageContext.request.locale}" />
-<fmt:setBundle basename="Menu"  />
+<fmt:setBundle basename="Main"  />
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.List"%>
@@ -42,21 +42,21 @@ request.setAttribute("pageScripts", List.of("https://cdn.jsdelivr.net/npm/jstree
 		</div>
 	</div>
 	<%@ include file="/WEB-INF/views/footer.jsp"%>
-	<script src="/resources/js/category.js"></script>
 <script>
 const i18n = {
-	    add: '<fmt:message key="추가" />',
-	    edit: '<fmt:message key="수정" />',
-	    delete: '<fmt:message key="삭제" />',
-	    expand: '<fmt:message key="펼치기" />',
-	    collapse: '<fmt:message key="접기" />',
-	    promptAdd: '<fmt:message key="새 카테고리 이름을 입력하세요" />',
-	    promptEdit: '<fmt:message key="수정할 카테고리 이름을 입력하세요" />',
-	    confirmDelete: '<fmt:message key="정말로 이 카테고리를 삭제하시겠습니까" />'
+	    add:           '<fmt:message key="추가"/>',
+	    edit:          '<fmt:message key="수정"/>',
+	    delete:        '<fmt:message key="삭제"/>',
+	    expand:        '<fmt:message key="펼치기"/>',
+	    collapse:      '<fmt:message key="접기"/>',
+	    promptAdd:     '<fmt:message key="새카테고리이름을입력하세요"/>',
+	    promptEdit:    '<fmt:message key="수정할카테고리이름을입력하세요"/>',
+	    confirmDelete: '<fmt:message key="정말로이카테고리를삭제하시겠습니까?"/>'
 	  };
 
 window.treeData = <%= request.getAttribute("categoryTree") %>;
 </script>
+	<script src="/resources/js/category.js"></script>
 
 </body>
 </html>

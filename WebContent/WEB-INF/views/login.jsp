@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : pageContext.request.locale}" />
-<fmt:setBundle basename="Menu" />
+<fmt:setBundle basename="Main"/>
 <!DOCTYPE html>
 <html>
 <%@ page import="java.util.List" %>
