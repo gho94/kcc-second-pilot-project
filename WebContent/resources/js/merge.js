@@ -137,7 +137,11 @@ function validateForm() {
 		}
 
 		// 빈 값 검증
-		if (!valueTrim || (element.type == 'number' && valueTrim === '0' && element.dataset.validNozero !=='false')) {
+		if (!valueTrim || (
+		        ['hidden', 'number'].includes(element.type) && 
+		        valueTrim === '0' && 
+		        element.dataset.validNozero === 'true'
+		    )) {
 			showValidationError(element, message);
 			return false;
 		}
