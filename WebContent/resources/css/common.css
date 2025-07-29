@@ -102,6 +102,7 @@ pre {
 	border-color: inherit;
 	min-height: 500px;
 	overflow-y:auto;
+	overflow-x:hidden;
 }
 
 .content .container .table-container th {
