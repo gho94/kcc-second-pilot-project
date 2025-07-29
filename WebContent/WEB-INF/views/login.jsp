@@ -32,6 +32,11 @@ request.setAttribute("pageStyles", List.of("/resources/css/login.css"));
             </button>
         </form>
     </div>
+	<script>
+		<c:if test="${not empty error_msg}">
+			alert("${error_msg}");
+		</c:if>
+	</script>
 	<script src="/resources/js/login.js"></script>
 </body>
 </html>

@@ -37,7 +37,8 @@ public class LoginHandler implements CommandHandler {
 		Staff staff = dao.login(email, password);
 
 		if (staff == null) {
-			throw new RuntimeException("로그인 실패: 이메일 또는 비밀번호가 잘못되었습니다.");
+			request.setAttribute("error_msg", "잘못된 이메일 또는 비밀번호입니다.");
+			return "index.jsp";
 		}
 
 		HttpSession newSession = request.getSession(true); // 새로운 세션 생성
