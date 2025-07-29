@@ -1,11 +1,13 @@
 package com.secondproject.cooook.handler.order;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.secondproject.cooook.common.LocaleUtil;
 import com.secondproject.cooook.dao.MenuDao;
 import com.secondproject.cooook.dao.OrderDao;
 import com.secondproject.cooook.handler.CommandHandler;
@@ -19,7 +21,10 @@ public class OrderInsertHandler implements CommandHandler {
 	public String process(HttpServletRequest request, HttpServletResponse response) {
 		String method = request.getMethod();
 		if ("GET".equalsIgnoreCase(method)) {
-			MenuDao menuDao = new MenuDao();
+			Locale locale = (Locale) request.getSession().getAttribute("locale");
+			String localeStr = LocaleUtil.getLocale(locale);
+	    
+			MenuDao menuDao = new MenuDao(localeStr);
 			List<Menu> menus = menuDao.getAllMenus();
 			request.setAttribute("action", "insert");
 			request.setAttribute("menus", menus);

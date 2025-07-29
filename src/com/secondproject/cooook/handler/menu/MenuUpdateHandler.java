@@ -1,6 +1,7 @@
 package com.secondproject.cooook.handler.menu;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.secondproject.cooook.common.LocaleUtil;
 import com.secondproject.cooook.dao.CategoryDao;
 import com.secondproject.cooook.dao.MenuCategoryDao;
 import com.secondproject.cooook.dao.MenuDao;
@@ -25,10 +27,13 @@ public class MenuUpdateHandler implements CommandHandler {
 		if ("GET".equalsIgnoreCase(method)) {
 			int menuId = Integer.parseInt(request.getParameter("menuId"));
 
-			MenuDao dao = new MenuDao();
+			Locale locale = (Locale) request.getSession().getAttribute("locale");
+			String localeStr = LocaleUtil.getLocale(locale);
+			MenuDao dao = new MenuDao(localeStr);
+	    
 			Menu menu = dao.getMenuById(menuId);
-
-			CategoryDao cdao = new CategoryDao();
+		
+			CategoryDao cdao = new CategoryDao(localeStr);
 			List<Category> categories = cdao.selectCategory();
 			JSONArray jsonArray = new JSONArray();
 			for (Category category : categories) {
@@ -57,8 +62,11 @@ public class MenuUpdateHandler implements CommandHandler {
 		menu.setMenuId(menuId);
 		menu.setMenuName(menuName);
 		menu.setPrice(price);
+		
+		Locale locale = (Locale) request.getSession().getAttribute("locale");
+		String localeStr = LocaleUtil.getLocale(locale);
 
-		MenuDao dao = new MenuDao();
+		MenuDao dao = new MenuDao(localeStr);
 		dao.updateMenu(menu);		
 		MenuCategoryDao cdao = new MenuCategoryDao();
 		menuCategory.setMenuId(menuId);

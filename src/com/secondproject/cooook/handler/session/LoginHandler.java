@@ -47,7 +47,7 @@ public class LoginHandler implements CommandHandler {
 				.toMap(code -> RoleFeatureCode.FEATURE_NAME_MAP.getOrDefault(code, code), code -> getMenuUrl(code)));
 		newSession.setAttribute("menuMap", menuMap);
 		
-		DashboardDao dashboardDao = new DashboardDao();
+		DashboardDao dashboardDao = new DashboardDao(request);
 		Dashboard dashboard = dashboardDao.selectDashboard();
 		
 		newSession.setAttribute("dashboard", dashboard);
