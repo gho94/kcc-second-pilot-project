@@ -1,11 +1,16 @@
 package com.secondproject.cooook.handler.recipe;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.secondproject.cooook.handler.CommandHandler;
+
 import com.secondproject.cooook.dao.RecipeDao;
+import com.secondproject.cooook.handler.CommandHandler;
 import com.secondproject.cooook.model.Recipe;
-import java.util.List;
 
 public class RecipeListHandler implements CommandHandler {
 
@@ -13,25 +18,13 @@ public class RecipeListHandler implements CommandHandler {
     public String process(HttpServletRequest request, HttpServletResponse response) {
         RecipeDao dao = new RecipeDao();
 
-        // 검색어 파라미터
-        String menuNameParam = request.getParameter("menuName");
-        List<Recipe> recipeList;
-        if (menuNameParam != null && !menuNameParam.isBlank()) {
-            // 메뉴명 포함 검색
-            recipeList = dao.selectByMenuName(menuNameParam);
-            request.setAttribute("searchMenuName", menuNameParam);
-        } else {
-            // 전체 조회
-            recipeList = dao.selectAllRecipes();
-
-        }
+        List<Recipe> recipeList = dao.selectAllRecipes();
 
         // 뷰로 전달
         request.setAttribute("recipeList", recipeList);
-        // JSP에서 입력값 유지용
-        request.setAttribute("menuName", menuNameParam);
-
-        // forward할 JSP (앞에 "/" 없음)
-        return "recipe/recipe_list.jsp";
+        
+		
+        return "recipe/recipe.jsp";
     }
+    
 }

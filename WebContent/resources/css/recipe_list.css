@@ -159,7 +159,7 @@ body {
 
 .toggle-icon {
   font-size: 0.875rem;
-  color: #007bff;
+  color: #7cc0ff;
   transition: transform 0.3s ease;
 }
 
@@ -236,6 +236,7 @@ body {
 }
 
 .recipe-table {
+	table-layout: fixed;
   width: 100%;
   border-collapse: collapse;
 }
@@ -269,13 +270,9 @@ body {
 }
 
 .quantity-badge {
-  background-color: #e3f2fd;
-  color: #1976d2;
   padding: 0.2rem 0.6rem;
-  border-radius: 12px;
   font-size: 0.8rem;
   font-weight: 500;
-  display: inline-block;
 }
 
 .description {

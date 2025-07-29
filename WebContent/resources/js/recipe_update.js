@@ -38,8 +38,8 @@ function collectExistingIngredientIds() {
 // 재료 행 추가 함수
 function addIngredientRow() {
   const tbody = document.getElementById("ingredientTableBody")
-  const row = document.createElement("tr")
-  row.className = "new-ingredient-row"
+  const row = document.createElement("div")
+  row.className = "table-row ingredient-row"
 
   // 사용 가능한 재료 필터링
   const availableIngredients = allIngredients.filter((ing) => !existingIngredientIds.has(ing.id))
@@ -55,7 +55,7 @@ function addIngredientRow() {
   select.className = "field-select"
   select.required = true
 
-  const defaultOption = new Option("-- 재료를 선택해주세요 --", "")
+  const defaultOption = new Option("재료를 선택해주세요", "")
   select.appendChild(defaultOption)
 
   availableIngredients.forEach((ing) => {
@@ -94,15 +94,15 @@ function addIngredientRow() {
 
   // 행 HTML 구성
   row.innerHTML = `
-        <td></td>
-        <td><input type="number" name="quantity" step="0.1" min="0.1" class="field-input" placeholder="1" required /></td>
-        <td></td>
-        <td><input type="text" name="description" class="field-input" placeholder="예: 잘게 다져서" /></td>
-        <td>
-            <button type="button" class="remove-btn" onclick="removeIngredientRow(this)">
+  		<div class="table-cell ingredient-col"></div>
+        <div class="table-cell quantity-col"><input type="number" name="quantity" step="0.1" min="0.1" class="field-input" placeholder="1" required /></div>
+        <div class="table-cell unit-col"></div>
+        <div class="table-cell description-col"><input type="text" name="description" class="field-input" placeholder="예: 잘게 다져서" /></div>
+        <div class="table-cell action-col">
+            <button type="button" class="delete-btn" onclick="removeIngredientRow(this)">
                 ✕
             </button>
-        </td>
+        </div>
     `
 
   // 드롭다운과 단위 입력 필드 삽입
@@ -113,8 +113,6 @@ function addIngredientRow() {
 
   // 새 행으로 스크롤
   row.scrollIntoView({ behavior: "smooth", block: "center" })
-
-  showToast("새 재료 행이 추가되었습니다.")
 }
 
 // 재료 행 제거 함수
@@ -159,14 +157,7 @@ function updateAllDropdowns() {
 
 // 토스트 메시지 표시
 function showToast(message, type = "success") {
-  const toast = document.getElementById("toast")
-  toast.textContent = message
-  toast.className = `toast ${type}`
-  toast.classList.add("show")
-
-  setTimeout(() => {
-    toast.classList.remove("show")
-  }, 3000)
+ alert(message);
 }
 
 // 폼 제출 처리

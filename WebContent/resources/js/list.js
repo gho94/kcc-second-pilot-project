@@ -1,5 +1,5 @@
 let currentPage = 1;
-const numPerPage = 10;
+const numPerPage = menuName === "recipe" ? 30 : 10;
 let row = "";
 if (menuName == "staff") {
 	function generateRows(employees) {
@@ -125,8 +125,75 @@ if (menuName == "staff") {
 			menu.price.toLowerCase().includes(searchTerm)
 		);
 	}
-} else {
-
+} else if(menuName == "recipe"){
+	function generateRows(recipes) {
+	    if (!recipes || recipes.length === 0) {
+	        return '<div class="empty-state"><div class="empty-message">등록된 레시피가 없습니다</div></div>';
+	    }
+	    
+	    // 메뉴별로 그룹화 (전체 데이터가 아닌 현재 페이지 데이터만)
+	    const menuGroups = groupRecipesByMenu(recipes);
+	    
+	    return menuGroups.map(group => `
+	        <div class="menu-card">
+	            <div class="menu-header">
+	                <div class="menu-info">
+	                    <button class="toggle-btn" onclick="toggleRecipes(${group.menuId})">
+	                        <span class="toggle-icon" id="icon-${group.menuId}">▶</span>
+	                    </button>
+	                    <div class="menu-details">
+	                        <h3 class="menu-name">${group.menuName}</h3>
+	                        <p class="ingredient-count mb-0">재료 ${group.recipes.length}개</p>
+	                    </div>
+	                </div>
+	                <div class="action-buttons">
+	                    <form action="/recipe/update.do" class="manage-btn-con col-lg-6">
+	                        <input type="hidden" name="menuId" value="${group.menuId}"/>
+	                        <span class="manage-btn update-btn"><input type="submit" value="수정"/></span>
+	                    </form>
+	                    <form action="/recipe/delete.do" method="post" class="manage-btn-con col-lg-6"
+	                          onsubmit="return confirm('정말 삭제하시겠습니까?');">
+	                        <input type="hidden" name="menuId" value="${group.menuId}"/>
+	                        <span class="manage-btn delete-btn"><input type="submit" value="삭제"/></span>
+	                    </form>
+	                </div>
+	            </div>
+	            
+	            <div class="recipe-details" id="recipes-${group.menuId}" style="display: none;">
+	                <table class="recipe-table">
+	                    <thead>
+	                        <tr>
+	                            <th>재료명</th>
+	                            <th>수량</th>
+	                            <th>설명</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                        ${group.recipes.map(recipe => `
+	                            <tr>
+	                                <td class="ingredient-name">${recipe.ingredientName}</td>
+	                                <td class="quantity-badge">${recipe.quantity}${recipe.unit}</td>
+	                                <td class="description">${recipe.description || '-'}</td>
+	                            </tr>
+	                        `).join('')}
+	                    </tbody>
+	                </table>
+	            </div>
+	        </div>
+	    `).join('');
+	}
+	
+	function filterData(allData, searchTerm) {
+	    if (!searchTerm) return allData;
+	    
+	    const lowerSearchTerm = searchTerm.toLowerCase();
+	    
+	    return allData.filter(recipe =>
+	        recipe.menuName.toLowerCase().includes(lowerSearchTerm) ||
+	        recipe.ingredientName.toLowerCase().includes(lowerSearchTerm) ||
+	        recipe.categoryName.toLowerCase().includes(lowerSearchTerm) 
+	    );
+	}
 }
 // JSP에서 전달받은 데이터 사용
 const allData = window.saveData || [];
