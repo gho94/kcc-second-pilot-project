@@ -226,7 +226,7 @@
         <!-- 버튼 -->
         <div class="page-actions">
           <input type="hidden" name="changePasswordFlag" id="changePasswordFlag" value="false"/>
-          <input type="hidden" name="staffId" value="${confirmTextJSTL}"/>
+          <input type="hidden" name="staffId" value="${staff.staffId}"/>
           <input type="submit" class="btn btn-primary" value="${saveText}"/>
           <input
             type="button"
