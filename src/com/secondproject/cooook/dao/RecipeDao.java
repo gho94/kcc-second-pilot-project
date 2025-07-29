@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.secondproject.cooook.db.DatabaseManager;
+import com.secondproject.cooook.common.DatabaseManager;
 import com.secondproject.cooook.model.Menu;
 import com.secondproject.cooook.model.Recipe;
 

@@ -1,4 +1,4 @@
-package com.secondproject.cooook.db;
+package com.secondproject.cooook.common;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

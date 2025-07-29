@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.secondproject.cooook.common.DatabaseManager;
 import com.secondproject.cooook.common.LocaleUtil;
-import com.secondproject.cooook.db.DatabaseManager;
 import com.secondproject.cooook.model.Dashboard;
 import com.secondproject.cooook.model.Menu;
 

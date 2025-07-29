@@ -1,55 +1,55 @@
 package com.secondproject.cooook.handler.category;
 
 import java.util.List;
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.secondproject.cooook.common.LocaleUtil;
 import com.secondproject.cooook.dao.CategoryDao;
 import com.secondproject.cooook.handler.CommandHandler;
 import com.secondproject.cooook.model.Category;
 
 public class CategoryUpdateHandler implements CommandHandler {
 
-    @Override
-    public String process(HttpServletRequest request, HttpServletResponse response) {
-        String method = request.getMethod();
-        CategoryDao dao = new CategoryDao();
+	@Override
+	public String process(HttpServletRequest request, HttpServletResponse response) {
+		String action = request.getParameter("action");
+		if ("move".equalsIgnoreCase(action)) {
+			int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+			String parentIdStr = request.getParameter("parentId");
+			int parentId = "#".equalsIgnoreCase(parentIdStr) ? 0 : Integer.parseInt(parentIdStr);
+			
+			Category category = new Category();
+			category.setCategoryId(categoryId);
+			category.setParentId(parentId);
 
-        if ("GET".equalsIgnoreCase(method)) {
-            // 📌 수정 대상 카테고리 ID 받기
-            int categoryId = Integer.parseInt(request.getParameter("id"));
+			CategoryDao dao = new CategoryDao();
+			dao.updateCategory(category, 1);
 
-            // 📌 수정 대상 카테고리 조회
-            Category category = dao.selectCategoryById(categoryId);
+			return "redirect:/category.do";
+		} 
 
-            // 📌 상위 카테고리 목록 전체 조회 (트리용)
-            List<Category> categoryList = dao.selectCategory();
+		Category category  = new Category();
+		
+		String categoryName = request.getParameter("categoryName");
+		int categoryId = Integer.parseInt(request.getParameter("categoryId"));
 
-            request.setAttribute("category", category);
-            request.setAttribute("categoryList", categoryList);
-            request.setAttribute("action", "update");
+		category.setCategoryName(categoryName);
+		category.setCategoryId(categoryId);
 
-            return "category/category_update.jsp";
-        }
+		Locale locale = (Locale) request.getSession().getAttribute("locale");
+		String localeStr = LocaleUtil.getLocale(locale);
+		
+		CategoryDao dao = new CategoryDao(localeStr);
 
-        // 📌 POST 요청: 수정 처리
-        int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-        String categoryName = request.getParameter("categoryName");
-        System.out.println("name: " + categoryName);
-        String parentIdParam = request.getParameter("parentId");
+		dao.updateCategory(category, 0);
+		
+		return "redirect:/category.do";
+	}
 
-        Category updatedCategory = new Category();
-        updatedCategory.setCategoryId(categoryId);
-        updatedCategory.setCategoryName(categoryName);
-
-        if (parentIdParam != null && !parentIdParam.isBlank()) {
-            updatedCategory.setParentId(Integer.parseInt(parentIdParam));
-        } else {
-            updatedCategory.setParentId(null);
-        }
-
-        dao.updateCategory(updatedCategory, updatedCategory.getCategoryId());
-        System.out.println("업데이트 내역" + updatedCategory);
-        return "redirect:/category/list.do";
-    }
 }
