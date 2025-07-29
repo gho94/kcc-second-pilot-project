@@ -23,8 +23,9 @@ public class RoleHandler implements CommandHandler {
         RoleDao dao = new RoleDao(localeStr);
         
 		List<Role> roles = dao.getAllRoles().stream()
-				.map(role -> {
+				.map(role -> {					
 					String featureNames = RoleFeatureCode.convertFeatureCodesToNames(role.getFeatureCodes());
+					if ("_e".equals(localeStr)) featureNames = role.getFeatureCodes();
 					role.setFeatureNames(featureNames);
 					return role;
 				})

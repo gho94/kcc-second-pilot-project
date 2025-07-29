@@ -3,6 +3,7 @@ package com.secondproject.cooook.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +12,13 @@ import com.secondproject.cooook.common.PasswordUtil;
 import com.secondproject.cooook.model.Staff;
 
 public class StaffDao {
-
-
 	private static final String tableName = "staff";
+	private String locale = "_k";
+
+	public StaffDao() {}
+	public StaffDao(String locale) {
+		this.locale = locale;
+	}
 	
 	public void insertStaff(Staff staff) {
 		Connection con = null;
@@ -143,10 +148,13 @@ public class StaffDao {
 					   + "       s.email 			AS email,"
 					   + "       s.phone 			AS phone,"
 					   + "       s.role_id 		AS roleId,"
-					   + "       r.role_name 		AS roleName,"
+					   + "       COALESCE(r.role_name{0}, r.role_name)	AS roleName,"
 					   + "       s.created_at 	AS createdAt "
 					   + " from "+tableName+" s left join roles r on r.role_id = s.role_id "
 					   + " where s.deleted_at is null order by s.staff_id";
+			
+			sql = MessageFormat.format(sql, locale);			
+
 			PreparedStatement stmt = con.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
@@ -182,12 +190,15 @@ public class StaffDao {
 					   + "       s.email 			AS email,"
 					   + "       s.phone 			AS phone,"
 					   + "       s.role_id 		AS roleId,"
-					   + "       r.role_name 		AS roleName,"
+					   + "       COALESCE(r.role_name{0}, r.role_name)	AS roleName,"
 					   + "       s.created_at 	AS createdAt "
 					   + " from "+tableName+" s left join roles r on r.role_id = s.role_id "
 					   + " where s.deleted_at is null"
 					   + " AND s.staff_id = ? "
 					   + " order by s.staff_id";
+			
+			sql = MessageFormat.format(sql, locale);			
+
 			PreparedStatement stmt = con.prepareStatement(sql);
 			
             stmt.setInt(1, staffId);
@@ -228,10 +239,13 @@ public class StaffDao {
 					   + "       s.email 			AS email,"
 					   + "       s.phone 			AS phone,"
 					   + "       s.role_id 		AS roleId,"
-					   + "       r.role_name 		AS roleName,"
+					   + "       COALESCE(r.role_name{0}, r.role_name)	AS roleName,"
 					   + "       s.created_at 	AS createdAt "
 					   + " from "+tableName+" s left join roles r on r.role_id = s.role_id "
 					   + " WHERE email = ? AND password = ? order by staff_id";
+			
+			sql = MessageFormat.format(sql, locale);			
+
 	        stmt = con.prepareStatement(sql);
 	        stmt.setString(1, email);
 	        stmt.setString(2, PasswordUtil.hashPassword(inputPw)); // 입력 비밀번호를 해시해서 비교

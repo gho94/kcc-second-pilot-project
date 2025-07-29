@@ -3,6 +3,7 @@ package com.secondproject.cooook.handler.role;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,9 @@ import com.secondproject.cooook.model.Role;
 public class RoleInsertHandler implements CommandHandler {
 
 	@Override
-	public String process(HttpServletRequest request, HttpServletResponse response) {
+	public String process(HttpServletRequest request, HttpServletResponse response) {		
+		Locale locale = (Locale) request.getSession().getAttribute("locale");
+		String localeStr = LocaleUtil.getLocale(locale);	    
 	    String method = request.getMethod();
 
 	    if ("GET".equalsIgnoreCase(method)) { 	    	
@@ -25,7 +28,18 @@ public class RoleInsertHandler implements CommandHandler {
 	    	
 	    	request.setAttribute("action", "insert");
 	    	request.setAttribute("role", role);
-	    	request.setAttribute("roleList", RoleFeatureCode.FEATURE_NAME_MAP);
+
+			Map<String, String> featureMap = RoleFeatureCode.FEATURE_NAME_MAP;
+
+			if ("_e".equals(localeStr)) {
+				featureMap = featureMap.entrySet().stream()
+								.collect(Collectors.toMap(
+									entry -> entry.getKey(), 
+									entry -> entry.getKey()
+								));
+			}
+
+	    	request.setAttribute("roleList", featureMap);
 	        return "role/role_merge.jsp";
 	    }	    
 	    
@@ -41,9 +55,6 @@ public class RoleInsertHandler implements CommandHandler {
                 .map(string -> string.trim())
                 .collect(Collectors.toList());
 
-		Locale locale = (Locale) request.getSession().getAttribute("locale");
-		String localeStr = LocaleUtil.getLocale(locale);
-	    
         RoleDao dao = new RoleDao(localeStr);
         
         dao.insertRole(role, featureCodes);
