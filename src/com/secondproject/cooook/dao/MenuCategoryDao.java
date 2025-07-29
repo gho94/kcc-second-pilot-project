@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.secondproject.cooook.db.DatabaseManager;
+import com.secondproject.cooook.common.DatabaseManager;
 import com.secondproject.cooook.model.Category;
 import com.secondproject.cooook.model.Menu;
 import com.secondproject.cooook.model.MenuCategory;
