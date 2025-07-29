@@ -1,4 +1,4 @@
-package com.secondproject.cooook.util;
+package com.secondproject.cooook.common;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

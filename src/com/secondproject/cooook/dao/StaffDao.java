@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.secondproject.cooook.db.DatabaseManager;
+import com.secondproject.cooook.common.DatabaseManager;
+import com.secondproject.cooook.common.PasswordUtil;
 import com.secondproject.cooook.model.Staff;
-import com.secondproject.cooook.util.PasswordUtil;
 
 public class StaffDao {
 
