@@ -1,4 +1,5 @@
 let currentPage = 1;
+
 const numPerPage = 10;
 
 // 다국어 처리용 객체
@@ -95,6 +96,7 @@ function generateRows(dataList) {
   } else {
     return '';
   }
+
 }
 
 function filterData(allData, searchTerm) {

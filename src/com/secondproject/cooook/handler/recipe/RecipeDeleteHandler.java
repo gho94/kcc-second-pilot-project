@@ -22,6 +22,6 @@ public class RecipeDeleteHandler implements CommandHandler {
         }
 
         // 3) 삭제 후 레시피 목록으로 리다이렉트
-        return "redirect:/recipe/list.do";
+        return "redirect:/recipe.do";
     }
 }

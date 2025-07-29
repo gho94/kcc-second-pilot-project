@@ -101,6 +101,7 @@ pre {
 	unicode-bidi: isolate;
 	border-color: inherit;
 	min-height: 500px;
+	overflow-y:auto;
 }
 
 .content .container .table-container th {

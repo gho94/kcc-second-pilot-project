@@ -90,7 +90,7 @@ public class RecipeUpdateHandler implements CommandHandler {
             RecipeDao recipeDao = new RecipeDao();
             recipeDao.updateRecipe(menuId, recipes);
 
-            return "redirect:/recipe/list.do";
+            return "redirect:/recipe.do";
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "레시피 수정 중 오류 발생");
