@@ -14,7 +14,7 @@ import com.secondproject.cooook.dao.CategoryDao;
 import com.secondproject.cooook.handler.CommandHandler;
 import com.secondproject.cooook.model.Category;
 
-public class CategoryUpdateHandler2 implements CommandHandler {
+public class CategoryUpdateHandler implements CommandHandler {
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) {

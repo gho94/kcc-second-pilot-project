@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.secondproject.cooook.dao.CategoryDao;
 import com.secondproject.cooook.handler.CommandHandler;
 
-public class CategoryDeleteHandler2 implements CommandHandler {
+public class CategoryDeleteHandler implements CommandHandler {
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) {
