@@ -52,10 +52,10 @@
                     </div>
                     <div class="row">
                         <div class="col-12 mt-2 profile-desc">
-                            <fmt:message key="이메일" /> : <%= session.getAttribute("userEmail") %>
+                            <fmt:message key="이메일" /> : ${staff.email}
                         </div>
                         <div class="col-12 mt-1 profile-desc">
-                            <fmt:message key="권한명" /> : <%= session.getAttribute("userRole") %>
+                            <fmt:message key="권한명" /> : ${staff.roleName}
                         </div>
                     </div>
                 </div>
