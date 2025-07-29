@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,12 +12,18 @@ import com.secondproject.cooook.db.DatabaseManager;
 import com.secondproject.cooook.model.Menu;
 
 public class MenuDao {  
+    private String locale = "_k";
+    public MenuDao() {}
+    public MenuDao(String locale) {
+        this.locale = locale;
+    }
+
     public List<Menu> getAllMenus() {
         List<Menu> menus = new ArrayList<>();
         String sql = """
         		SELECT 
         			m.menu_id AS menuId, 
-        			m.menu_name AS menuName, 
+                    COALESCE(m.menu_name{0}, m.menu_name) AS menuName, 
         			m.price AS price,
         			m.created_at AS createdAt,
         			mc.category_id AS categoryId,
@@ -24,6 +31,7 @@ public class MenuDao {
         		FROM menu m inner join menu_category mc on m.menu_id = mc.menu_id
         				inner join category c on c.category_id = mc.category_id
         		""";
+        sql = MessageFormat.format(sql, locale);
         
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -50,7 +58,7 @@ public class MenuDao {
     	String sql = """
     			SELECT 
     				m.menu_id AS menuId, 
-    				m.menu_name AS menuName, 
+                    COALESCE(m.menu_name{0}, m.menu_name) AS menuName,
     				m.price AS price,
     				m.created_at AS createdAt,
     				mc.category_id AS categoryId,
@@ -58,6 +66,7 @@ public class MenuDao {
     			FROM menu m inner join menu_category mc on m.menu_id = mc.menu_id
         				inner join category c on c.category_id = mc.category_id WHERE m.menu_id = ?    			
     			""";
+        sql = MessageFormat.format(sql, locale);
         
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -85,11 +94,12 @@ public class MenuDao {
     public int insertMenu(Menu menu) {
     	String sql = """
     			INSERT INTO menu (
-    				menu_id, menu_name, price, created_at
+    				menu_id, menu_name, menu_name{0}, price, created_at
     			) VALUES (
-    				MENU_SEQ.NEXTVAL, ?, ?, SYSDATE
+    				MENU_SEQ.NEXTVAL, ?, ?, ?, SYSDATE
     			)
     			""";
+        sql = MessageFormat.format(sql, locale);
         
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, new String[] {"menu_id"})) {
@@ -97,7 +107,8 @@ public class MenuDao {
         	ResultSet generatedKeys = null;
         	
             pstmt.setString(1, menu.getMenuName());
-            pstmt.setInt(2, menu.getPrice());
+            pstmt.setString(2, menu.getMenuName());
+            pstmt.setInt(3, menu.getPrice());
             
             pstmt.executeUpdate();
             
@@ -117,14 +128,16 @@ public class MenuDao {
     }
     
     public boolean updateMenu(Menu menu) {
-        String sql = "UPDATE menu SET menu_name = ?, price = ? WHERE menu_id = ?";
-        
+        String sql = "UPDATE menu SET menu_name = ?, menu_name{0} = ?, price = ? WHERE menu_id = ?";        
+        sql = MessageFormat.format(sql, locale);
+
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setString(1, menu.getMenuName());
-            pstmt.setInt(2, menu.getPrice());
-            pstmt.setInt(3, menu.getMenuId());
+            pstmt.setString(2, menu.getMenuName());
+            pstmt.setInt(3, menu.getPrice());
+            pstmt.setInt(4, menu.getMenuId());
             
             return pstmt.executeUpdate() > 0;
         } catch (Exception e) {

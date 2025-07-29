@@ -1,6 +1,7 @@
 package com.secondproject.cooook.handler.menu;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.secondproject.cooook.common.LocaleUtil;
 import com.secondproject.cooook.dao.CategoryDao;
 import com.secondproject.cooook.dao.MenuCategoryDao;
 import com.secondproject.cooook.dao.MenuDao;
@@ -24,7 +26,9 @@ public class MenuInsertHandler implements CommandHandler {
 		
 		if ("GET".equalsIgnoreCase(method)) {
 			Menu menu = new Menu();
-			CategoryDao cdao = new CategoryDao();
+			Locale locale = (Locale) request.getSession().getAttribute("locale");
+			String localeStr = LocaleUtil.getLocale(locale);		
+			CategoryDao cdao = new CategoryDao(localeStr);
 			List<Category> categories = cdao.selectCategory();
 			JSONArray jsonArray = new JSONArray();
 			for (Category category : categories) {
@@ -52,7 +56,9 @@ public class MenuInsertHandler implements CommandHandler {
 		menu.setMenuName(menuName);
 		menu.setPrice(price);
 		
-		MenuDao dao = new MenuDao();
+		Locale locale = (Locale) request.getSession().getAttribute("locale");
+		String localeStr = LocaleUtil.getLocale(locale);
+		MenuDao dao = new MenuDao(localeStr);
 		int menuId = dao.insertMenu(menu);
 		int categoryId = Integer.parseInt(request.getParameter("categoryId"));
 		

@@ -3,20 +3,47 @@ package com.secondproject.cooook.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.secondproject.cooook.common.LocaleUtil;
 import com.secondproject.cooook.db.DatabaseManager;
 import com.secondproject.cooook.model.Dashboard;
 import com.secondproject.cooook.model.Menu;
 
 
 public class DashboardDao {
+    private String locale = "_k";
+
+	public DashboardDao (HttpServletRequest request) {	
+		Locale browserLocale = detectBrowserLocale(request);
+		this.locale = LocaleUtil.getLocale(browserLocale);	    
+	}
+
+	
+	private Locale detectBrowserLocale(HttpServletRequest request) {
+		String acceptLanguage = request.getHeader("Accept-Language");
+		if (acceptLanguage == null || acceptLanguage.isEmpty()) {
+			return Locale.KOREAN;
+		}
+
+		String primaryLanguage = acceptLanguage.split(",")[0].trim();
+		String languageCode = primaryLanguage.split("-")[0].toLowerCase();
+
+		switch (languageCode) {
+			case "ko":	return Locale.KOREAN;
+			case "en":	return Locale.ENGLISH;
+			default:	return Locale.KOREAN;
+		}
+	}
+
 	public Dashboard selectDashboard() {
 		Dashboard dashboard = null;
 		
@@ -58,14 +85,15 @@ public class DashboardDao {
         List<Menu> menus = new ArrayList<>();
         String sql = """
         		SELECT        		    		 
-        			menu_id AS menuId, 
-        			menu_name AS menuName, 
+        			menu_id AS menuId, 					
+                    COALESCE(menu_name{0}, menu_name) AS menuName,
         			price AS price,
         			created_at AS createdAt
         		FROM MENU 
 				WHERE ROWNUM  <= 5
 				ORDER BY created_at DESC        		
-        		""";
+        		""";				
+        sql = MessageFormat.format(sql, locale);
         
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);

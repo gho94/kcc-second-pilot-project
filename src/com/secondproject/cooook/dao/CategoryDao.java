@@ -3,6 +3,7 @@ package com.secondproject.cooook.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +11,19 @@ import com.secondproject.cooook.db.DatabaseManager;
 import com.secondproject.cooook.model.Category;
 
 public class CategoryDao {
+	private String locale = "_k";
+	public CategoryDao() {}
+	public CategoryDao(String locale) {
+		this.locale = locale;	
+	}
+	
 	public List<Category> selectCategory() {
 		List<Category> categories = new ArrayList<>();
 		
 		String sql = """
 				SELECT 
 					category_id 	AS categoryId, 
-					category_name 	AS categoryName,
+					COALESCE(category_name{0}, category_name) AS categoryName,
 					parent_id 		AS parentId, 
 					level
 				FROM category
@@ -24,6 +31,7 @@ public class CategoryDao {
 				CONNECT BY PRIOR category_id = parent_id
 				ORDER SIBLINGS BY category_id				
 				""";
+        sql = MessageFormat.format(sql, locale);
 		
 		try (Connection connection = DatabaseManager.getConnection();
 				PreparedStatement statement = connection.prepareStatement(sql);
@@ -149,19 +157,27 @@ public class CategoryDao {
 	
 	public int insertCategory(Category category) {
 		String sql = """
-				INSERT INTO category VALUES (
+				INSERT INTO category (
+					category_id,
+					category_name,
+					category_name{0},
+					parent_id
+				) VALUES (
 				    CATEGORY_SEQ.NEXTVAL, 
 				    ?, 
+					?,
 				    (SELECT category_id 
 				     FROM category 
 				     WHERE category_id = ?)
 				)
 				""";		
+        sql = MessageFormat.format(sql, locale);
 		try (Connection connection = DatabaseManager.getConnection();
 				PreparedStatement statement = connection.prepareStatement(sql)) {
 
 			statement.setString(1, category.getCategoryName());
-			statement.setInt(2, category.getParentId());
+			statement.setString(2, category.getCategoryName());
+			statement.setInt(3, category.getParentId());
 			
 			return statement.executeUpdate();
 		} catch (Exception e) {
@@ -172,13 +188,15 @@ public class CategoryDao {
 
 	public boolean updateCategory(Category category, int updateType) {
 		String sql = "UPDATE category SET ";
-		sql += updateType == 0 ? "category_name = ? " : "parent_id = ?";
+		sql += updateType == 0 ? "category_name = ?, category_name{0} = ? " : "parent_id = ?";
 		sql += " WHERE category_id = ?";
 		
+        sql = MessageFormat.format(sql, locale);
 		try (Connection connection = DatabaseManager.getConnection();
 				PreparedStatement statement = connection.prepareStatement(sql)) {
 			if (updateType == 0) {
 				statement.setString(1, category.getCategoryName());				
+				statement.setString(2, category.getCategoryName());				
 			} else {
 				if (category.getParentId() == 0) {
 					statement.setNull(1, java.sql.Types.INTEGER);
