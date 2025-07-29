@@ -12,7 +12,7 @@
 <c:set var="menuPlaceholder">
   <fmt:message key="메뉴명을입력해주세요"/>
 </c:set>
-<fmt:message key="메뉴명을 입력해주세요" var="menuPlaceholder" />
+<fmt:message key="가격을입력해주세요" var="pricePlaceholder" />
 <fmt:message key="저장하기" var="saveText" />
 <fmt:message key="목록으로" var="backToListText" />
 <!DOCTYPE html>
@@ -70,8 +70,8 @@ request.setAttribute("pageScripts", List.of("https://cdn.jsdelivr.net/npm/jstree
 						<div class="form-group full-width">
 							<label class="form-label"><fmt:message key="가격" /> <span
 								class="required">*</span></label> <input type="number"
-								class="form-input" name="price" placeholder="${menuPlaceholder}"
-								data-valid="${menuPlaceholder}" data-valid-nozero="false"
+								class="form-input" name="price" placeholder="${pricePlaceholder}"
+								data-valid="${pricePlaceholder}" data-valid-nozero="false"
 								value="${menu.price}" />
 						</div>
 					</div>
