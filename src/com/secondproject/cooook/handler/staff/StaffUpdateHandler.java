@@ -20,12 +20,13 @@ public class StaffUpdateHandler implements CommandHandler {
 	    String method = request.getMethod();
 
 	    if ("GET".equalsIgnoreCase(method)) {
-			StaffDao dao = new StaffDao();
+			Locale locale = (Locale) request.getSession().getAttribute("locale");
+			String localeStr = LocaleUtil.getLocale(locale);
+	    
+			StaffDao dao = new StaffDao(localeStr);
 			int staffId = Integer.parseInt(request.getParameter("staffId"));			
 
 			Staff staff = dao.getStaffByStaffId(staffId);
-			Locale locale = (Locale) request.getSession().getAttribute("locale");
-			String localeStr = LocaleUtil.getLocale(locale);
 		    
 	    	RoleDao roleDao = new RoleDao(localeStr);
 	    	List<Role> roleList = roleDao.getAllRoles();

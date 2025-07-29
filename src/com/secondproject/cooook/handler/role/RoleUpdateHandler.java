@@ -3,6 +3,7 @@ package com.secondproject.cooook.handler.role;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,14 +23,32 @@ public class RoleUpdateHandler implements CommandHandler {
 
 	    if ("GET".equalsIgnoreCase(method)) { 	    	
 			int roleId = Integer.parseInt(request.getParameter("roleId"));			
-
-        	RoleDao dao = new RoleDao();
+	    	Locale locale = (Locale) request.getSession().getAttribute("locale");
+			String localeStr = LocaleUtil.getLocale(locale);
+		    
+        	RoleDao dao = new RoleDao(localeStr);
 	    	Role role = dao.getRoleByRoleId(roleId);
-	    	role.setFeatureNames(RoleFeatureCode.convertFeatureCodesToNames(role.getFeatureCodes()));
+			
+			if ("_e".equals(localeStr)) {
+				role.setFeatureNames(role.getFeatureCodes());
+			} else {
+	    		role.setFeatureNames(RoleFeatureCode.convertFeatureCodesToNames(role.getFeatureCodes()));
+			}
 
 	    	request.setAttribute("action", "update");
 	    	request.setAttribute("role", role);
-	    	request.setAttribute("roleList", RoleFeatureCode.FEATURE_NAME_MAP);    	
+			
+			Map<String, String> featureMap = RoleFeatureCode.FEATURE_NAME_MAP;
+
+			if ("_e".equals(localeStr)) {
+				featureMap = featureMap.entrySet().stream()
+								.collect(Collectors.toMap(
+									entry -> entry.getKey(), 
+									entry -> entry.getKey()
+								));
+			}
+
+	    	request.setAttribute("roleList", featureMap);
 	    	
 	        return "role/role_merge.jsp";
 	    }	    
