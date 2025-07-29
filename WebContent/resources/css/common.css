@@ -177,6 +177,7 @@ pre {
 
 .jstree-default .jstree-node {
 	min-height: 48px !important;
+	margin-left: 50px !important;
 }
 
 .jstree-default .jstree-anchor {
