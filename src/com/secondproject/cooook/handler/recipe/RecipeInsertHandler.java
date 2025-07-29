@@ -49,7 +49,7 @@ public class RecipeInsertHandler implements CommandHandler {
             recipeDao.insertRecipe(recipe);
         }
         // 등록 성공 시 리스트로 리다이렉트
-        return "redirect:/recipe/list.do";
+        return "redirect:/recipe.do";
     }
 
     // GET 재사용 메서드

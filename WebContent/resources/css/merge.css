@@ -170,6 +170,11 @@
 	color: #6c757d;
 }
 
+
+.form-input.readonly {
+	background-color: #f2f2f2 !important;
+}
+
 /* 버튼 스타일 */
 .btn {
 	padding: 10px 20px;
@@ -665,13 +670,13 @@
 
 
 #categoryTree {
-    padding: 10px !important;
-    max-height: 510px;
-    overflow-y: auto;
-        outline: none;
-    box-shadow: 0 0 0 3px rgba(157, 195, 230, 0.1);
-    border: 2px solid #9dc3e6;
-    border-radius: 8px;
+	padding: 10px !important;
+	max-height: 510px;
+	overflow-y: auto;
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(157, 195, 230, 0.1);
+	border: 2px solid #9dc3e6;
+	border-radius: 8px;
 }
 
 #categoryTree .jstree-wholerow-ul {

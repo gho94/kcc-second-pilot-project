@@ -1,97 +1,95 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>레시피 수정 - ${menuName}</title>
-    <link rel="stylesheet" href="/resources/css/recipe_update.css">
-</head>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%
+request.setAttribute("pageStyles", List.of("/resources/css/merge.css","/resources/css/recipe_merge.css"));
+%>
+<%@ include file="/WEB-INF/views/head.jsp"%>
 <body>
+	<%@ include file="/WEB-INF/views/header.jsp"%>
+	<div class="content list-content">	
     <div class="container">
-        <!-- 헤더 -->
-        <div class="header">
-            <div class="header-left">
-                <span class="header-icon">✏️</span>
-                <h1 class="page-title">레시피 수정</h1>
-            </div>
-
-        </div>
-
+		<div class="menu-title-con">
+		    <span class="menu-title">레시피 추가</span>
+		</div>
         <!-- 폼 컨테이너 -->
-        <div class="form-container">
-            <!-- 메뉴 정보 -->
-            <div class="menu-info">
-                <span class="menu-label">메뉴:</span>
-                <span class="menu-name">${menuName}</span>
-            </div>
+        <div class="form-con">
+			
 
+			<div class="form-row">
+			    <div class="form-group full-width">
+			        <label class="form-label">메뉴 <span class="required">*</span></label>
+			        
+					<div class="form-input readonly">${menuName}</div>
+			    </div>
+			</div>
+			
             <form method="post" action="/recipe/update.do" id="recipeForm">
                 <input type="hidden" name="menuId" value="${menuId}" />
 
-                <table class="recipe-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 25%;">재료명</th>
-                            <th style="width: 15%;">수량</th>
-                            <th style="width: 10%;">단위</th>
-                            <th style="width: 40%;">설명</th>
-                            <th style="width: 10%;">삭제</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ingredientTableBody">
+				<div class="form-row">
+					<div class="form-group full-width">
+						
+						<div class="section-header">
+						                        <label class="form-label">재료 목록 <span class="required">*</span></label>
+						                        <button type="button" class="add-ingredient-btn" onclick="addIngredientRow()">
+						                            + 재료 추가
+						                        </button>
+						                    </div>
+											<div class="ingredients-table">
+						
+												<div class="table-header">
+												                     <div class="header-cell ingredient-col">재료명</div>
+												                     <div class="header-cell quantity-col">수량</div>
+												                     <div class="header-cell unit-col">단위</div>
+												                     <div class="header-cell description-col">설명 (선택사항)</div>
+												                     <div class="header-cell action-col">삭제</div>
+												                 </div>
+                    <div class="table-body" id="ingredientTableBody">
                         <!-- 기존 재료 출력 -->
                         <c:forEach var="item" items="${recipeList}">
-                            <tr>
-                                <td>
+                            <div class="table-row ingredient-row">
+                                <div class="table-cell ingredient-col">
                                     <span class="ingredient-name">${item.ingredientName}</span>
                                     <input type="hidden" name="ingredientId" value="${item.ingredientId}" />
-                                </td>
-                                <td>
+                                </div>
+                                <div class="table-cell quantity-col">
                                     <input type="text" name="quantity" value="${item.quantity}" 
                                            step="0.1" min="0.1" class="field-input" required />
-                                </td>
-                                <td>
+                                </div>
+                                <div class="table-cell unit-col">
                                     <input type="text" name="unit" value="${item.unit}" 
                                            class="field-input " />
-                                </td>
-                                <td>
+                                </div>
+                                <div class="table-cell description-col">
                                     <input type="text" name="description" value="${item.description}" 
                                            class="field-input" placeholder="예: 잘게 다져서" />
-                                </td>
-                                <td>
+                                </div>
+                                <div class="table-cell action-col">
                                     <input type="checkbox" name="delete" value="${item.ingredientId}" 
                                            class="delete-checkbox" />
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                         </c:forEach>
-                    </tbody>
-                </table>
+                    </div>
+					</div>
+				
+				</div>
+				
+				
+				</div>
 
-                <!-- 재료 추가 버튼 -->
-                <button type="button" class="add-ingredient-btn" onclick="addIngredientRow()">
-                    재료 추가
-                </button>
 
-                <!-- 제출 버튼 -->
-                <div class="submit-section">
-                    <button type="submit" class="submit-btn">
-                        <span class="btn-icon">✓</span>
-                        수정 완료
-                    </button>
-                    <a href="/recipe/list.do" class="cancel-btn">
-                        <span class="btn-icon">✗</span>
-                        취소
-                    </a>
-                </div>
+				<div class="page-actions">
+				    <input type="hidden" name="roleId" value="${role.roleId}"/>
+				    <input type="submit" class="btn btn-primary" value="저장하기">
+				    <input type="button" class="btn btn-cancel" onclick="window.location.href = window.location.href.replace(/\/(insert|update)\.do/, '.do')" value="목록으로">
+				</div>
             </form>
         </div>
     </div>
-
-    <!-- 토스트 메시지 -->
-    <div id="toast" class="toast"></div>
+    </div>
+	<%@ include file="/WEB-INF/views/footer.jsp"%>
 
     <!-- JavaScript 파일 로드 -->
     <script src="/resources/js/recipe_update.js"></script>
