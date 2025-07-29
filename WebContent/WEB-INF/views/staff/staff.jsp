@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
 <fmt:message var="add" key="등록"/>
 <fmt:message var="editText"    key="수정"/>                 <!-- 수정 -->
 <fmt:message var="deleteText"  key="삭제"/>                 <!-- 삭제 -->
-<fmt:message var="confirmMsg"  key="정말삭제하시겠습니까"/> <!-- 정말로 삭제하시겠습니까? -->
+<fmt:message key="정말로삭제하시겠습니까" var="confirmMsg" />
 <!DOCTYPE html>
 <html>
 <%@ page import="java.util.List" %>
@@ -68,7 +68,7 @@ request.setAttribute("pageStyles", List.of("/resources/css/list.css"));
                                 <input type="hidden" name="staffId" value="${staff.staffId}"/>
                                 <span class="manage-btn update-btn"><input type="submit" value="${editText}"/></span>
                             </form>
-							<form action="/staff/delete.do"  class="manage-btn-con col-lg-6" method="post" onsubmit="return confirm('i18n.confirmDelete');">
+							<form action="/staff/delete.do"  class="manage-btn-con col-lg-6" method="post" onsubmit="return confirm('${confirmMsg}');">
 							                             <input type="hidden" name="staffId" value="${staff.staffId}"/>
 							                             <span class="manage-btn delete-btn"><input
 											type="submit" value="${deleteText}" /></span>
