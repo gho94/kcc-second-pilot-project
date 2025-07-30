@@ -9,7 +9,8 @@
 </c:set>
 <fmt:message var="editText"              key="수정"/>
 <fmt:message var="deleteText"            key="삭제"/>
-<fmt:message var="ingredientCountText"   key="재료수"/>
+<fmt:message var="ingredientCountText"   key="재료"/>
+<fmt:message var="text"   key="개"/>
 <fmt:message var="noRecipesText"         key="레시피없음"/>
 <fmt:message var="deleteConfirmText"     key="삭제확인"/>
 <fmt:message var="headerIngredientText"  key="재료명"/>
@@ -63,6 +64,7 @@ window.msg = {
 	    delete:            '${deleteText}',         // 예: '삭제'
 	    ingredientCount:   '${ingredientCountText}',
 	    noRecipes:         '${noRecipesText}',
+	    texts:         '${text}',
 	    deleteConfirmation:'${deleteConfirmText}',
 	    headerIngredientName: '${headerIngredientText}',
 	    headerQuantity:      '${headerQuantityText}',

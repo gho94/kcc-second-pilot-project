@@ -143,7 +143,7 @@ if (menuName == "staff") {
                        </button>
                        <div class="menu-details">
                            <h3 class="menu-name">${group.menuName}</h3>
-                           <p class="ingredient-count mb-0">재료 ${group.recipes.length}개</p>
+                           <p class="ingredient-count mb-0">${window.msg.ingredientCount} ${group.recipes.length}${window.msg.texts}</p>
                        </div>
                    </div>
                    <div class="action-buttons">
@@ -163,9 +163,9 @@ if (menuName == "staff") {
                    <table class="recipe-table">
                        <thead>
                            <tr>
-                               <th>재료명</th>
-                               <th>수량</th>
-                               <th>설명</th>
+                               <th>${window.msg.headerIngredientName}</th>
+                               <th>${window.msg.headerQuantity}</th>
+                               <th>${window.msg.headerDescription}</th>
                            </tr>
                        </thead>
                        <tbody>
