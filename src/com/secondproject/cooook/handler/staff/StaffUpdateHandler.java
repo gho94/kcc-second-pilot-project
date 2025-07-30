@@ -44,7 +44,8 @@ public class StaffUpdateHandler implements CommandHandler {
 		String lastName = request.getParameter("lastName");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		password = PasswordUtil.hashPassword(password);
+		if (password != null) password = PasswordUtil.hashPassword(password);
+		
 		String phone = request.getParameter("phone");
 		int roleId = Integer.parseInt(request.getParameter("roleId"));
 		
