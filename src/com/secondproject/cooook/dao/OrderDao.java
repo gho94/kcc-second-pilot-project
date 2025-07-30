@@ -3,6 +3,7 @@ package com.secondproject.cooook.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,11 @@ import com.secondproject.cooook.common.DatabaseManager;
 import com.secondproject.cooook.model.Order;
 
 public class OrderDao {
+    private String locale = "_k";
+    public OrderDao() {}
+    public OrderDao(String locale) {
+        this.locale = locale;
+    }
     private static final String tableName = "orders";
 
     // 주문 추가
@@ -118,11 +124,12 @@ public class OrderDao {
         try {
             con = DatabaseManager.getConnection();
             String sql = "SELECT o.*, s.first_name||s.last_name as staff_name,"
-            		+ "	m.menu_name"
+            		+ "	COALESCE(m.menu_name{0}, m.menu_name) AS menu_name "
             		+ " FROM " + tableName + " o "
             		+ " left join staff s on s.staff_id = o.staff_id"
             		+ " left join menu m on m.menu_id = o.menu_id"
             		+ " WHERE o.deleted_at IS NULL order by o.order_id";
+            sql = MessageFormat.format(sql, locale);
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
 

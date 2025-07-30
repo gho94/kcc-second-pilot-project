@@ -6,6 +6,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.secondproject.cooook.common.PasswordUtil;
 import com.secondproject.cooook.common.LocaleUtil;
 import com.secondproject.cooook.dao.RoleDao;
 import com.secondproject.cooook.dao.StaffDao;
@@ -43,6 +44,8 @@ public class StaffUpdateHandler implements CommandHandler {
 		String lastName = request.getParameter("lastName");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
+		if (password != null) password = PasswordUtil.hashPassword(password);
+		
 		String phone = request.getParameter("phone");
 		int roleId = Integer.parseInt(request.getParameter("roleId"));
 		

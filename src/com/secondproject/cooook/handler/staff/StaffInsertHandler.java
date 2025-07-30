@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.secondproject.cooook.common.LocaleUtil;
+import com.secondproject.cooook.common.PasswordUtil;
 import com.secondproject.cooook.dao.RoleDao;
 import com.secondproject.cooook.dao.StaffDao;
 import com.secondproject.cooook.handler.CommandHandler;
@@ -40,7 +41,7 @@ public class StaffInsertHandler implements CommandHandler {
 		String password = request.getParameter("password");
 		String phone = request.getParameter("phone");
 		int roleId = Integer.parseInt(request.getParameter("roleId"));
-		
+		password = PasswordUtil.hashPassword(password);
 		StaffDao dao = new StaffDao();
 		
 		staff.setFirstName(firstName);
