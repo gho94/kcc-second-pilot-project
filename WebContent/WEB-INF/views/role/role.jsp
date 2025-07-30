@@ -19,7 +19,7 @@ request.setAttribute("pageStyles", List.of("/resources/css/list.css"));
 <body>
 	<%@ include file="/WEB-INF/views/header.jsp"%>
 
-	<div class="content list-content">
+	<div class="content list-content role-list-content">
 		<div class="container">
 			<div class="menu-title-con">
 				<span class="menu-title"><fmt:message key="권한 목록" /></span>

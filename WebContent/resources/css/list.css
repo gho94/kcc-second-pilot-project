@@ -238,7 +238,7 @@
 		font-size: 14px;
 	}
 	
-	.list-content th:nth-child(4), td:nth-child(4), .list-content th:nth-child(6), td:nth-child(6) {
+	.list-content th:nth-child(4), .list-content td:nth-child(4), .list-content th:nth-child(6), .list-content td:nth-child(6) {
         display: none;
     }
     
@@ -252,7 +252,7 @@
 		margin-bottom:10px;
 	}
 	
-	.list-content th:nth-child(5), td:nth-child(5) {
+	.list-content:not(.role-list-content) th:nth-child(5), .list-content:not(.role-list-content) td:nth-child(5) {
         display: none;
     }
 }
