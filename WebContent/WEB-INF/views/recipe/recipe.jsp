@@ -7,12 +7,12 @@
 <c:set var="searchPlaceholder">
 	<fmt:message key="검색플레이스홀더" />
 </c:set>
+<fmt:message key="삭제"           var="delete"/>
+<fmt:message key="삭제확인"    var="deleteConfirm"/>
 <fmt:message var="editText"              key="수정"/>
-<fmt:message var="deleteText"            key="삭제"/>
 <fmt:message var="ingredientCountText"   key="재료"/>
 <fmt:message var="text"   key="개"/>
 <fmt:message var="noRecipesText"         key="레시피없음"/>
-<fmt:message var="deleteConfirmText"     key="삭제확인"/>
 <fmt:message var="headerIngredientText"  key="재료명"/>
 <fmt:message var="headerQuantityText"    key="수량"/>
 <fmt:message var="headerDescriptionText" key="설명"/>
@@ -61,11 +61,11 @@ request.setAttribute("pageStyles", List.of(
 <script>
 window.msg = {
 	    edit:              '${editText}',           // 예: '수정'
-	    delete:            '${deleteText}',         // 예: '삭제'
+	    delete: '${delete}',                    // '삭제'
+	    deleteConfirmation: '${deleteConfirm}'	 ,   
 	    ingredientCount:   '${ingredientCountText}',
 	    noRecipes:         '${noRecipesText}',
 	    texts:         '${text}',
-	    deleteConfirmation:'${deleteConfirmText}',
 	    headerIngredientName: '${headerIngredientText}',
 	    headerQuantity:      '${headerQuantityText}',
 	    headerDescription:   '${headerDescriptionText}'

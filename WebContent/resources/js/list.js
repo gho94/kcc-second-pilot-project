@@ -151,11 +151,16 @@ if (menuName == "staff") {
                            <input type="hidden" name="menuId" value="${group.menuId}"/>
                            <span class="manage-btn update-btn"><input type="submit" value="${window.msg.edit}"/></span>
                        </form>
-                       <form action="/recipe/delete.do" method="post" class="manage-btn-con col-lg-6"
-							onsubmit="return confirm(window.msg.deleteConfirmation);"                           
-							<input type="hidden" name="menuId" value="${group.menuId}"/>
-                           <span class="manage-btn delete-btn"><input type="submit" value="${window.msg.delete}"/></span>
-                       </form>
+					   <form action="/recipe/delete.do"
+					         method="post"
+					         class="manage-btn-con col-lg-6"
+					         onsubmit="return confirm(window.msg.deleteConfirmation);">
+					       <input type="hidden" name="menuId" value="${group.menuId}" />
+
+					       <span class="manage-btn delete-btn">
+					           <input type="submit" value="${window.msg.delete}" />
+					       </span>
+					   </form>
                    </div>
                </div>
                
