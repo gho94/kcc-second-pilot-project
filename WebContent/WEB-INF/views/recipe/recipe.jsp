@@ -7,6 +7,14 @@
 <c:set var="searchPlaceholder">
 	<fmt:message key="검색플레이스홀더" />
 </c:set>
+<fmt:message var="editText"              key="수정"/>
+<fmt:message var="deleteText"            key="삭제"/>
+<fmt:message var="ingredientCountText"   key="재료수"/>
+<fmt:message var="noRecipesText"         key="레시피없음"/>
+<fmt:message var="deleteConfirmText"     key="삭제확인"/>
+<fmt:message var="headerIngredientText"  key="재료명"/>
+<fmt:message var="headerQuantityText"    key="수량"/>
+<fmt:message var="headerDescriptionText" key="설명"/>
 <!DOCTYPE html>
 <html>
 <%@ page import="java.util.List" %>
@@ -51,15 +59,18 @@ request.setAttribute("pageStyles", List.of(
 <%@ include file="/WEB-INF/views/footer.jsp"%>
 <script>
 window.msg = {
-	    edit: '<fmt:message key="수정"/>',                 // → '수정'
-	    delete: '<fmt:message key="삭제"/>',             // → '삭제'
-	    ingredientCount: '<fmt:message key="재료수"/>',
-	    noRecipes: '<fmt:message key="레시피없음"/>',
-	    deleteConfirmation: '<fmt:message key="삭제확인"/>',
-	    headerIngredientName: '<fmt:message key="재료명"/>',
-	    headerQuantity: '<fmt:message key="수량"/>',
-	    headerDescription: '<fmt:message key="설명"/>'
+	    edit:              '${editText}',           // 예: '수정'
+	    delete:            '${deleteText}',         // 예: '삭제'
+	    ingredientCount:   '${ingredientCountText}',
+	    noRecipes:         '${noRecipesText}',
+	    deleteConfirmation:'${deleteConfirmText}',
+	    headerIngredientName: '${headerIngredientText}',
+	    headerQuantity:      '${headerQuantityText}',
+	    headerDescription:   '${headerDescriptionText}'
+
 	  };
+console.log("i18n messages:", window.msg);
+
     // JSP 데이터를 JavaScript 전역 변수로 전달
     window.menuName = 'recipe';
     window.saveData = [

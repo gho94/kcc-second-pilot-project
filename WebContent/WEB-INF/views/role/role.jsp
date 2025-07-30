@@ -5,9 +5,9 @@
 <fmt:setBundle basename="Role" />
 <fmt:setLocale
 	value="${sessionScope.locale != null ? sessionScope.locale : pageContext.request.locale}" />
-<fmt:message key="수정" var="editText" />
-<fmt:message key="삭제" var="deleteText" />
-<fmt:message key="정말로삭제하시겠습니까" var="confirmMsg" />
+<fmt:message var="editText"              key="수정"/>
+<fmt:message var="deleteText"            key="삭제"/>
+<fmt:message var="deleteConfirmText"     key="삭제확인"/>
 <!DOCTYPE html>
 <html>
 <%@ page import="java.util.List"%>
@@ -82,11 +82,11 @@ request.setAttribute("pageStyles", List.of("/resources/css/list.css"));
 	</div>
 	<%@ include file="/WEB-INF/views/footer.jsp"%>
 	<script>
-	const i18n = {
-			edit: '${editText}',                 // 수정
-			delete: '${deleteText}',             // 삭제
-			confirmDelete: '${confirmMsg}'       // 정말로 삭제하시겠습니까
-		};
+	  window.msg = {
+			    edit:               '${editText}',
+			    delete:             '${deleteText}',
+			    deleteConfirmation: '${deleteConfirmText}'
+			  };
     // JSP 데이터를 JavaScript 전역 변수로 전달
     window.menuName = 'role';
     window.saveData = [

@@ -22,7 +22,7 @@
 <fmt:message var="add" key="등록"/>
 <fmt:message var="editText"    key="수정"/>                 <!-- 수정 -->
 <fmt:message var="deleteText"  key="삭제"/>                 <!-- 삭제 -->
-<fmt:message var="confirmMsg"  key="정말삭제하시겠습니까?"/> <!-- 정말로 삭제하시겠습니까? -->
+<fmt:message var="deleteConfirmText"     key="삭제확인"/>
 <!DOCTYPE html>
 <html>
 <%@ page import="java.util.List"%>
@@ -111,11 +111,11 @@ request.setAttribute("pageStyles", List.of("/resources/css/list.css"));
 	</div>
 	<%@ include file="/WEB-INF/views/footer.jsp"%>
 	<script>
-	const i18n = {
-			edit: '${editText}',                 // 수정
-			delete: '${deleteText}',             // 삭제
-			confirmDelete: '${confirmMsg}'       // 정말로 삭제하시겠습니까
-		};
+	  window.msg = {
+			    edit:               '${editText}',
+			    delete:             '${deleteText}',
+			    deleteConfirmation: '${deleteConfirmText}'
+			  };
     // JSP 데이터를 JavaScript 전역 변수로 전달
     window.menuName = 'order';
     window.saveData = [

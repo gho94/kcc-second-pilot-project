@@ -1,2 +1,13 @@
 eclipse.preferences.version=1
+encoding//WebContent/WEB-INF/classes/Main_en.properties=UTF-8
+encoding//WebContent/WEB-INF/classes/Menu_en.properties=UTF-8
+encoding//WebContent/WEB-INF/classes/Menu_ko.properties=UTF-8
+encoding//WebContent/WEB-INF/classes/Recipe_en.properties=UTF-8
+encoding//WebContent/WEB-INF/classes/Recipe_ko.properties=UTF-8
+encoding//WebContent/WEB-INF/classes/Role_en.properties=UTF-8
+encoding//WebContent/WEB-INF/classes/Role_ko.properties=UTF-8
+encoding//WebContent/WEB-INF/classes/Staff_en.properties=UTF-8
+encoding//WebContent/WEB-INF/classes/Staff_ko.properties=UTF-8
+encoding//WebContent/WEB-INF/classes/order_en.properties=UTF-8
+encoding//WebContent/WEB-INF/classes/order_ko.properties=UTF-8
 encoding/<project>=UTF-8
