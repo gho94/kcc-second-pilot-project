@@ -196,15 +196,16 @@ public class CategoryDao {
 				PreparedStatement statement = connection.prepareStatement(sql)) {
 			if (updateType == 0) {
 				statement.setString(1, category.getCategoryName());				
-				statement.setString(2, category.getCategoryName());				
+				statement.setString(2, category.getCategoryName());
+				statement.setInt(3, category.getCategoryId());				
 			} else {
 				if (category.getParentId() == 0) {
 					statement.setNull(1, java.sql.Types.INTEGER);
 				} else {
 					statement.setInt(1, category.getParentId());
 				}
+				statement.setInt(2, category.getCategoryId());
 			}
-			statement.setInt(2, category.getCategoryId());
 			
 			return statement.executeUpdate() > 0;
 		} catch (Exception e) {
